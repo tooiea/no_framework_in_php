@@ -1,0 +1,21 @@
+AddHandler cgi-script htpasswd
+
+#ディレクトリ階層を表示しない
+Options -Indexes
+
+#topの初期表示ファイル
+DirectoryIndex index.php
+
+#ディレクトリ、ファイル名が存在しない場合
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ /index.php [L]
+</IfModule>
+
+#htaccess,htpasswdへのアクセス制限
+<Files ~ "^.(htaccess|htpasswd$)">
+  Deny from all
+</Files>
