@@ -1,3 +1,3 @@
 <?php
 
-require_once "/var/www/core/constant/CommonConstant.php";
+require_once(dirname(__FILE__) . '/../core/route');

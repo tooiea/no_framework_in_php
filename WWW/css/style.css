@@ -1,0 +1,265 @@
+.form_page, .confirm_page, .complete_page, .admin_login_page, .admin_detail_page {
+    width: 800px;
+    margin: auto;
+    border: 5px solid rgb(112, 107, 107);
+    font-size: 17px;
+}
+
+.contents {
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+span {
+    color: red;
+    font-weight: bold;
+}
+
+.item {
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding-left: 40px;
+}
+
+.label {
+    float: left;
+    width: 250px;
+}
+
+.inputs, .answer {
+    float: left;
+    width: 400px;
+}
+
+.category {
+    width: 370px;
+}
+
+.submit {
+    text-align: center;
+}
+
+.submit button {
+    width: 350px;
+    background-color: black;
+    color: white;
+    height: 40px;
+    border-radius: 10px;
+    letter-spacing: 5px;
+}
+
+.error_msg {
+    color: red;
+    font-weight: bold;
+    margin: 0;
+}
+
+input[type="text"], input[type="password"] {
+    width: 400px;
+    height: 30px;
+}
+
+#tel1,#tel2,#tel3 {
+    width: 100px;
+}
+
+input[type="checkbox"] {
+    width: 10px;
+}
+
+select {
+    height: 30px;
+    font-size: 17px;
+}
+
+
+/* confirm */
+
+.info p {
+    text-indent: 100px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.btn_group {
+    overflow: hidden;
+    text-align: center;
+}
+
+.btn {
+    overflow: hidden;
+    width: 300px;
+    height: 40px;
+    float: left;
+    margin: 30px;
+    border-radius: 10px;
+}
+
+.footer {
+    height: 100px;
+    background-color: black;
+}
+
+.confirm_page h1 {
+    border-bottom: double 3px #000;
+}
+
+.conf {
+    margin-bottom: 0;
+}
+
+.conf p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.next {
+    background-color: black;
+    color: white;
+}
+
+/* complete */ 
+.complete {
+    text-align: center;
+}
+
+.return_top {
+    display: inline-block;
+    width: 300px;
+    height: 40px;
+    margin: auto;
+    border-radius: 5px;
+    background-color: #000;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+.complete a {
+    display: inline-block;
+    margin: auto;
+    text-decoration: none;
+    vertical-align: -webkit-baseline-middle;
+}
+
+/*admin_login */
+.admin_login_page {
+    margin-top: 50px;
+    padding-top: 50px;
+}
+
+.pass {
+    margin-bottom: 40px;
+}
+
+.admin_login_page .item {
+    height: 70px;
+    margin-left: 40px;
+}
+
+.admin_login_page .label {
+    width: 180px;
+}
+
+.admin_login_page .submit button {
+    width: 250px;
+}
+
+.admin_login_page .submit {
+    text-indent: -110px;
+}
+
+/* admin_list_page */
+.admin_list_page {
+    width: 900px;
+    margin: auto;
+}
+
+.admin_list_page h1 {
+    text-align: start;
+    width: 700px;
+    border-bottom: 5px double;
+    margin-left: 20px;
+}
+
+.admin_list_page table {
+    border-collapse: collapse;
+    margin-left: 25px;
+    text-align: start;
+    margin-top: 40px;
+    width: 850px;
+}
+
+.admin_list_page table thead {
+    background-color: rgb(195, 236, 237);
+}
+
+.admin_list_page table th,td {
+    border: solid 1px;
+    padding: 5px;
+}
+
+.page {
+    text-align: center;
+    margin: 30px;
+}
+
+.page {
+    font-size: 20px;
+}
+
+.admin_list_page .label {
+    width: 160px;
+}
+
+.admin_list_page .submit {
+    text-indent: 80px;
+}
+
+.admin_list_page .submit button {
+    width: 200px;
+}
+
+.admin_detail_page .item .inputs p, .admin_detail_page .item p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.admin_detail_page .btn {
+    text-align: center;
+    margin: auto;
+    margin-left: 200px;
+    color: white;
+    background-color: rgb(179, 178, 178);
+}
+
+/* detail_page */
+
+.admin_detail_page h1 {
+    border-bottom: 5px double;
+}
+
+.admin_detail_page .contents {
+    width: 700px;
+}
+
+.admin_detail_page h2,  .admin_detail_page hr{
+    width: 500px;
+    margin-left: 140px;
+}
+
+.admin_detail_page .item {
+    margin-left: 100px;
+}
+
+.admin_detail_page .inputs {
+    width: 300px;
+}
+
+.errorMsg {
+    margin-bottom: 30px;
+    text-align: center;
+}
