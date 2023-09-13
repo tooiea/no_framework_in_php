@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body class="form_page">
     <div class="contents">
         <h1>お問合せフォーム</h1>
 
-        <form action='/form/' method="POST">
+        <form action='/form/confirm/' method="POST">
 
             <!-- 名前（性）入力 -->
             <div class="item">
@@ -67,8 +67,8 @@
             <div class="item">
                 <label for="sex" class="label">性別<span>*</span></label>
                 <div class="inputs">
-                    <?php foreach (SEX_LIST as $key => $value) : ?>
-                        <label><input type="radio" name="sex" id="sex" value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>"<?php if (isset($values['sex']) && $key == $values['sex']) echo 'checked' ?>><?php echo $value ?>
+                    <?php foreach (FormConstant::SEX_LIST as $key => $value) : ?>
+                        <label><input type="radio" name="sex" id="sex" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>"<?php if (isset($values['sex']) && $key == $values['sex']) echo 'checked' ?>><?php echo $value ?>
                     <?php endforeach ?>
                         </label>
                         <?php if (isset($errorMsg['sex']) && "" != $errorMsg['sex']) :?>
@@ -83,7 +83,7 @@
                 <div class="inputs">
                     <select name="age" id="age" >
                         <option hidden>未選択</option>
-                        <?php foreach (AGE_LIST as $key => $value) : ?>
+                        <?php foreach (FormConstant::AGE_LIST as $key => $value) : ?>
                             <option value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>" <?php if (isset($values['age']) && $key == $values['age']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
@@ -97,7 +97,7 @@
             <div class="item">
                 <label for="blood_type" class="label">血液型<span>*</span></label>
                 <div class="inputs">
-                    <?php foreach (BLOOD_LIST as $key => $value) : ?>
+                    <?php foreach (FormConstant::BLOOD_TYPE_LIST as $key => $value) : ?>
                         <label><input type="radio" name="blood_type" id="blood_type" value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>" <?php if (isset($values['blood_type']) && $key == $values['blood_type']) echo 'checked' ?>><?php echo $value ?></label>
                     <?php endforeach ?>
                     <?php if (isset($errorMsg['blood_type']) && "" != $errorMsg['blood_type']):?>
@@ -112,7 +112,7 @@
                 <div class="inputs">
                     <select name="job" id="job">
                         <option hidden>未選択</option>
-                        <?php foreach (JOB_LIST as $key => $value) : ?>
+                        <?php foreach (FormConstant::JOB_LIST as $key => $value) : ?>
                             <option value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>"<?php if (isset($values['job']) && $key == $values['job']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
@@ -154,7 +154,7 @@
                 <div class="inputs">
                     <select name="address1" id="address1">
                         <option hidden>未選択</option>
-                        <?php foreach (PREFUCTURES_LIST as $key => $value) : ?>
+                        <?php foreach (FormConstant::PREFUCTURE_LIST as $key => $value) : ?>
                             <option value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>" <?php if (isset($values['address1']) && $key == $values['address1']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
@@ -246,7 +246,7 @@
             <div class="item">
                 <label for="category" class="label">興味のあるカテゴリー<br>(複数選択可）</label>
                 <div class="inputs category">
-                    <?php foreach (CATEGORY_LIST as $key => $value) : ?>
+                    <?php foreach (FormConstant::CATEGORY_LIST as $key => $value) : ?>
                         <label><input type="checkbox" name="category[]" id="category" value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>" <?php if (isset($values['category']) && is_int(array_search($key, $values['category']))) echo 'checked'; ?>><?php echo $value ?></label>
                     <?php endforeach ?>
                     <?php if (isset($errorMsg['category']) && "" != $errorMsg['category']):?>
@@ -271,7 +271,7 @@
 
             <!-- 送信ボタン -->
             <div class="item submit">
-                <button type="submit" name="submit" value="<?php echo CHECK_SUBMIT_FORM; ?>">入力内容を確認する</button>
+                <button type="submit" name="submit" value="<?php echo FormConstant::SUBMIT_FROM_INDEX; ?>">入力内容を確認する</button>
             </div>
         </form>
     </div>
