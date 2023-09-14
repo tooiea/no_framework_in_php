@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../validator/BaseValidator.php');
+require_once(dirname(__FILE__) . '/BaseValidator.php');
 
 class FormCompleteValidator extends BaseValidator {
 

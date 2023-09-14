@@ -8,8 +8,9 @@ class FormController extends BaseController {
     public function index()
     {
         // postでリクエスト
-        if ($_SERVER['REQUEST_METHOD'] === 'post') {
-            echo var_dump($_POST);
+        if ('POST' === $_SERVER['REQUEST_METHOD']) {
+            header('Location: /form/confirm/', true, 307);
+            exit();
         }
 
         include dirname(__FILE__) . '/../view/form/index.php';
@@ -18,6 +19,7 @@ class FormController extends BaseController {
     public function confirm()
     {
         $values = $_POST;
+        var_dump($values);
         include dirname(__FILE__) . '/../view/form/confirm.php';
     }
 
