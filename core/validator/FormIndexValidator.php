@@ -14,80 +14,112 @@ class FormIndexValidator extends BaseValidator {
     {
         return [
             'name1' => [
-                'required' => true,
+                'required',
                 'max' => 255
             ],
             'name2' => [
-                'required' => true,
+                'required',
                 'max' => 255
             ],
             'kana1' => [
-                'required' => true,
+                'required',
                 'max' => 255,
                 'regex' => '/[ァ-ヴーa-zA-Zａ-ｚＡ-Ｚ]/u',
             ],
             'kana2' => [
-                'required' => true,
+                'required',
                 'max' => 255,
                 'regex' => '/[ァ-ヴーa-zA-Zａ-ｚＡ-Ｚ]/u',
             ],
             'sex' => [
-                'required' => true,
+                'required',
                 'in' => FormConstant::SEX_LIST
             ],
             'age' => [
-                'required' => true,
+                'required',
                 'in' => FormConstant::AGE_LIST
             ],
             'blood_type' => [
-                'required' => true,
+                'required',
                 'in' => FormConstant::BLOOD_TYPE_LIST
             ],
             'job' => [
-                'required' => true,
+                'required',
                 'in' => FormConstant::JOB_LIST
             ],
             'zip1' => [
-                'required' => true,
-                'integer' => true,
+                'required',
+                'regex' => '/^[0-9]{3}+$/',
             ],
             'zip2' => [
-                'required' => true,
-                'integer' => true,
+                'required',
+                'regex' => '/^[0-9]{4}+$/',
             ],
             'address1' => [
-                'required' => true,
+                'required',
+                'in' => FormConstant::PREFUCTURE_LIST
             ],
             'address2' => [
-                'required' => true,
+                'required',
+                'max' => 255,
             ],
             'address3' => [
-                'required' => true,
+                'required',
+                'max' => 255,
             ],
             'tel1' => [
-                'required' => true,
-                'integer' => true,
+                'required',
+                'regex' => '/^[0-9]{1,5}+$/',
             ],
             'tel2' => [
-                'required' => true,
-                'integer' => true,
+                'required',
+                'regex' => '/^[0-9]{1,4}+$/',
             ],
             'tel3' => [
-                'required' => true,
-                'integer' => true,
+                'required',
+                'integer',
+                'regex' => '/^[0-9]{1,4}+$/',
             ],
             'mail' => [
-                'required' => true,
+                'required',
+                'email',
+                'max' => 255,
             ],
             'mail2' => [
-                'required' => true,
+                'required',
             ],
             'category' => [
-                'required' => false,
+                'in' => FormConstant::CATEGORY_LIST
             ],
             'info' => [
-                'required' => true,
+                'required',
             ]
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name1' => 'お名前：姓',
+            'name2' => 'お名前：名',
+            'kana1' => 'フリガナ：セイ',
+            'kana2' => 'フリガナ：メイ',
+            'sex' => '性別',
+            'age' => '年齢',
+            'blood_type' => '血液型',
+            'job' => '職業',
+            'zip1' => '郵便番号（上）',
+            'zip2' => '郵便番号（下）',
+            'address1' => '都道府県',
+            'address2' => '住所',
+            'address3' => 'ビル・マンション名',
+            'tel1' => '電話番号',
+            'tel2' => '電話番号',
+            'tel3' => '電話番号',
+            'mail' => 'メールアドレス',
+            'mail2' => 'メールアドレス（確認用）',
+            'category' => '興味のあるカテゴリー',
+            'info' => 'お問合せ内容'
         ];
     }
 }

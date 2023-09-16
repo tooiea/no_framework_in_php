@@ -23,10 +23,14 @@ class FormController extends BaseController {
                 $values = $_POST;
             } else {
                 $validater = new FormIndexValidator($_POST);
-                $validater->isValidated();
-                // TODO バリデーション
-                // header('Location: /form/confirm/', true, 307);
-                // exit();
+                $result = $validater->isValidated();
+                if ($result) {
+                    header('Location: /form/confirm/', true, 307);
+                    exit();
+                }
+                // エラーメッセージ取得
+                $errorMsg = $validater->getErrors();
+                $values = $_POST;
             }
         }
 

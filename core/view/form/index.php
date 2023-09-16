@@ -75,7 +75,7 @@
                 <label for="age" class="label">年齢<span>*</span></label>
                 <div class="inputs">
                     <select name="age" id="age" >
-                        <option hidden>未選択</option>
+                        <option value="" hidden="">未選択</option>
                         <?php foreach (FormConstant::AGE_LIST as $key => $value) : ?>
                             <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['age']) && $key == $values['age']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
