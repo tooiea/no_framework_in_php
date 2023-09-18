@@ -9,6 +9,7 @@ require_once(dirname(__FILE__) . '/../validator/FormIndexValidator.php');
 require_once(dirname(__FILE__) . '/../mailer/SendCustomerMailer.php');
 require_once(dirname(__FILE__) . '/../mailer/SendAdministratorMailer.php');
 require_once(dirname(__FILE__) . '/../constant/MailConstant.php');
+require_once(dirname(__FILE__) . '/../model/Contact.php');
 
 class FormController extends BaseController {
 
@@ -80,7 +81,12 @@ class FormController extends BaseController {
             exit();
         }
 
-        try {
+        // try {
+            // TODO DBアクセス
+            $contact = new Contact();
+            var_dump($contact->insert($_POST));
+
+
             // 問い合わせ者へ返信
             $valuesToCustomer = $this->processingCustomerValues($_POST);
             $mailToCustomer = new SendCustomerMailer(
@@ -114,13 +120,13 @@ class FormController extends BaseController {
             $msgHeader = MessageConstant::SUCCESS_SEND_MAIL_HEADER;
             $msgBody = MessageConstant::SUCCESS_SEND_MAIL_BODY;
             $_POST = [];
-        } catch (SendMailException) {
-            $msgHeader = MessageConstant::ERR_MSG_MAIL_HEADER;
-            $msgBody = MessageConstant::ERR_MSG_MAIL_BODY;
-        } catch (\Throwable $th) {
-            // TODO DBのロールバック内容記載
-            //throw $th;
-        }
+        // } catch (SendMailException) {
+        //     $msgHeader = MessageConstant::ERR_MSG_MAIL_HEADER;
+        //     $msgBody = MessageConstant::ERR_MSG_MAIL_BODY;
+        // } catch (\Throwable $th) {
+        //     // TODO DBのロールバック内容記載
+        //     //throw $th;
+        // }
         include dirname(__FILE__) . '/../view/form/complete.php';
     }
 
