@@ -6,6 +6,9 @@ services:
     # vscodeでデバッグするためにホスト追加
     container_name: "assignment_web"
     platform: linux/x86_64
+    environment:
+      - SMTP_HOST=assignment_mailhog
+      - SMTP_PORT=1025
     ports:
       - 80:80
     # コンテナに配置するファイルの場所、webアプリケーションの構成に合わせて変更
@@ -47,9 +50,9 @@ services:
       - ./phpmyadmin/phpmyadmin-misc.ini:/usr/local/etc/php/conf.d/phpmyadmin-misc.ini
     networks:
       - br0
-  mailpit:
-    image: axllent/mailpit
-    container_name: assignment_mailpit
+  mailhog:
+    image: mailhog/mailhog
+    container_name: assignment_mailhog
     restart: always
     ports:
       - '1025:1025'

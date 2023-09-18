@@ -45,9 +45,13 @@ RUN dnf install -y epel-release\
     php-pecl-xdebug\
     # postfixのインストール
     postfix\
+    && dnf -y install mailx \
     && dnf clean all \
     && rm -rf /var/cache/*
 
+RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 -o mhsendmail \
+    && chmod +x mhsendmail \
+    && mv mhsendmail /usr/local/bin/mhsendmail
 
 # php設定ファイル配置
 COPY ./php/php.ini /etc/
@@ -60,7 +64,7 @@ RUN systemctl enable httpd
 EXPOSE 80
 
 # ワークディレクトリ設定
-WORKDIR /var/www/app
+WORKDIR /var/www/core
 
 # initを起動する
 CMD ["/sbin/init"]
