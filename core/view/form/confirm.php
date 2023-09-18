@@ -23,7 +23,7 @@
                 <p>お名前</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($this->concatString($values['name1'],$values['name2']), ENT_QUOTES, "UTF-8"); ?></p>
+                <p><?php echo htmlspecialchars($this->concatName($values['name1'],$values['name2']), ENT_QUOTES, "UTF-8"); ?></p>
             </div>
         </div>
 
@@ -33,7 +33,7 @@
                 <p>フリガナ</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($this->concatString($values['kana1'],$values['kana2']), ENT_QUOTES, "UTF-8"); ?></p>
+                <p><?php echo htmlspecialchars($this->concatName($values['kana1'],$values['kana2']), ENT_QUOTES, "UTF-8"); ?></p>
             </div>
         </div>
 
@@ -94,7 +94,7 @@
                 <p>郵便番号</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($this->concatString($values['zip1'],$values['zip2']),ENT_QUOTES, "UTF-8"); ?></p>
+                <p><?php echo htmlspecialchars($this->concatZipNum($values['zip1'],$values['zip2']),ENT_QUOTES, "UTF-8"); ?></p>
             </div>
         </div>
 
@@ -131,7 +131,7 @@
                 <p>電話番号</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($this->concatString($values['tel1'], $values['tel2'], $values['tel3']),ENT_QUOTES, "UTF-8") ?></p>
+                <p><?php echo htmlspecialchars($this->concatTel($values['tel1'], $values['tel2'], $values['tel3']),ENT_QUOTES, "UTF-8") ?></p>
             </div>
         </div>
 
@@ -194,7 +194,7 @@
                         <?php foreach ($value as $category) :?>
                             <input type="hidden" name="<?php echo htmlspecialchars($key . '[]', ENT_QUOTES, "UTF-8")?>" value="<?php echo htmlspecialchars($category, ENT_QUOTES, "UTF-8")?>">
                         <?php endforeach; ?>
-                        <?php else: ?>
+                    <?php else: ?>
                             <input type="hidden" name="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8")?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, "UTF-8")?>">
                     <?php endif;?>
                 <?php endforeach; ?>

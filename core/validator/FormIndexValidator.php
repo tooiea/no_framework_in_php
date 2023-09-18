@@ -87,6 +87,7 @@ class FormIndexValidator extends BaseValidator {
             ],
             'mail2' => [
                 'required',
+                'same' => 'mail'
             ],
             'category' => [
                 'in' => FormConstant::CATEGORY_LIST
@@ -97,6 +98,11 @@ class FormIndexValidator extends BaseValidator {
         ];
     }
 
+    /**
+     * エラー時のカラム名の変換用として配列をセット
+     *
+     * @return array
+     */
     public function attributes()
     {
         return [
@@ -117,7 +123,7 @@ class FormIndexValidator extends BaseValidator {
             'tel2' => '電話番号',
             'tel3' => '電話番号',
             'mail' => 'メールアドレス',
-            'mail2' => 'メールアドレス（確認用）',
+            'mail2' => 'メールアドレス',
             'category' => '興味のあるカテゴリー',
             'info' => 'お問合せ内容'
         ];
