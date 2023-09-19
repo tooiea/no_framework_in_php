@@ -1,6 +1,8 @@
 <?php
 
-class BaseController {
+require_once(dirname(__FILE__) . '/../constant/FormConstant.php');
+
+class BaseFormController {
 
     /**
      * 名前連結処理
@@ -50,5 +52,21 @@ class BaseController {
     public function concatZipNum($value1, $value2) {
         $data = $value1 . '-' . $value2;
         return $data;
+    }
+
+    /**
+     * 対象のカラムをバリデーション前に変換
+     *
+     * @param  array $values
+     * @return array
+     */
+    public function convertValues($values)
+    {
+        foreach (FormConstant::CONVERT_VALUE_TO as $key => $option) {
+            if (isset($values[$key])) {
+                $values[$key] = mb_convert_kana($values[$key], $option);
+            }
+        }
+        return $values;
     }
 }

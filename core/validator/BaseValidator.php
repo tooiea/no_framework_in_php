@@ -129,7 +129,6 @@ class BaseValidator {
         // フィールド名に[]が付いている場合
         $dataKey = (substr($field, -2) == '[]') ? substr($field, 0, -2) : $field;
         if (isset($this->data[$dataKey])) {
-             var_dump($this->data[$field]);
             // チェックボックスの場合（配列としての入力）
             if (is_array($this->data[$dataKey])) {
                 foreach ($this->data[$dataKey] as $value) {

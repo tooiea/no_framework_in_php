@@ -98,4 +98,15 @@ class FormConstant {
     public const SUBMIT_FROM_INDEX = 'to_index';
     public const SUBMIT_CONFIRM_BACK = 'back_to_index';
     public const SUBMIT_COMPLETE = 'to_complete';
+
+    // バリデーション前に変換するカラムと変換オプションを指定
+    public const CONVERT_VALUE_TO = [
+        'kana1' => "KVC",
+        'kana2' => "KVC",
+        'zip1' => "n",
+        'zip2' => "n",
+        'tel1' => "n",
+        'tel2' => "n",
+        'tel3' => "n",
+    ];
 }

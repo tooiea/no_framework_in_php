@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__) . '/../constant/FormConstant.php');
 require_once(dirname(__FILE__) . '/../utility/TrimStrings.php');
-require_once(dirname(__FILE__) . '/BaseController.php');
+require_once(dirname(__FILE__) . '/BaseFormController.php');
 require_once(dirname(__FILE__) . '/../error/SendMailException.php');
 require_once(dirname(__FILE__) . '/../constant/MessageConstant.php');
 require_once(dirname(__FILE__) . '/../validator/FormIndexValidator.php');
@@ -11,7 +11,7 @@ require_once(dirname(__FILE__) . '/../mailer/SendAdministratorMailer.php');
 require_once(dirname(__FILE__) . '/../constant/MailConstant.php');
 require_once(dirname(__FILE__) . '/../model/Contact.php');
 
-class FormController extends BaseController {
+class FormController extends BaseFormController {
 
     /**
      * 入力画面
@@ -26,7 +26,9 @@ class FormController extends BaseController {
             if (FormConstant::SUBMIT_CONFIRM_BACK === $_POST['submit']) {
                 $values = $_POST;
             } else {
-                $validater = new FormIndexValidator($_POST);
+                // 入力値を変換した状態でバリデーション実施
+                $values = $this->convertValues($_POST);
+                $validater = new FormIndexValidator($values);
                 $result = $validater->isValidated();
                 if ($result) {
                     header('Location: /form/confirm/', true, 307);
@@ -34,7 +36,6 @@ class FormController extends BaseController {
                 }
                 // エラーメッセージ取得
                 $errorMsg = $validater->getErrors();
-                $values = $_POST;
             }
         }
 
@@ -81,14 +82,14 @@ class FormController extends BaseController {
             exit();
         }
 
-        // try {
-            // TODO DBアクセス
-            $contact = new Contact();
-            var_dump($contact->insert($_POST));
-
+        try {
+            $contactInstance = new Contact();
+            $contactInstance->beginTransaction();
+            $processedDataForDB = $this->processingDataToDataBase($_POST);
+            $result = $contactInstance->insert($processedDataForDB);
 
             // 問い合わせ者へ返信
-            $valuesToCustomer = $this->processingCustomerValues($_POST);
+            $valuesToCustomer = $this->processingDataToCustomer($_POST);
             $mailToCustomer = new SendCustomerMailer(
                 $valuesToCustomer['mail'],
                 MailConstant::SUBJECT_TO_CUSTOMER,
@@ -103,7 +104,7 @@ class FormController extends BaseController {
             }
 
             // 管理者へ送信
-            $valuesToAdmin = $this->processingAdminValues($_POST);
+            $valuesToAdmin = $this->processingDataToAdmin($_POST);
             $mailToAdmin = new SendAdministratorMailer(
                 MailConstant::ADDRESS_TO_ADMINISTRATOR,
                 MailConstant::SUBJECT_TO_ADMINISTRATOR,
@@ -119,14 +120,19 @@ class FormController extends BaseController {
 
             $msgHeader = MessageConstant::SUCCESS_SEND_MAIL_HEADER;
             $msgBody = MessageConstant::SUCCESS_SEND_MAIL_BODY;
+
+            // post初期化
             $_POST = [];
-        // } catch (SendMailException) {
-        //     $msgHeader = MessageConstant::ERR_MSG_MAIL_HEADER;
-        //     $msgBody = MessageConstant::ERR_MSG_MAIL_BODY;
-        // } catch (\Throwable $th) {
-        //     // TODO DBのロールバック内容記載
-        //     //throw $th;
-        // }
+
+            // DBへ登録
+            $contactInstance->commit();
+        } catch (SendMailException) {
+            $msgHeader = MessageConstant::ERR_MSG_MAIL_HEADER;
+            $msgBody = MessageConstant::ERR_MSG_MAIL_BODY;
+            $contactInstance->rollback();
+        } catch (\Throwable $th) {
+            $contactInstance->rollback();
+        }
         include dirname(__FILE__) . '/../view/form/complete.php';
     }
 
@@ -136,22 +142,23 @@ class FormController extends BaseController {
      * @param  array $values
      * @return array
      */
-    private function processingCustomerValues($values)
+    private function processingDataToCustomer($values)
     {
-        $processedValues['name'] = $this->concatName($values['name1'], $values['name2']);
-        $processedValues['kana'] = $this->concatName($values['kana1'], $values['kana2']);
-        $processedValues['sex'] = FormConstant::SEX_LIST[$values['sex']];
-        $processedValues['age'] = FormConstant::AGE_LIST[$values['age']];
-        $processedValues['blood_type'] = FormConstant::BLOOD_TYPE_LIST[$values['blood_type']] . '型';
-        $processedValues['job'] = FormConstant::JOB_LIST[$values['job']];
-        $processedValues['zip'] = $this->concatZipNum($values['zip1'], $values['zip2']);
-        $processedValues['address12'] = $this->concatString(FormConstant::PREFUCTURE_LIST[$values['address1']], $values['address2']);
-        $processedValues['address3'] = $values['address3'];
-        $processedValues['tel'] = $this->concatTel($values['tel1'], $values['tel2'], $values['tel3']);
-        $processedValues['mail'] = $values['mail'];
-        $processedValues['category'] = isset($values['category']) ? implode("\n", $this->covirtValueToLabel($values['category'], FormConstant::CATEGORY_LIST)) : '';
-        $processedValues['info'] = $values['info'];
-
+        $processedValues = [
+            'name' => $this->concatName($values['name1'], $values['name2']),
+            'kana' => $this->concatName($values['kana1'], $values['kana2']),
+            'sex' => FormConstant::SEX_LIST[$values['sex']],
+            'age' => FormConstant::AGE_LIST[$values['age']],
+            'blood_type' => FormConstant::BLOOD_TYPE_LIST[$values['blood_type']] . '型',
+            'job' => FormConstant::JOB_LIST[$values['job']],
+            'zip' => $this->concatZipNum($values['zip1'], $values['zip2']),
+            'address12' => $this->concatString(FormConstant::PREFUCTURE_LIST[$values['address1']], $values['address2']),
+            'address3' => $values['address3'],
+            'tel' => $this->concatTel($values['tel1'], $values['tel2'], $values['tel3']),
+            'mail' => $values['mail'],
+            'category' => isset($values['category']) ? implode("\n", $this->covirtValueToLabel($values['category'], FormConstant::CATEGORY_LIST)) : '',
+            'info' => $values['info'],
+        ];
         return $processedValues;
     }
 
@@ -161,23 +168,24 @@ class FormController extends BaseController {
      * @param  array $values
      * @return array
      */
-    private function processingAdminValues($values)
+    private function processingDataToAdmin($values)
     {
-        $processedValues['time'] = date("Y/m/d H:i:s");
-        $processedValues['name'] = $this->concatName($values['name1'], $values['name2']);
-        $processedValues['kana'] = $this->concatName($values['kana1'], $values['kana2']);
-        $processedValues['sex'] = FormConstant::SEX_LIST[$values['sex']];
-        $processedValues['age'] = FormConstant::AGE_LIST[$values['age']];
-        $processedValues['blood_type'] = FormConstant::BLOOD_TYPE_LIST[$values['blood_type']] . '型';
-        $processedValues['job'] = FormConstant::JOB_LIST[$values['job']];
-        $processedValues['zip'] = $this->concatZipNum($values['zip1'], $values['zip2']);
-        $processedValues['address12'] = $this->concatString(FormConstant::PREFUCTURE_LIST[$values['address1']], $values['address2']);
-        $processedValues['address3'] = $values['address3'];
-        $processedValues['tel'] = $this->concatTel($values['tel1'], $values['tel2'], $values['tel3']);
-        $processedValues['mail'] = $values['mail'];
-        $processedValues['category'] = isset($values['category']) ? implode("\n", $this->covirtValueToLabel($values['category'], FormConstant::CATEGORY_LIST)) : '';
-        $processedValues['info'] = $values['info'];
-
+        $processedValues = [
+            'time' => date("Y/m/d H:i:s"),
+            'name' => $this->concatName($values['name1'], $values['name2']),
+            'kana' => $this->concatName($values['kana1'], $values['kana2']),
+            'sex' => FormConstant::SEX_LIST[$values['sex']],
+            'age' => FormConstant::AGE_LIST[$values['age']],
+            'blood_type' => FormConstant::BLOOD_TYPE_LIST[$values['blood_type']] . '型',
+            'job' => FormConstant::JOB_LIST[$values['job']],
+            'zip' => $this->concatZipNum($values['zip1'], $values['zip2']),
+            'address12' => $this->concatString(FormConstant::PREFUCTURE_LIST[$values['address1']], $values['address2']),
+            'address3' => $values['address3'],
+            'tel' => $this->concatTel($values['tel1'], $values['tel2'], $values['tel3']),
+            'mail' => $values['mail'],
+            'category' => isset($values['category']) ? implode("\n", $this->covirtValueToLabel($values['category'], FormConstant::CATEGORY_LIST)) : '',
+            'info' => $values['info'],
+        ];
         return $processedValues;
     }
 
@@ -195,5 +203,37 @@ class FormController extends BaseController {
             }
         }
         return $convertedValues;
+    }
+
+    /**
+     * DB登録用でデータ加工
+     *
+     * @param  array $values
+     * @return array
+     */
+    private function processingDataToDataBase($values)
+    {
+        $processedValues = [
+            'name1' => $values['name1'],
+            'name2' => $values['name2'],
+            'kana1' => $values['kana1'],
+            'kana2' => $values['kana2'],
+            'sex' => $values['sex'],
+            'age' => $values['age'],
+            'blood_type' => $values['blood_type'],
+            'job' => $values['job'],
+            'zip1' => $values['zip1'],
+            'zip2' => $values['zip2'],
+            'address1' => $values['address1'],
+            'address2' => $values['address2'],
+            'address3' => $values['address3'],
+            'tel' => $values['tel1'] . $values['tel2'] . $values['tel3'],
+            'mail' => $values['mail'],
+            'category' => isset($values['category']) ? implode(",", $values['category']) : '',
+            'info' => $values['info'],
+            'created' => date("Y/m/d H:i:s"),
+            'modified' => date("Y/m/d H:i:s")
+        ];
+        return $processedValues;
     }
 }
