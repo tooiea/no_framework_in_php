@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__) . '/BaseValidator.php');
 require_once(dirname(__FILE__) . '/../constant/FormConstant.php');
 
-class FormIndexValidator extends BaseValidator {
+class FormValidator extends BaseValidator {
 
     /**
      * 項目ごとにバリデーションセット

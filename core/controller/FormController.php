@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../utility/TrimStrings.php');
 require_once(dirname(__FILE__) . '/BaseFormController.php');
 require_once(dirname(__FILE__) . '/../error/SendMailException.php');
 require_once(dirname(__FILE__) . '/../constant/MessageConstant.php');
-require_once(dirname(__FILE__) . '/../validator/FormIndexValidator.php');
+require_once(dirname(__FILE__) . '/../validator/FormValidator.php');
 require_once(dirname(__FILE__) . '/../mailer/SendCustomerMailer.php');
 require_once(dirname(__FILE__) . '/../mailer/SendAdministratorMailer.php');
 require_once(dirname(__FILE__) . '/../constant/MailConstant.php');
@@ -28,7 +28,7 @@ class FormController extends BaseFormController {
             } else {
                 // 入力値を変換した状態でバリデーション実施
                 $values = $this->convertValues($_POST);
-                $validater = new FormIndexValidator($values);
+                $validater = new FormValidator($values);
                 $result = $validater->isValidated();
                 if ($result) {
                     header('Location: /form/confirm/', true, 307);
@@ -49,7 +49,7 @@ class FormController extends BaseFormController {
      */
     public function confirm()
     {
-        $validater = new FormIndexValidator($_POST);
+        $validater = new FormValidator($_POST);
         $result = $validater->isValidated();
 
         // 直アクセスされた、入力値が正常でない場合
@@ -73,7 +73,7 @@ class FormController extends BaseFormController {
      */
     public function complete()
     {
-        $validater = new FormIndexValidator($_POST);
+        $validater = new FormValidator($_POST);
         $result = $validater->isValidated();
 
         // 直アクセスされた、入力値が正常でない場合
