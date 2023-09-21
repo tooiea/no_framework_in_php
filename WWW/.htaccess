@@ -5,15 +5,57 @@ Options -Indexes
 
 #topの初期表示ファイル
 DirectoryIndex index.php
+ 
+#Basic認証
+SetEnvIf Request_URI '^/*' valid-url
+SetEnvIf Request_URI '^/_autholization/' !allow_page
+SetEnvIf Request_URI '^/ip/' ip_page
+SetEnvIf Remote_Addr '::1$' ip_add_local
+AuthUserFile /Users/watanabe_touya/Documents/GitHub/php_exercise_t_watanabe/src/_password/.htpasswd
+AuthType Basic
+AuthName 'IDとパスワードを入力してください。'
+
+#ルートディレクトリ、各パスに対するアクセス制限
+<RequireAll>
+  <RequireAny>
+    Require env valid-url
+    Require valid-user  
+  </RequireAny>
+</RequireAll>
+
+#ipディレクトリへのアクセス拒否
+#<IfModule mod_rewrite.c>
+#  RewriteEngine On
+#  RewriteBase /
+#  RewriteCond %{Request_URI} ^/_ip
+#  RewriteCond %{Remote_Addr} !::1
+#  RewriteRule ^(.*)$ – [F,L]
+#</IfModule>
+
+#admin/loginディレクトリへのアクセス拒否
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{Request_URI} ^/admin/login
+  RewriteCond %{Remote_Addr} !::1
+  RewriteCond %{Remote_Addr} !192.168.48.1
+  RewriteCond %{Remote_Addr} !219.113.141.50
+  RewriteCond %{Remote_Addr} !110.4.142.112
+  RewriteRule ^(.*)$ – [F,L]
+</IfModule>
+
+#index.phpのアクセス制限
+#<Files index.php>
+#  Require all denied
+#  Require ip ::1
+#</Files>
+ 
+#リダイレクトする場合、ディレクトリ名は、redirectは使ってはいけない
+Redirect 301 /_redirects/ http://localhost:8888/_admin/index.php
 
 #ディレクトリ、ファイル名が存在しない場合
 <IfModule mod_rewrite.c>
   RewriteEngine On
-
-  RewriteCond %{REQUEST_URI} !/$
-  RewriteCond %{REQUEST_URI} !\.[^/\.]+$
-  RewriteRule ^(.*)$ $1/ [R=301,L]
-
   RewriteBase /
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -21,6 +63,6 @@ DirectoryIndex index.php
 </IfModule>
 
 #htaccess,htpasswdへのアクセス制限
-<Files ~ "^\.(htaccess|htpasswd$)">
-  Deny from all
+<Files ~ '^.(htaccess|htpasswd$)'>
+  Require all denied
 </Files>
