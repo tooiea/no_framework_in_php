@@ -11,19 +11,20 @@ class SendMail {
      */
     public function sendingMail(array $data) {
         $results = []; //送信後の結果
-        $resultTotal = true; //全部の送信結果
+        $resultTotal = true; // 全てのメール送信結果
 
         //メール本体の処理受取
         $msgBodyForCustomer = $this->getBodymsgForCustomer($data);
         $msgBodyForAdmin = $this->getBodymsgForAdmin($data);
+        $header = ADDRESS_MAIL_HEADER . "\r\nMIME-Version: 1.0\r\n" . "Content-Transfer-Encoding: 8bit\r\n" . "Content-Type: text/plain; charset=UTF-8\r\n";
 
         //表示設定
         mb_language("Japanese");
         mb_internal_encoding("UTF-8");
 
         //メール送信
-        $results[0] = mb_send_mail($data['mail'], SUBJECT_TO_CUSTOMER, $msgBodyForCustomer, ADDRESS_MAIL_HEADER);
-        $results[1] = mb_send_mail(ADDRESS_TO_ADMINISTRATOR, SUBJECT_TO_ADMINISTRATOR, $msgBodyForAdmin, ADDRESS_MAIL_HEADER);
+        $results[0] = mb_send_mail($data['mail'], SUBJECT_TO_CUSTOMER, $msgBodyForCustomer, $header);
+        $results[1] = mb_send_mail(ADDRESS_TO_ADMINISTRATOR, SUBJECT_TO_ADMINISTRATOR, $msgBodyForAdmin, $header);
 
         //送信結果の確認
         foreach ($results as $result) {
