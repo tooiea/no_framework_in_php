@@ -2,7 +2,7 @@
 
 //正常時メッセージ
 const RECEPTION_COMPLETED = '受付完了';
-const MESSAGE_AFTER_COMPLETED = "お問合せありがとうございます。<br>担当者より後日連絡を差し上げます。";
+const MESSAGE_AFTER_COMPLETED = "お問合せありがとうございます。\n担当者より後日連絡を差し上げます。";
 
 //エラーメッセージ
 const ERROR_MESSAGE = 'エラーが発生しました';

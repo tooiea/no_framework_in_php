@@ -16,7 +16,7 @@ $msg = $completeController->index();
 <body class="complete_page">
     <h1><?php echo htmlspecialchars($msg[0]) ?></h1>
     <div class="contents complete">
-        <p><?php echo htmlspecialchars(nl2br($msg[1])) ?></p>
+        <p><?php echo nl2br(htmlspecialchars($msg[1])) ?></p>
         <a href="/form">
             <p class="return_top">戻る</p>
         </a>
