@@ -1,5 +1,8 @@
 <?php
 
+//開発or本番モードの切り替え用フラグ
+const MODE = 'PRODUCTION';
+
 //各種ラジオ、Select用リスト
 define('SEX_LIST', array(1 => '男性', 2 => '女性'));
 define('AGE_LIST', array(1 => '10代', 2 => '20代', 3 => '30代', 4 => '40代', 5 => '50代', 6 => '60代', 7 => '65歳以上'));
@@ -39,8 +42,5 @@ define('KEY_LIST', array(1 => 'name1', 2 => 'name2',3 => 'kana1', 4 => 'kana2', 
      10 => 'zip2', 11 => 'address1', 12 => 'address2', 13 => 'address3', 14 => 'tel1', 15 => 'tel2', 16 => 'tel3',
     17 => 'mail',18 => 'mail2', 19 => 'category', 20 => 'info'));
 
-//開発or本番モードの切り替え用フラグ
-define('MODE','DEV');
-
 //ページャー
-define('DISPLAY_IN_PAGE','5');
+define('DISPLAY_IN_PAGE', '5');

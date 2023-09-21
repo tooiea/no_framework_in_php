@@ -1,17 +1,33 @@
 <?php
 
 //DBアクセス用
-define('DB_NAME', 'assignment');
-define('TABLE_CONTACT', 'contacts ');
-define('TABLE_ADMIN', 'administrators ');
-define('USER_NAME', 'root');
-define('PASSWORD', 'root');
-define('PDO_ACCESS_PHP_STUDY', 'mysql:dbname=assignment;host=assignment_db;charset=utf8');
+const DB_NAME = 'assignment';
+const TABLE_CONTACT = 'contacts ';
+const TABLE_ADMIN = 'administrators';
+const USER_NAME = 'root';
+const PASSWORD = 'root';
+const PDO_ACCESS_PHP_STUDY = 'mysql:dbname=assignment;host=assignment_db;charset=utf8';
 
 //バインド用
-define('COLUMN_INFO_VALUES', array('name1' => ':name1', 'name2' => ':name2', 'kana1' => ':kana1', 'kana2' => ':kana2', 'sex' => ':sex', 'age' => ':age',
-        'blood_type' => ':blood_type', 'job' => ':job', 'zip1' => ':zip1', 'zip2' => ':zip2', 'address1' => ':address1', 'address2' => ':address2', 'address3' => ':address3',
-        'tel' => ':tel', 'mail' => ':mail', 'category' => ':category', 'info' => ':info'));
+const COLUMN_INFO_VALUES = [
+    'name1' => ':name1',
+    'name2' => ':name2',
+    'kana1' => ':kana1',
+    'kana2' => ':kana2',
+    'sex' => ':sex',
+    'age' => ':age',
+    'blood_type' => ':blood_type',
+    'job' => ':job',
+    'zip1' => ':zip1',
+    'zip2' => ':zip2',
+    'address1' => ':address1',
+    'address2' => ':address2',
+    'address3' => ':address3',
+    'tel' => ':tel',
+    'mail' => ':mail',
+    'category' => ':category',
+    'info' => ':info'
+];
 define('COLUMN_ADMIN_VALUES',array('login_id' => ':login_id', 'password' => ':password', 'ccount_name' => ':account_name', 'last_login_date' => ':last_login_date',
         'created' => ':created', 'modified' => ':modified'));
 

@@ -4,10 +4,10 @@ require_once(dirname(__FILE__).'/../../controller/form/Controller.php');    //Co
 require_once(dirname(__FILE__).'/../../const/data.php');                    //データ処理用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../const/sql.php');                    //sql用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../const/message.php');                 //メッセージ用定義ファイルの読み込み
-require_once(dirname(__FILE__).'/../../database/WatanabeContactInfo.php');  //データベース登録用ファイルの読み込み
+require_once(dirname(__FILE__).'/../../database/Contact.php');  //データベース登録用ファイルの読み込み
 
 
-class CompleteController extends Controller{
+class CompleteController extends Controller {
  
     public function index() {
 
@@ -31,17 +31,18 @@ class CompleteController extends Controller{
                 $values['address12'] = $this->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']);
 
                 //MODE切り替え
-                if (MODE === 'DEV') {   //メール本文のみログへ出力
+                if (MODE === 'DEV') {
+                    //メール本文のみログへ出力
                     $sendMail = new SendMail();
-                    $file = '/Users/watanabe_touya/Documents/GitHub/php_exercise_t_watanabe/src/debuglog/mailLog.txt';
+                    $file = dirname(__FILE__) . '/../../logs/log.txt';
                     $current = file_get_contents($file);
                     $data = $sendMail->getBodymsg($values);
                     $current .= "\n\n". date("Y/m/d H:i:s") ."\n";
                     $current .=  '顧客用メール' . "\n" . $data[0] . "\n\n";
                     $current .=  'admin用メール' . "\n" . $data[1] . "\n";
-                    file_put_contents($file,$current);
-
-                } else if (MODE === 'PRODUCTION') { //メール送信
+                    file_put_contents($file, $current);
+                } else if (MODE === 'PRODUCTION') {
+                    //メール送信
                     $senMail = new SendMail();
                     $resultMail = $senMail->sendingMail($values); //メール送信の結果を取得
                 }
@@ -50,27 +51,26 @@ class CompleteController extends Controller{
                     throw new Exception();
                 }
 
-                //DB登録
-                $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);    //DB登録用として変換
-                $insertDB = new WatanabeContactInfo(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, array(PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING));
-                $insertDB->beginTransaction();          //トランザクション
-                $insertDB->insert($convertedValues);    //インサート
-                $insertDB->commit();                    //コミット
-
-            } catch (PDOEXception $ex) {    //DB登録時のキャッチ
-                $insertDB->rollBack();
+                // DB登録
+                $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);
+                $contact = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, array(PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING));
+                $contact->beginTransaction();          //トランザクション
+                $contact->insert($convertedValues);
+                $contact->commit();
+            } catch (PDOEXception $ex) {
+                $contact->rollBack();
                 $msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
 
-            } catch (EXception $ex) { //メール送信時、他エクセプションのキャッチ
+            } catch (EXception $ex) { //メール送信・他例外
                 $msg = array(ERROR_MESSAGE, SEND_MAIL_ERROR_COMMENT);
             }
 
             //コミット後
-            $_SESSION = array();    //セッションクリア
-            $msg = array(RECEPTION_COMPLETED, MESSAGE_AFTER_COMPLETED); //完了用メッセージを渡す
+            $_SESSION = [];    //セッションクリア
+            $msg = [RECEPTION_COMPLETED, MESSAGE_AFTER_COMPLETED]; //完了用メッセージを渡す
 
         } else { //セッション内に、存在しないキーが合った場合（セッションが存在しない場合）
-            $_SESSION = array();
+            $_SESSION = [];
             header('Location: /form/');
             exit;
         }

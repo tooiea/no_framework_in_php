@@ -16,35 +16,40 @@ class DetailController extends Controller {
     {
         //テンプレートへ返す配列変数
         $result = [];
-        $query = urldecode($_SERVER['QUERY_STRING']);   //URLのエンコード
-        parse_str($query, $result['queryValues']);      //クエリパラメータ抽出値
-        $result['queryValues'] = $this->removeKey($result['queryValues']);  //不要なインデックスの削除
+        $query = urldecode($_SERVER['QUERY_STRING']); //URLのエンコード
+        parse_str($query, $result['queryValues']); //クエリパラメータ抽出値
+        $result['queryValues'] = $this->removeKey($result['queryValues']); //不要なインデックスの削除
 
-        if (isset($_SESSION['login_id'])) {    //セッション存在チェック
+        if (isset($_SESSION['login_id'])) {
+            //セッションあり
             try {
-                if (!isset($result['queryValues']['contact_no']) || !is_numeric($result['queryValues']['contact_no'])) {    //contact_noが存在しない or 数値でない場合
+                if (!isset($result['queryValues']['contact_no']) || !is_numeric($result['queryValues']['contact_no'])) {
+                    //contact_noが存在しない or 数値でない場合
                     $result['msg'] = NOT_FOUND_CONTACT_NO;
                 } else {
-                    $administrators = new Administrator(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, array(PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING));
+                    $administrators = new Administrator(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
                     $isUser = $administrators->checkUser($_SESSION['login_id']);
 
-                    if (!$isUser) {     //存在しているユーザかチェック
+                    if (!$isUser) {
+                        //存在しているユーザかチェック
                         header('Location: /admin/login');
                         exit;
                     } else {
-                        $contactInfo = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, array(PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING));
+                        $contactInfo = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
                         $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
                         
-                        if (!$data) {   //検索後、データがない場合
+                        if (!$data) {
+                            //検索後、データがない場合
                             $result['msg'] = NOT_FOUND_CONTACT_NO;
                         } else {
-                            $result['displayValues'] = $this->convertCategory($data); //表示用に変換
+                            //表示用に変換
+                            $result['displayValues'] = $this->convertCategory($data);
                         }
                     }
                 } 
-            } catch (PDOEXception $pdo) {   // PDOのキャッチ
+            } catch (PDOEXception $pdo) {
                 $result['msg'] = SERVER_ERROR_COMMENT;
-            } catch (Exception $ex) {       // PDO以外のキャッチ
+            } catch (Exception $ex) {
                 $result['msg'] = SERVER_ERROR_COMMENT;
             }
         } else {
