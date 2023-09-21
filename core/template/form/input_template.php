@@ -1,10 +1,10 @@
 <?php
-require_once(dirname(__FILE__) . '/../../controller/form/InputController.php'); //InputControllerクラス
+require_once(dirname(__FILE__) . '/../../controller/form/InputController.php');
 
 $inputController = new InputController();
-$data = $inputController->index();
-$values = $data[0];
-$errorMsg = $data[1];
+$inputController->index();
+$values = $inputController->getValues();
+$errorMsg = $inputController->getErrorMsg();
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +19,6 @@ $errorMsg = $data[1];
         <h1>お問合せフォーム</h1>
 
         <form action='/form/' method="POST">
-
-            <!-- 名前（性）入力 -->
             <div class="item">
                 <label for="name1" class="label">お名前：姓<span>*</span></label>
                 <div class="inputs">
@@ -33,7 +31,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 名前（名）入力 -->
             <div class="item">
                 <label for="name2" class="label">お名前：名<span>*</span></label>
                 <div class="inputs">
@@ -46,7 +43,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- フリガナ（セイ） -->
             <div class="item">
                 <label for="kana1" class="label">フリガナ：セイ<span>*</span></label>
                 <div class="inputs">
@@ -59,7 +55,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- フリガナ（メイ） -->
             <div class="item">
                 <label for="kana2" class="label">フリガナ：メイ<span>*</span></label>
                 <div class="inputs">
@@ -72,7 +67,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 性別 -->
             <div class="item">
                 <label for="sex" class="label">性別<span>*</span></label>
                 <div class="inputs">
@@ -86,7 +80,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 年齢 -->
             <div class="item">
                 <label for="age" class="label">年齢<span>*</span></label>
                 <div class="inputs">
@@ -102,7 +95,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 血液型 -->
             <div class="item">
                 <label for="blood_type" class="label">血液型<span>*</span></label>
                 <div class="inputs">
@@ -115,7 +107,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 職業 -->
             <div class="item">
                 <label for="job" class="label">職業<span>*</span></label>
                 <div class="inputs">
@@ -131,7 +122,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 郵便番号（上） -->
             <div class="item">
                 <label for="zip1" class="label">郵便番号（上）<span>*</span></label>
                 <div class="inputs">
@@ -144,7 +134,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 郵便番号（下） -->
             <div class="item">
                 <label for="zip2" class="label">郵便番号（下）<span>*</span></label>
                 <div class="inputs">
@@ -157,7 +146,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 都道府県 -->
             <div class="item">
                 <label for="address1" class="label">都道府県<span>*</span></label>
                 <div class="inputs">
@@ -173,7 +161,6 @@ $errorMsg = $data[1];
                 </div>
             </div class="item">
 
-            <!-- 住所 -->
             <div class="item">
                 <label for="address2" class="label">住所<span>*</span></label>
                 <div class="inputs">
@@ -186,7 +173,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- ビル・マンション -->
             <div class="item">
                 <label for="address3" class="label">ビル・マンション名</label>
                 <div class="inputs">
@@ -199,7 +185,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 電話番号 -->
             <div class="item">
                 <label for="tel1" class="label">電話番号<span>*</span></label>
                 <div class="inputs">
@@ -225,7 +210,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- メールアドレス -->
             <div class="item">
                 <label for="mail" class="label">メールアドレス<span>*</span></label>
                 <div class="inputs">
@@ -238,7 +222,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- メールアドレス（確認用） -->
             <div class="item">
                 <label for="mail2" class="label">メールアドレス<br>（確認用）<span>*</span></label>
                 <div class="inputs">
@@ -251,7 +234,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- カテゴリー -->
             <div class="item">
                 <label for="category" class="label">興味のあるカテゴリー<br>(複数選択可）</label>
                 <div class="inputs category">
@@ -264,7 +246,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 問い合わせ内容 -->
             <div class="item">
                 <label for="info" class="label">お問合せ内容<span>*</span></label>
                 <div class="inputs">
@@ -278,7 +259,6 @@ $errorMsg = $data[1];
                 </div>
             </div>
 
-            <!-- 送信ボタン -->
             <div class="item submit">
                 <button type="submit" name="submit" value="<?php echo CHECK_SUBMIT_FORM; ?>">入力内容を確認する</button>
             </div>

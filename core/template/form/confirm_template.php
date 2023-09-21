@@ -14,8 +14,6 @@ $values = $confirmController->index();
 
 <body class="confirm_page">
     <h1>お問合せ内容の確認</h1>
-
-    <!-- 回答内容 -->
     <div class="contents">
         <div class="info">
             <p>以下の内容でよろしければ「送信する」ボタンを押してください。</p>
@@ -24,7 +22,7 @@ $values = $confirmController->index();
 
         <h2>お問い合せ内容</h2>
         <hr>
-        <!-- 名前 -->
+
         <div class="item conf">
             <div class="label">
                 <p>お名前</p>
@@ -34,7 +32,6 @@ $values = $confirmController->index();
             </div>
         </div>
 
-        <!-- フリガナ -->
         <div class="item conf">
             <div class="label">
                 <p>フリガナ</p>
@@ -44,7 +41,6 @@ $values = $confirmController->index();
             </div>
         </div>
 
-        <!-- 性別 -->
         <div class="item conf">
             <div class="label">
                 <p>性別</p>
@@ -56,7 +52,6 @@ $values = $confirmController->index();
             </div>
         </div>
 
-        <!-- 年齢 -->
         <div class="item conf">
             <div class="label">
                 <p>年齢</p>
@@ -68,8 +63,6 @@ $values = $confirmController->index();
             </div>
         </div>
 
-
-        <!-- 血液型 -->
         <div class="item conf">
             <div class="label">
                 <p>血液型</p>
@@ -81,8 +74,6 @@ $values = $confirmController->index();
             </div>
         </div>
 
-
-        <!-- 職業 -->
         <div class="item conf">
             <div class="label">
                 <p>職業</p>
@@ -94,31 +85,26 @@ $values = $confirmController->index();
             </div>
         </div>
 
-
-        <!-- 郵便番号 -->
         <div class="item conf">
             <div class="label">
                 <p>郵便番号</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($confirmController->concatenationZip($values['zip1'],$values['zip2']),ENT_QUOTES, "UTF-8"); ?></p>
+                <p><?php echo htmlspecialchars($confirmController->concatenationZip($values['zip1'],$values['zip2']), ENT_QUOTES, "UTF-8"); ?></p>
             </div>
         </div>
 
-
-        <!-- 住所 -->
         <div class="item conf">
             <div class="label">
                 <p>住所</p>
             </div>
             <div class="inputs">
                 <?php if (isset($values['address1']) && isset($values['address2'])) : ?>
-                    <p><?php echo htmlspecialchars($confirmController->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']),ENT_QUOTES, "UTF-8");  ?></p>
+                    <p><?php echo htmlspecialchars($confirmController->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']), ENT_QUOTES, "UTF-8");  ?></p>
                 <?php endif; ?>
             </div>
         </div>
 
-        <!-- ビル・マンション名 -->
         <div class="item conf">
             <div class="label">
                 <p>ビル・マンション名</p>
@@ -132,17 +118,15 @@ $values = $confirmController->index();
             </div>
         </div>
 
-        <!-- 電話番号 -->
         <div class="item conf">
             <div class="label">
                 <p>電話番号</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($confirmController->concatenationTelnum($values['tel1'],$values['tel2'],$values['tel3']),ENT_QUOTES, "UTF-8") ?></p>
+                <p><?php echo htmlspecialchars($confirmController->concatenationTelnum($values['tel1'],$values['tel2'],$values['tel3']), ENT_QUOTES, "UTF-8") ?></p>
             </div>
         </div>
 
-        <!-- メールアドレス -->
         <div class="item conf">
             <div class="label">
                 <p>メールアドレス</p>
@@ -152,7 +136,6 @@ $values = $confirmController->index();
             </div>
         </div>
 
-        <!-- カテゴリー -->
         <div class="item">
             <div class="label">
                 <p>興味のあるカテゴリー</p>
@@ -166,7 +149,6 @@ $values = $confirmController->index();
             </div>
         </div>
 
-        <!-- お問い合わせ内容 -->
         <div class="item">
             <div class="label">
                 <p>お問い合わせ内容</p>
@@ -176,13 +158,11 @@ $values = $confirmController->index();
             </div>
         </div>
 
-        <!-- 戻るボタン -->
         <div class="btn_group">
             <form action="/form/" method="POST">
                 <button type="submit" name="submit" class="return btn" value="<?php echo CHECK_SUBMIT_CONFIRM_BACK; ?>">戻る</button>
             </form>
 
-            <!-- 送信ボタン  -->
             <form action="/form/complete/" method="POST">
                 <button type="submit" name="submit" class="next btn" value="<?php echo CHECK_SUBMIT_CONFIRM_NEXT; ?>">送信する</button>
             </form>

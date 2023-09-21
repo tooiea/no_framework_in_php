@@ -1,109 +1,8 @@
 <?php
 
 class Controller {
-    
-    /**
-     * 入力チェック
-     * @param array $value form入力された配列
-     * @return array 判定[0]、エラーメッセージ[1]、変換された値[2]
-     */
-    function checkInputData($value) {
-        
-        $result = false; //エラーメッセージ有無のチェック
-        $errorMsg = $this->checkAll($value); //エラーメッセージ取得
-        $result = $this->msgCheck($errorMsg);
-
-        return array($result, $errorMsg);
-    }
 
     /**
-     * エラーメッセージが含まれているかをチェック
-     * @param array $errorMsg エラーメッセージの配列
-     * @return bool メッセージがあればtrue
-     */
-    function msgCheck($errorMsg) {
-        $result = false;
-        foreach ($errorMsg as $msg) {
-            if (!empty($msg)) {
-                $result = true;
-                break;
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * form画面の全項目入力チェック
-     * @param array $value formで入力された配列
-     * @return array チェック後のエラーメッセージの配列
-     */
-    function checkAll($value) {
-
-        //各項目の入力チェック後、エラーメッセージの配列へ代入
-        $errorMsg = array();
-
-        //お名前メッセージ取得
-        $errorMsg['name1'] = checkText($value['name1'], CHECK_NUMBER_DIGIT_255, 'お名前：性');
-        $errorMsg['name2'] = checkText($value['name2'], CHECK_NUMBER_DIGIT_255, 'お名前：名');
-
-        //フリガナメッセージ取得
-        $errorMsg['kana1'] = checkKana($value['kana1'], CHECK_NUMBER_DIGIT_255, 'フリガナ：セイ');
-        $errorMsg['kana2'] = checkKana($value['kana2'], CHECK_NUMBER_DIGIT_255, 'フリガナ：メイ');
-
-        //性別メッセージ取得
-        if (isset($value['sex'])) {
-            $errorMsg['sex'] = checkRadio($value['sex'], SEX_LIST, '性別');
-        } else if (!isset($value['sex'])){
-            $errorMsg['sex'] = checkRadio("", SEX_LIST, '性別');
-        }
-
-        //年齢メッセージ取得
-        $errorMsg['age'] = checkSelect($value['age'], AGE_LIST, '年齢');
-
-        //血液型メッセージ取得
-        if (isset($value['blood_type'])) {
-            $errorMsg['blood_type'] = checkRadio($value['blood_type'], BLOOD_LIST, '血液型');
-        } else if (!isset($blood_type)){
-            $errorMsg['blood_type'] = checkRadio("", BLOOD_LIST, '血液型');
-        }
-
-        //職業メッセージ取得
-        $errorMsg['job'] = checkSelect($value['job'], JOB_LIST, '職業');
-
-        //郵便番号（上下）チェック後の結果、msg振り分け
-        $errorMsg['zip1'] =checkNum($value['zip1'], CHECK_NUMBER_DIGIT_3, '郵便番号上');
-        $errorMsg['zip2'] = checkNum($value['zip2'], CHECK_NUMBER_DIGIT_4, '郵便番号下');
-
-        //都道府県メッセージ取得
-        $errorMsg['address1'] = checkSelect($value['address1'], PREFUCTURES_LIST, '都道府県');
-
-        //住所メッセージ取得
-        $errorMsg['address2'] = checkText($value['address2'], CHECK_NUMBER_DIGIT_255, '住所');
-
-        //ビル・マンションメッセージ取得
-        $errorMsg['address3'] = checkAddress3($value['address3'], CHECK_NUMBER_DIGIT_255, 'ビル・マンション名');
-
-        //電話番号（1,2,3）チェック後の結果、msg振り分け
-        $errorMsg['tel1'] = checkNum($value['tel1'], CHECK_NUMBER_DIGIT_5, '電話番号1');
-        $errorMsg['tel2'] = checkNum($value['tel2'], CHECK_NUMBER_DIGIT_4, '電話番号2');
-        $errorMsg['tel3'] = checkNum($value['tel3'], CHECK_NUMBER_DIGIT_4, '電話番号3');
-
-        //メールメッセージ取得
-        $errorMsg['mail'] = checkMail($value['mail'], CHECK_NUMBER_DIGIT_255, 'メールアドレス');
-        $errorMsg['mail2'] = checkMail2($value['mail'],$value['mail2'], 'メールアドレス2');
-
-        //カテゴリーメッセージ取得
-        if (isset($value['category'])) {
-            $errorMsg['category'] = checkCategory($value['category'], CATEGORY_LIST);
-        } 
-
-        //お問い合わせメッセージ取得
-        $errorMsg['info'] = checkInfo($value['info'], 'お問い合わせ内容');
-        
-        return $errorMsg;
-    }
-
-        /**
      * 名前、フリガナの文字連結処理
      * @param int $num1 名前：性
      * @param int $num2 名前：名
@@ -146,7 +45,7 @@ class Controller {
     public function concatenationAddress($str1,$str2) {
         $data = $str1 . $str2;
         return $data;
-    } 
+    }
 
     /**
      * リスト以外のキーが存在していないかをチェック
@@ -177,5 +76,59 @@ class Controller {
             }
         }
         return $removedKeyValues;
+    }
+
+    /**
+     * エスケープ処理
+     * @param array $values formで入力された配列
+     * @return array $values　エンコード後の配列
+     */
+    public function changeEncode($values) {
+        foreach ($values as $key => $data) {
+            if (isset($values['category']) && $values['category']) {
+                foreach ($values['category'] as $ckey => $cvalue) {
+                    $cvalue[$ckey] = htmlspecialchars($cvalue, ENT_QUOTES, "UTF-8");
+                }
+            } else {
+                $values[$key] = htmlspecialchars($data, ENT_QUOTES, "UTF-8");
+            }
+        }
+        return $values;
+    }
+
+    /**
+     * フリガナ、数値変換
+     * @param array formで入力された配列
+     * @return array 変換後の配列
+     */
+    public function convertStr($values) {
+        if ($values['kana1']) {
+            $values['kana1'] = mb_convert_kana($values['kana1'], "KVC");
+        }
+
+        if ($values['kana2']) {
+            $values['kana2'] = mb_convert_kana($values['kana2'], "KVC");
+        }
+
+        if ($values['zip1']) {
+            $values['zip1'] = mb_convert_kana($values['zip1'], "n");
+        }
+
+        if ($values['zip2']) {
+            $values['zip2'] = mb_convert_kana($values['zip2'], "n");
+        }
+
+        if ($values['tel1']) {
+            $values['tel1'] = mb_convert_kana($values['tel1'], "n");
+        }
+
+        if ($values['tel2']) {
+            $values['tel2'] = mb_convert_kana($values['tel2'], "n");
+        }
+
+        if ($values['tel3']) {
+            $values['tel3'] = mb_convert_kana($values['tel3'], "n");
+        }
+        return $values;
     }
 }

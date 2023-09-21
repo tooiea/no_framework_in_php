@@ -8,11 +8,10 @@ require_once(dirname(__FILE__).'/../../database/Contact.php');  //データベ�
 
 
 class CompleteController extends Controller {
- 
+
     public function index() {
 
-        $msg =array(); //テンプレート表示用変数
-        $insertDB = ''; //DBアクセス用インスタンス変数
+        $msg = []; //テンプレート表示用変数
         $resultMail = true; //メール送信結果
 
         if (!empty($_SESSION)) { //セッションの中身が空かどうかチェック
@@ -29,6 +28,16 @@ class CompleteController extends Controller {
                 $values['zip'] = $this->concatenationZip($values['zip1'], $values['zip2']);
                 $values['tel'] = $this->concatenationTelnum($values['tel1'], $values['tel2'], $values['tel3']);
                 $values['address12'] = $this->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']);
+
+                // DB登録
+                $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);
+                $contact = new Contact(
+                    PDO_ACCESS_PHP_STUDY,
+                    USER_NAME, PASSWORD,
+                    [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]
+                );
+                $contact->beginTransaction();          //トランザクション
+                $contact->insert($convertedValues);
 
                 //MODE切り替え
                 if (MODE === 'DEV') {
@@ -51,23 +60,22 @@ class CompleteController extends Controller {
                     throw new Exception();
                 }
 
-                // DB登録
-                $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);
-                $contact = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, array(PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING));
-                $contact->beginTransaction();          //トランザクション
-                $contact->insert($convertedValues);
+                // メール送信完了後にコミット
                 $contact->commit();
             } catch (PDOEXception $ex) {
                 $contact->rollBack();
-                $msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
+                $msg[0] = ERROR_MESSAGE;
+                $msg[1] = SERVER_ERROR_COMMENT;
 
             } catch (EXception $ex) { //メール送信・他例外
-                $msg = array(ERROR_MESSAGE, SEND_MAIL_ERROR_COMMENT);
+                $msg[0] = ERROR_MESSAGE;
+                $msg[1] = SERVER_ERROR_COMMENT;
             }
 
             //コミット後
             $_SESSION = [];    //セッションクリア
-            $msg = [RECEPTION_COMPLETED, MESSAGE_AFTER_COMPLETED]; //完了用メッセージを渡す
+            $msg[0] = RECEPTION_COMPLETED; //完了用メッセージを渡す
+            $msg[1] = MESSAGE_AFTER_COMPLETED;
 
         } else { //セッション内に、存在しないキーが合った場合（セッションが存在しない場合）
             $_SESSION = [];
