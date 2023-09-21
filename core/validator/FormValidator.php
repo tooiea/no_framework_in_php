@@ -64,7 +64,6 @@ class FormValidator extends BaseValidator {
                 'max' => 255,
             ],
             'address3' => [
-                'required',
                 'max' => 255,
             ],
             'tel1' => [

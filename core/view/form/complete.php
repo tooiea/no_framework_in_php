@@ -6,9 +6,9 @@
 </head>
 
 <body class="complete_page">
-    <h1><?php echo $msgHeader ?></h1>
+    <h1><?php echo htmlspecialchars($msgHeader) ?></h1>
     <div class="contents complete">
-        <p><?php echo nl2br($msgBody) ?></p>
+        <p><?php echo nl2br(htmlspecialchars($msgBody)) ?></p>
 
         <a href="/form">
             <p class="return_top">戻る</p>
