@@ -45,10 +45,9 @@ class CompleteController extends Controller {
                     $sendMail = new SendMail();
                     $file = dirname(__FILE__) . '/../../logs/log.txt';
                     $current = file_get_contents($file);
-                    $data = $sendMail->getBodymsg($values);
                     $current .= "\n\n". date("Y/m/d H:i:s") ."\n";
-                    $current .=  '顧客用メール' . "\n" . $data[0] . "\n\n";
-                    $current .=  'admin用メール' . "\n" . $data[1] . "\n";
+                    $current .=  '顧客用メール' . "\n" . $sendMail->getBodymsgForCustomer($values) . "\n\n";
+                    $current .=  'admin用メール' . "\n" . $sendMail->getBodymsgForCustomer($values) . "\n";
                     file_put_contents($file, $current);
                 } else if (MODE === 'PRODUCTION') {
                     //メール送信
