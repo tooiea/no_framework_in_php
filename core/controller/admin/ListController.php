@@ -7,29 +7,41 @@ require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
 
 class ListController extends Controller {
 
+    /**
+     * ユーザ一覧取得、検索クエリが入力されたら条件にあったユーザを取得
+     *
+     * @return void
+     */
     public function index()
     {
-        $result = array();  //テンプレートへ返す配列変数
-        $query = urldecode($_SERVER['QUERY_STRING']);   //URLのエンコード
-        parse_str($query, $result['queryValues']);      //クエリパラメータ（戻す用）
-        $result['page'] = $this->checkPage($result['queryValues']);   //表示ページ取得
-        $result['queryValues'] = $this->convertKana($this->removeKey($result['queryValues']));  //不要なキー削除とカナの変換
+        $result = [];  //テンプレートへ返す配列変数
 
-        //contact_noのダブりを防ぐため削除
-        if (isset($_GET['submit']) && 'confirm_back' === $_GET['submit'] && isset($result['queryValues']['contact_no'])) {
-            unset($result['queryValues']['contact_no']);
-        } 
-
-        if (isset($_SESSION['login_id'])) {    //セッション存在チェック
+        //セッション存在チェック
+        if (isset($_SESSION['login_id'])) {
             try {
                 //管理者用テーブルへアクセス
                 $administrators = new Administrator(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
                 $isUser = $administrators->checkUser($_SESSION['login_id']);
 
-                if (!$isUser) { //存在しているユーザかチェック
+                //存在しているユーザかチェック
+                if (!$isUser) {
                     header('Location: /admin/login');
                     exit;
                 } else {
+                    //クエリパラメータ(戻す用でセット)
+                    parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
+
+                    //表示ページ取得
+                    $result['page'] = $this->checkPage($result['queryValues']);
+
+                    //不要なキー削除とカナの変換
+                    $result['queryValues'] = $this->convertKana($this->removeKey($result['queryValues']));
+            
+                    //contact_noのダブりを防ぐため一旦クリア
+                    if (isset($_GET['submit']) && CHECK_SUBMIT_CONFIRM_BACK === $_GET['submit'] && isset($result['queryValues']['contact_no'])) {
+                        unset($result['queryValues']['contact_no']);
+                    }
+
                     $contactInfo = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
                     $result['countData'] = $contactInfo->checkNumberOfData($result['queryValues']); //検索件数
 
@@ -54,10 +66,10 @@ class ListController extends Controller {
 
     /**
      * 入力されたカナを変換（カナを入力された時のみ）
-     * @param $values 入力値
+     * @param  array $values 入力値
      * @return array
      */
-    public function convertKana($values)
+    public function convertKana(array $values)
     {
         if (!empty($values['kana'])) {
             $values['kana'] = mb_convert_kana($values['kana'], 'KC');
@@ -67,20 +79,15 @@ class ListController extends Controller {
 
     /**
      * テンプレートで表示するページの取得
-     * @param array $values クエリパラメータ
+     * @param  array $values クエリパラメータ
      * @return int ページ数
      */
-    public function checkPage($values)
+    public function checkPage(array $values)
     {
+        // 初期値
         $page = 1;
-        if (isset($values['page_id'])) {
-            if (is_numeric($values['page_id'])) {  //クエリの値が数値かどうかをチェック
-                $page = (int)$values['page_id'];
-            } else { //数字以外の入力であった場合
-                $page = 1;
-            }
-        } else {
-            $page = 1;
+        if (isset($values['page_id']) && is_numeric($values['page_id'])) {
+            $page = (int)$values['page_id'];
         }
         return $page;
     }

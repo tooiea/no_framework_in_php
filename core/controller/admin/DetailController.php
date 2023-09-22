@@ -9,16 +9,13 @@ class DetailController extends Controller {
 
     /**
      * GETで渡されたクエリパラメータを取得する
-     * @param string $url URL
+     * 
      * @return array 表示用データを渡す
      */
     public function index()
     {
         //テンプレートへ返す配列変数
         $result = [];
-        $query = urldecode($_SERVER['QUERY_STRING']); //URLのエンコード
-        parse_str($query, $result['queryValues']); //クエリパラメータ抽出値
-        $result['queryValues'] = $this->removeKey($result['queryValues']); //不要なインデックスの削除
 
         if (isset($_SESSION['login_id'])) {
             //セッションあり
@@ -30,11 +27,18 @@ class DetailController extends Controller {
                     $administrators = new Administrator(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
                     $isUser = $administrators->checkUser($_SESSION['login_id']);
 
+                    //存在しているユーザかチェック
                     if (!$isUser) {
-                        //存在しているユーザかチェック
                         header('Location: /admin/login');
                         exit;
                     } else {
+                        //クエリパラメータ(戻す用でセット)
+                        parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
+
+                        //不要なキー削除
+                        $result['queryValues'] = $this->removeKey($result['queryValues']);
+
+                        // 詳細データ取得
                         $contactInfo = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
                         $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
                         
@@ -61,10 +65,11 @@ class DetailController extends Controller {
 
     /**
      * DBに登録されているカテゴリーの文字列を配列に変換
-     * @param array $values クエリパラメータの配列
+     * 
+     * @param  array $values クエリパラメータの配列
      * @return array カテゴリーの値を変換した後の配列
      */
-    public function convertCategory($values)
+    public function convertCategory(array $values)
     {
         $data = explode(',', $values['category']);
         $values['category'] = $this->getArrayInList($data, CATEGORY_LIST);
@@ -72,15 +77,16 @@ class DetailController extends Controller {
     }
 
     /**
-    * 興味のあるカテゴリー(配列)の値取り出し
-    * @param array $value 入力されたキーの配列
-    * @param array $list 取り出し対象とする配列
-    * @return array リストから取り出した値の配列
-    */
-    public function getArrayInList($value,$list)
+     * 興味のあるカテゴリー(配列)の値取り出し
+     *
+     * @param  array $value 入力されたキーの配列
+     * @param  array $list 取り出し対象とする配列
+     * @return array リストから取り出した値の配列
+     */
+    public function getArrayInList(array $values, array $list)
     {
         $data = array();
-        foreach ($value as $key) {
+        foreach ($values as $key) {
             if (array_key_exists($key, $list)) {
                 $data[] = CATEGORY_LIST[$key];
             }

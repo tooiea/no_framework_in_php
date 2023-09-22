@@ -4,34 +4,37 @@ class Controller {
 
     /**
      * 名前、フリガナの文字連結処理
-     * @param int $num1 名前：性
-     * @param int $num2 名前：名
+     * @param  int $num1 名前：性
+     * @param  int $num2 名前：名
      * @return string 文字連結処理後
      */
-    public function concatenationName($num1, $num2) {
+    public function concatenationName(int $num1, int $num2)
+    {
         $data = $num1 . '　' . $num2;
         return $data;
     }
 
     /**
      * 郵便番号の文字連結処理
-     * @param int $num1 郵便番号上
-     * @param int $num2 郵便番号下
+     * @param  int $num1 郵便番号上
+     * @param  int $num2 郵便番号下
      * @return string 文字連結処理後
      */
-    public function concatenationZip($num1, $num2) {
+    public function concatenationZip(int $num1, int $num2)
+    {
         $data = $num1 . '-' . $num2;
         return $data;
     }
 
     /**
      * 電話番号連結処理
-     * @param int $num1 電話番号1
-     * @param int $num2 電話番号2
-     * @param int $num3 電話番号3
+     * @param  int $num1 電話番号1
+     * @param  int $num2 電話番号2
+     * @param  int $num3 電話番号3
      * @return string 文字連結処理後
      */
-    public function concatenationTelnum($num1, $num2, $num3) {
+    public function concatenationTelnum(int $num1, int $num2, int $num3)
+    {
         $data = $num1 . '-' . $num2 . '-' . $num3;
         return $data;
     }
@@ -42,19 +45,22 @@ class Controller {
      * @param string $str2 住所
      * @return string 文字連結処理後
      */
-    public function concatenationAddress($str1,$str2) {
+    public function concatenationAddress(string $str1, string $str2)
+    {
         $data = $str1 . $str2;
         return $data;
     }
 
     /**
      * リスト以外のキーが存在していないかをチェック
-     * @param array $data セッション
+     * @param  array $data セッション
      * @return bool チェックした結果
      */
-    public function checkKeyOfSession($data) {
+    public function checkKeyOfSession(array $data)
+    {
         $keyCheckResult = true;
-        foreach ($data as $key => $value) { //セッション内に存在していないキーが無いかをチェック
+        foreach ($data as $key => $value) {
+            //セッション内に存在していないキーが無いかをチェック
             if (!in_array($key, KEY_LIST)) {
                 $keyCheckResult = false;
                 break;
@@ -65,10 +71,11 @@ class Controller {
 
     /**
      * クエリパラメータ内に不要なパラメータが存在した場合削除する
-     * @param array $values クエリパラメータ
+     * @param  array $values クエリパラメータ
      * @return array 必要なキーの配列
      */
-    public function removeKey($values) {
+    public function removeKey(array $values)
+    {
         $removedKeyValues = array();
         foreach ($values as $key => $value) {
             if ('contact_no' === $key || 'page_id' === $key || 'name' === $key || 'kana' === $key || 'mail' === $key) {
@@ -79,29 +86,12 @@ class Controller {
     }
 
     /**
-     * エスケープ処理
-     * @param array $values formで入力された配列
-     * @return array $values　エンコード後の配列
-     */
-    public function changeEncode($values) {
-        foreach ($values as $key => $data) {
-            if (isset($values['category']) && $values['category']) {
-                foreach ($values['category'] as $ckey => $cvalue) {
-                    $cvalue[$ckey] = htmlspecialchars($cvalue, ENT_QUOTES, "UTF-8");
-                }
-            } else {
-                $values[$key] = htmlspecialchars($data, ENT_QUOTES, "UTF-8");
-            }
-        }
-        return $values;
-    }
-
-    /**
      * フリガナ、数値変換
-     * @param array formで入力された配列
+     * @param  array formで入力された配列
      * @return array 変換後の配列
      */
-    public function convertStr($values) {
+    public function convertStr(array $values)
+    {
         if ($values['kana1']) {
             $values['kana1'] = mb_convert_kana($values['kana1'], "KVC");
         }

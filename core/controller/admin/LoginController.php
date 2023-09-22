@@ -72,7 +72,8 @@ class LoginController {
 
     /**
      * チェック後の値で、DBで検索する
-     * @param array $values
+     * 
+     * @param  array $values
      * @return array エラーメッセージ
      */
     public function checkIDPASS(array $values)
@@ -87,14 +88,16 @@ class LoginController {
 
     /**
      * 桁数チェック
-     * @param array $values 入力値
+     * 
+     * @param  array $values 入力値
      * @return array エラーメッセージ
      */
     public function checkDigit(array $values)
     {
         $errorMsg = [];
+        $validator = new FormValidator();
         foreach ($values as $value) {
-            if (checkDigitStr($value, CHECK_NUMBER_DIGIT_255)) {
+            if ($validator->checkDigitStr($value, CHECK_NUMBER_DIGIT_255)) {
                 $errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
                 continue;
             }
@@ -104,14 +107,15 @@ class LoginController {
 
     /**
      * ログインIDとパスワードが未入力でないかをチェック
-     * @param array $values 入力データ
+     * 
+     * @param  array $values 入力データ
      * @return array エラーメッセージ
      */
     public function nullCheck(array $values)
     {
         $errorMsg = [];
         foreach ($values as $key => $value) {
-            if (isEmpty($value)) {
+            if ($this->isEmpty($value)) {
                 if ('login_id' === $key) {
                     $errorMsg[$key] = NOT_INPUT_LOGINID;
                 } else {

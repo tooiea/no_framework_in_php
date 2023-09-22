@@ -6,6 +6,7 @@ class SendMail {
 
     /**
      * メール送信
+     * 
      * @param  array $data formで入力された配列
      * @return bool メール送信後の結果
      */
@@ -91,6 +92,7 @@ class SendMail {
 
     /**
      * メール本文を取得する
+     * 
      * @param  array $data フォーム入力値
      * @return string
      */
@@ -146,8 +148,9 @@ class SendMail {
 
     /**
      * 興味のあるカテゴリー(配列)の値取り出し
-     * @param array $value 入力されたキーの配列
-     * @param array $list 取り出し対象とする配列
+     * 
+     * @param  array $value 入力されたキーの配列
+     * @param  array $list 取り出し対象とする配列
      * @return array リストから取り出した値の配列
      */
     public function getArrayInList(array $values, array $list)

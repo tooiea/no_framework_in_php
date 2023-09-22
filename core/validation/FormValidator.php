@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__) . '/../const/data.php'); //リスト読み込み
+require_once(dirname(__FILE__) . '/../const/data.php');
 require_once(dirname(__FILE__) . '/../validation/BaseValidator.php');
 
 class FormValidator extends BaseValidator {
@@ -11,12 +11,12 @@ class FormValidator extends BaseValidator {
     private $errorMsg;
 
     /**
-     * form画面の全項目入力チェック
+     * フォーム画面の全項目入力チェック
      * @param  array $value formで入力された配列
      * @return array チェック後のエラーメッセージの配列
      */
-    public function checkAll(array $values) {
-
+    public function checkAll(array $values)
+    {
         //各項目の入力チェック後、エラーメッセージの配列へ代入
         $errorMsg = [];
 
@@ -31,7 +31,7 @@ class FormValidator extends BaseValidator {
         //性別メッセージ取得
         if (isset($values['sex'])) {
             $errorMsg['sex'] = $this->checkRadio($values['sex'], SEX_LIST, '性別');
-        } else if (!isset($values['sex'])){
+        } elseif (!isset($values['sex'])) {
             $errorMsg['sex'] = $this->checkRadio("", SEX_LIST, '性別');
         }
 
@@ -41,7 +41,7 @@ class FormValidator extends BaseValidator {
         //血液型メッセージ取得
         if (isset($values['blood_type'])) {
             $errorMsg['blood_type'] = $this->checkRadio($values['blood_type'], BLOOD_LIST, '血液型');
-        } else if (!isset($blood_type)){
+        } elseif (!isset($blood_type)) {
             $errorMsg['blood_type'] = $this->checkRadio("", BLOOD_LIST, '血液型');
         }
 

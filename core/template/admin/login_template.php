@@ -14,7 +14,7 @@ $msg = $result[1];
     <link rel="stylesheet" href="/css/style.css">
 </head>
     <body class="admin_login_page">
-        <?php if (empty($msg)):?>
+        <?php if (empty($msg)): ?>
         <form action='/admin/login' method="post">
             <!-- ログインID -->
             <div class="item">
