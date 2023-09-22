@@ -1,12 +1,11 @@
 <?php
-require_once(dirname(__FILE__).'/DataBase.php');
+require_once(dirname(__FILE__).'/Model.php');
 
-class Administrator extends DataBase {
+class Administrator extends Model {
 
-    //検索
     /**
      * 管理者登録用のテーブルにあるユーザ、パスワード検索
-     * @param array $values 入力値（ログインID、パスワード）
+     * @param  array $values 入力値（ログインID、パスワード）
      * @return array 検索リスト（パスワードのみ）
      */
     public function select($values)
@@ -27,10 +26,11 @@ class Administrator extends DataBase {
 
     /**
      * 検索後、ログインした日時を更新する
-     * @param array $value 入力値
+     * @param  array $value 入力値
      * @return void
      */
-    public function update($values) {
+    public function update($values)
+    {
         //UPDATE文のVALUESをプレースホルダーで準備
         $sql = UPDATE_LOGIN_DATE;
 
@@ -42,7 +42,7 @@ class Administrator extends DataBase {
 
     /**
      * ログイン後、存在しているユーザかをチェック
-     * @param string $loginId セッションで渡されたログインID
+     * @param  string $loginId セッションで渡されたログインID
      * @return array|bool 検索結果
      */
     public function checkUser(string $loginId)

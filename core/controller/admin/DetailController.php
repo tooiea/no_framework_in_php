@@ -1,8 +1,8 @@
 <?php //登録用
 require_once(dirname(__FILE__).'/../../const/sql.php');
 require_once(dirname(__FILE__).'/../../const/message.php');
-require_once(dirname(__FILE__).'/../../database/Contact.php');
-require_once(dirname(__FILE__).'/../../database/Administrator.php');
+require_once(dirname(__FILE__).'/../../model/Contact.php');
+require_once(dirname(__FILE__).'/../../model/Administrator.php');
 require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
 
 class DetailController extends Controller {

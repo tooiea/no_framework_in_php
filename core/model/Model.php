@@ -1,6 +1,6 @@
 <?php //データベースアクセス
 
-class DataBase {
+class Model {
 
     protected $dbController; //PDOクラスのインスタンス
 

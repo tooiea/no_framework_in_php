@@ -9,7 +9,8 @@ class SendMail {
      * @param  array $data formで入力された配列
      * @return bool メール送信後の結果
      */
-    public function sendingMail(array $data) {
+    public function sendingMail(array $data)
+    {
         $results = []; //送信後の結果
         $resultTotal = true; // 全てのメール送信結果
 
@@ -46,8 +47,8 @@ class SendMail {
         //カテゴリーの値を変換し、本文表示用に処理
         $valueCategory = '';
         if (!empty($data['category'])) {
-            $datalist = $this->getArrayInList($data['category'],CATEGORY_LIST);
-            $valueCategory = implode("\n",$datalist);
+            $datalist = $this->getArrayInList($data['category'], CATEGORY_LIST);
+            $valueCategory = implode("\n", $datalist);
         }
 
         //メールテンプレート読み込み(送信者用)
@@ -98,8 +99,8 @@ class SendMail {
         //カテゴリーの値を変換し、本文表示用に処理
         $valueCategory = '';
         if (!empty($data['category'])) {
-            $datalist = $this->getArrayInList($data['category'],CATEGORY_LIST);
-            $valueCategory = implode("\n",$datalist);
+            $datalist = $this->getArrayInList($data['category'], CATEGORY_LIST);
+            $valueCategory = implode("\n", $datalist);
         }
 
         //メールテンプレート読み込み（管理者用）
@@ -149,9 +150,10 @@ class SendMail {
      * @param array $list 取り出し対象とする配列
      * @return array リストから取り出した値の配列
      */
-    public function getArrayInList($value,$list) {
-        $msg = array();
-        foreach ($value as $key) {
+    public function getArrayInList(array $values, array $list)
+    {
+        $msg = [];
+        foreach ($values as $key) {
             if (array_key_exists($key, $list)) {
                 $msg[] = CATEGORY_LIST[$key];
             }

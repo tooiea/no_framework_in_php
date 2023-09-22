@@ -4,7 +4,7 @@ require_once(dirname(__FILE__).'/../../controller/form/Controller.php');    //Co
 require_once(dirname(__FILE__).'/../../const/data.php');                    //データ処理用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../const/sql.php');                    //sql用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../const/message.php');                 //メッセージ用定義ファイルの読み込み
-require_once(dirname(__FILE__).'/../../database/Contact.php');  //データベース登録用ファイルの読み込み
+require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベース登録用ファイルの読み込み
 
 
 class CompleteController extends Controller {

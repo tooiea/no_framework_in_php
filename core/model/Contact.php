@@ -3,10 +3,10 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once(dirname(__FILE__).'/../database/DataBase.php');    //データベースアクセスクラス
+require_once(dirname(__FILE__).'/../model/Model.php');    //データベースアクセスクラス
 require_once(dirname(__FILE__).'/../const/sql.php');           //定義用php
 
-class Contact extends Database {
+class Contact extends Model {
 
     /**
      * テーブル内の全てのデータ件数を取得する
@@ -93,16 +93,17 @@ class Contact extends Database {
 
     /**
      * SELECTで検索
-     * @param int $page 
-     * @param array $values 入力値
+     * @param  int $page 
+     * @param  array $values 入力値
      * @return array 検索データ、検索数
      */
-    public function select(int $page,array $values = array()) {
-
+    public function select(int $page, array $values = [])
+    {
         //SQL文のLIMIT,OFFSET条件を選択
         $offset = $this->checkOffsetSql($page);
 
-        if (!empty($values['name']) || !empty($values['kana']) || !empty($values['mail'])) {    //検索値の入力がある場合
+        //検索値の入力がある場合
+        if (!empty($values['name']) || !empty($values['kana']) || !empty($values['mail'])) {
             $sqlWhereCondition = $this->checkSelectContents($values);
             $sql = 'SELECT contact_no,name1,name2,kana1,kana2,mail,created FROM contacts WHERE' . $sqlWhereCondition. $offset['sql'];
         } else {

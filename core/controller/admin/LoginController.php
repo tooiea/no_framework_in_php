@@ -1,12 +1,18 @@
 <?php //検索コントローラ
-require_once(dirname(__FILE__).'/../../database/Administrator.php');   //WatanabeAdministratosクラス
-require_once(dirname(__FILE__).'/../../validation/validation.php');             //バリデーション用ファイルの読み込み
-require_once(dirname(__FILE__).'/../../const/sql.php');                         //sql処理用ファイル
-require_once(dirname(__FILE__).'/../../const/message.php');                     //メッセージ取得用ファイル
+require_once(dirname(__FILE__).'/../../model/Administrator.php');
+require_once(dirname(__FILE__).'/../../validation/FormValidator.php');
+require_once(dirname(__FILE__).'/../../const/sql.php');
+require_once(dirname(__FILE__).'/../../const/message.php');
 
 class LoginController {
-    public function index() {
 
+    /**
+     * ログインチェック
+     *
+     * @return void
+     */
+    public function index()
+    {
         $values = [];      //入力チェック用配列
         $errorMsg = [];    //入力チェック後のエラーメッセージ
         $msg = [];         //画面切り替え時のメッセージ
@@ -45,10 +51,11 @@ class LoginController {
                             $errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
                         }
                     }
-                } catch (PDOEXception $pdo) {   //PDOエクセプションのキャッチ
+                } catch (PDOEXception $pdo) {
+                    // ロールバック実行
                     $administrators->rollback();
                     $msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
-                } catch (Exception $ex) {       //PDO以外エクセプションのキャッチ
+                } catch (Exception $ex) {
                     $msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
                 }
 
