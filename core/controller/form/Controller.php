@@ -4,11 +4,11 @@ class Controller {
 
     /**
      * 名前、フリガナの文字連結処理
-     * @param  int $num1 名前：性
-     * @param  int $num2 名前：名
+     * @param  string $num1 名前：性
+     * @param  string $num2 名前：名
      * @return string 文字連結処理後
      */
-    public function concatenationName(int $num1, int $num2)
+    public function concatenationName(string $num1, string $num2)
     {
         $data = $num1 . '　' . $num2;
         return $data;
@@ -16,11 +16,11 @@ class Controller {
 
     /**
      * 郵便番号の文字連結処理
-     * @param  int $num1 郵便番号上
-     * @param  int $num2 郵便番号下
+     * @param  string $num1 郵便番号上
+     * @param  string $num2 郵便番号下
      * @return string 文字連結処理後
      */
-    public function concatenationZip(int $num1, int $num2)
+    public function concatenationZip(string $num1, string $num2)
     {
         $data = $num1 . '-' . $num2;
         return $data;
@@ -28,12 +28,12 @@ class Controller {
 
     /**
      * 電話番号連結処理
-     * @param  int $num1 電話番号1
-     * @param  int $num2 電話番号2
-     * @param  int $num3 電話番号3
+     * @param  string $num1 電話番号1
+     * @param  string $num2 電話番号2
+     * @param  string $num3 電話番号3
      * @return string 文字連結処理後
      */
-    public function concatenationTelnum(int $num1, int $num2, int $num3)
+    public function concatenationTelnum(string $num1, string $num2, string $num3)
     {
         $data = $num1 . '-' . $num2 . '-' . $num3;
         return $data;
@@ -56,13 +56,13 @@ class Controller {
      * @param  array $data セッション
      * @return bool チェックした結果
      */
-    public function checkKeyOfSession(array $data)
+    public function isInListValue(array $data)
     {
-        $keyCheckResult = true;
+        $keyCheckResult = false;
         foreach ($data as $key => $value) {
             //セッション内に存在していないキーが無いかをチェック
             if (!in_array($key, KEY_LIST)) {
-                $keyCheckResult = false;
+                $keyCheckResult = true;
                 break;
             }
         }
@@ -101,23 +101,23 @@ class Controller {
         }
 
         if ($values['zip1']) {
-            $values['zip1'] = mb_convert_kana($values['zip1'], "n");
+            $values['zip1'] = mb_convert_kana($values['zip1'], "a");
         }
 
         if ($values['zip2']) {
-            $values['zip2'] = mb_convert_kana($values['zip2'], "n");
+            $values['zip2'] = mb_convert_kana($values['zip2'], "a");
         }
 
         if ($values['tel1']) {
-            $values['tel1'] = mb_convert_kana($values['tel1'], "n");
+            $values['tel1'] = mb_convert_kana($values['tel1'], "a");
         }
 
         if ($values['tel2']) {
-            $values['tel2'] = mb_convert_kana($values['tel2'], "n");
+            $values['tel2'] = mb_convert_kana($values['tel2'], "a");
         }
 
         if ($values['tel3']) {
-            $values['tel3'] = mb_convert_kana($values['tel3'], "n");
+            $values['tel3'] = mb_convert_kana($values['tel3'], "a");
         }
         return $values;
     }

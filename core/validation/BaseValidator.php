@@ -1,19 +1,18 @@
 <?php
 
 class BaseValidator {
-
     /**
      * エラーメッセージが含まれているかをチェック
-     * 
+     *
      * @param  array $errorMsg エラーメッセージの配列
      * @return bool メッセージがあればtrue
      */
     public function msgCheck(array $errorMsg)
     {
-        $result = false;
+        $result = true;
         foreach ($errorMsg as $msg) {
             if (!empty($msg)) {
-                $result = true;
+                $result = false;
                 break;
             }
         }
@@ -22,45 +21,45 @@ class BaseValidator {
 
     /**
      * nullチェック
-     * 
+     *
      * @param  mixed $value formで入力された値
      * @return bool データがない場合true
      */
     public function isEmpty(mixed $value)
     {
+        $result = false;
         if (is_null($value)) {
-            return true;
-        } else {
-            if ("" == $value) {
-                return true;
-            }
+            $result = true;
+        } elseif ("" == $value) {
+            $result = true;
         }
-        return false;
+        return $result;
     }
 
     /**
      * 存在チェック
-     * 
+     *
      * @param  int $value formで入力されたキー
      * @param  array $list チェックするリスト
      * @return bool データがない場合true
      */
     public function isValueInList(int $value, array $list)
     {
+        $result = false;
         if (array_key_exists($value, $list)) {
-            return false;
+            $result = false;
         }
-        return true;
+        return $result;
     }
 
     /**
      * 存在チェック（array）
-     * 
+     *
      * @param  array $value formで入力されたキーの配列
      * @param  array $list チェックするリスト
      * @return bool
      */
-    public function isValueInListArray(array $value, array $list)
+    public function isValuesInList(array $value, array $list)
     {
         $result = false;
         foreach ($value as $key => $data) {
@@ -75,67 +74,68 @@ class BaseValidator {
     /**
      * 半角カナとひらがな → 全角カナ（文字列）
      * 全角カナ,半角・全角英字を許諾
-     * 
+     *
      * @param  string $value formで入力された文字列
      * @return bool 判定と変換後の文字列
      */
-    public function checkFullKana(string $value)
+    public function checkRegexKana(string $value)
     {
-        $pattern = '/[ァ-ヴーa-zA-Zａ-ｚＡ-Ｚ]/u';
-        $result = true;
-
-        if (preg_match($pattern, $value)) {
-            $result = false;
+        $result = false;
+        if (!preg_match('/[ァ-ヴーa-zA-Zａ-ｚＡ-Ｚ]/u', $value)) {
+            $result = true;
         }
         return $result;
     }
 
     /**
      * 半角→全角変換,半角チェック（数値）
-     * 
+     *
      * @param  int $value formで入力された数字
      * @return bool 判定と変換後の文字列
      */
-    public function checkHalfNum(int $value)
+    public function checkRegexNum(int $value)
     {
-        if (preg_match('/^[0-9]+$/', $value)) {
-            return false;
+        $result = false;
+        if (!preg_match('/^[0-9]+$/', $value)) {
+            $result = true;
         }
-        return true;
+        return $result;
     }
 
     /**
      * select 未選択チェック
-     * 
-     * @param  int $value formで入力された値（未選択の場合）
+     *
+     * @param  mixed $value formで入力された値（未選択の場合）
      * @return bool
      */
-    public function isUnselect(int $value)
+    public function isUnselect(mixed $value)
     {
-        if ("未選択" == $value) {
-            return true;
+        $result = false;
+        if ("未選択" === $value) {
+            $result = true;
         }
-        return false;
+        return $result;
     }
 
     /**
      * 桁数チェック（共通）
-     * 
+     *
      * @param  string $value formで入力された文字列
      * @param  int $num 桁数チェック用の値
      * @return bool
      */
-    public function checkDigitStr(string $value, int $num)
+    public function checkMaxDigit(string $value, int $num)
     {
+        $result = false;
         if (mb_strlen($value) > $num) {
-            return true;
+            $result = true;
         }
-        return false;
+        return $result;
     }
 
     /**
      * テキスト [nullチェック＋桁チェック]のみ
-     * 
+     *
      * @param  string $value formで入力された文字列
      * @param  int $num 桁数チェック用の値
      * @param  string $name 項目名
@@ -143,17 +143,18 @@ class BaseValidator {
      */
     public function checkText(string $value, int $num, string $name)
     {
+        $msg = "";
         if ($this->isEmpty($value)) {
-            return $name . "を入力してください";
-        } elseif ($this->checkDigitStr($value, $num)) {
-            return $name . "を正しく入力してください";
+            $msg = $name . "を入力してください";
+        } elseif ($this->checkMaxDigit($value, $num)) {
+            $msg = $name . "を正しく入力してください";
         }
-        return "";
+        return $msg;
     }
 
     /**
      * フリガナチェック
-     * 
+     *
      * @param  string $value formで入力された文字列
      * @param  int $num 桁数チェック用の値
      * @param  string $name 項目名
@@ -161,75 +162,79 @@ class BaseValidator {
      */
     public function checkKana(string $value, int $num, string $name)
     {
+        $msg = "";
         if ($this->isEmpty($value)) {
-            return $name . "を入力してください。";
-        } else if ($this->checkDigitStr($value, $num)) {
-            return $name . "を正しく入力してください。";
-        } else if ($this->checkFullKana($value)) {
-            return $name . "を正しく入力してください。";
+            $msg = $name . "を入力してください。";
+        } else if ($this->checkMaxDigit($value, $num)) {
+            $msg = $name . "を正しく入力してください。";
+        } else if ($this->checkRegexKana($value)) {
+            $msg = $name . "を正しく入力してください。";
         }
-        return "";
+        return $msg;
     }
 
     /**
      * ラジオボタン共通チェック
-     * 
-     * @param  int $value formで入力されたキー
+     *
+     * @param  mixed $value formで入力されたキー
      * @param  array $list チェック用のリスト
      * @param  string $name 項目名
      * @return string エラーメッセージ
      */
-    public function checkRadio(int $value, array $list, string $name)
+    public function checkRadio(mixed $value, array $list, string $name)
     {
+        $msg = "";
         if ($this->isEmpty($value)) {
-            return $name . "を選択してください。";
+            $msg = $name . "を選択してください。";
         } else if ($this->isValueInList($value, $list)) {
-            return "画面から選択してください。";
+            $msg = "画面から選択してください。";
         }
-        return "";
+        return $msg;
     }
 
     /**
      * select共通チェック
-     * 
-     * @param  int $value formで入力されたキー
+     *
+     * @param  mixed $value formで入力されたキー
      * @param  array $list チェック用のリスト
      * @param  string $name 項目名
      * @return string エラーメッセージ
      */
-    public function checkSelect(int $value, array $list, string $name)
+    public function checkSelect(mixed $value, array $list, string $name)
     {
+        $msg = "";
         if ($this->isUnselect($value)) {
-            return $name . "を選択してください。";
+            $msg = $name . "を選択してください。";
         } else if ($this->isValueInList($value, $list)) {
-            return "画面から選択してください";
+            $msg = "画面から選択してください";
         }
-        return "";
+        return $msg;
     }
 
     /**
      * 郵便番号, 電話番号チェック
-     * 
-     * @param int $value formで入力された数字
+     *
+     * @param mixed $value formで入力された数字
      * @param int $num 桁数チェック用の値
      * @param string $name 項目名
      * @return string エラーメッセージ
      */
-    public function checkNum(int $value, int $num, string $name)
+    public function checkNum(mixed $value, int $num, string $name)
     {
+        $msg = "";
         if ($this->isEmpty($value)) {
-            return $name . "を入力してください。";
-        } else if ($this->checkHalfNum($value)) {
-            return $name . 'を正しく入力してください。';
-        } else if ($this->checkDigitStr($value, $num)) {
-            return $name . 'を正しく入力してください。';
+            $msg = $name . "を入力してください。";
+        } elseif ($this->checkRegexNum($value)) {
+            $msg = $name . 'を正しく入力してください。';
+        } elseif ($this->checkMaxDigit($value, $num)) {
+            $msg = $name . 'を正しく入力してください。';
         }
-        return "";
+        return $msg;
     }
 
     /**
      * ビル/マンション名チェック
-     * 
+     *
      * @param string $value formで入力されたキー
      * @param int $num 桁数チェック用の値
      * @param string $name 項目名
@@ -237,15 +242,16 @@ class BaseValidator {
      */
     public function checkAddress3(string $value, int $num, string $name)
     {
-        if ($this->checkDigitStr($value, $num)) {
-            return $name . "を正しく入力してください。";
+        $msg = "";
+        if ($this->checkMaxDigit($value, $num)) {
+            $msg = $name . "を正しく入力してください。";
         }
-        return "";
+        return $msg;
     }
 
     /**
      * メールアドレスチェック
-     * 
+     *
      * @param string $value formで入力されたキー
      * @param int $num 桁数チェック用の値
      * @param string $name 項目名
@@ -253,19 +259,20 @@ class BaseValidator {
      */
     public function checkMail(string $value, int $num, string $name)
     {
+        $msg = "";
         if ($this->isEmpty($value)) {
-            return $name . "を入力してください。";
-        } else if ($this->checkDigitStr($value, $num)) {
-            return  $name . "を正しく入力してください。";
+            $msg = $name . "を入力してください。";
+        } else if ($this->checkMaxDigit($value, $num)) {
+            $msg = $name . "を正しく入力してください。";
         } else if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            return $name . "を正しく入力してください。";
+            $msg = $name . "を正しく入力してください。";
         }
-        return "";
+        return $msg;
     }
 
     /**
      * メールアドレス2チェック
-     * 
+     *
      * @param  string $value メールアドレス1
      * @param  string $value2 メールアドレス2（再入力用）
      * @param  string $name 項目名
@@ -284,7 +291,7 @@ class BaseValidator {
 
     /**
      * カテゴリーチェック
-     * 
+     *
      * @param  array $value formで入力されたキー
      * @param  array $list チェック用のリスト
      * @return string エラーメッセージ
@@ -292,7 +299,7 @@ class BaseValidator {
     public function checkCategory(array $values, array $list)
     {
         $msg = "";
-        if ($this->isValueInListArray($values, $list)) {
+        if ($this->isValuesInList($values, $list)) {
             $msg = "画面から選択してください";
         }
         return $msg;
@@ -300,16 +307,17 @@ class BaseValidator {
 
     /**
      * コメントチェック
-     * 
+     *
      * @param  string $value formで入力されたキー
      * @param  string $name 項目名
      * @return string エラーメッセージ
      */
     public function checkInfo($value, $name)
     {
+        $msg = "";
         if ($this->isEmpty($value)) {
-            return $name . "を入力してください";
+             $msg = $name . "を入力してください";
         }
-        return "";
+        return $msg;
     }
 }

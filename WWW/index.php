@@ -11,7 +11,7 @@ $str = urldecode($_SERVER['REQUEST_URI']);
 // トレイリングスラッシュを削除
 $url= rtrim(parse_url($str)['path'], "/");
 
-// リクエストURIからテンプレート読み込みを決定
+// リクエストURIから読み込むテンプレートを決定
 switch ($url) {
     case '/form':
         include(dirname(__FILE__) . '/../core/template/form/input_template.php');

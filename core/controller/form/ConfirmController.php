@@ -7,20 +7,14 @@ class ConfirmController extends Controller {
     public function index()
     {
         //セッションの中身が空かどうかチェック
-        if (empty($_SESSION)) {
+        if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD']) {
             $_SESSION = [];
             header("Location: /form/");
             exit;
         }
 
-        // 画面表示用の変数初期化
-        $values = [];
-
-        //セッション内のキーをチェックした結果
-        $keyCheckResult = $this->checkKeyOfSession($_SESSION);
-
         // セッション内の値が不正
-        if (!$keyCheckResult) {
+        if ($this->isInListValue($_SESSION)) {
             $_SESSION = [];
             header("Location: /form/");
             exit;

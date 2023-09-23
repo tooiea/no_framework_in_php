@@ -9,7 +9,43 @@ require_once(dirname(__FILE__).'/../const/sql.php');           //定義用php
 class Contact extends Model {
 
     /**
-     * テーブル内の全てのデータ件数を取得する
+     * テーブルにデータを登録する
+     *
+     * @param  array $values 登録する値
+     * @return object|bool アクセス、登録までできた場合object,失敗時はbool
+     */
+    public function insert(array $values)
+    {
+        // SQL実行後の判定
+        $result = false;
+
+        // プレースホルダを用いたinsert文を準備
+        // 直接SQLに値をセットしてクエリを発行しない
+        $sql = INSERT_FORM;
+        $stmt = $this->dbController->prepare($sql);
+
+        // 入力値を型に合わせてプレースホルダで値をセットしていく(バインド)
+        foreach ($values as $key => $value) {
+            $checkResult[] = array_key_exists($key, COLUMN_INFO_VALUES);
+            if (array_key_exists($key, COLUMN_INFO_VALUES)) {
+                if ('sex' === $key || 'age' === $key || 'blood_type' === $key || 'job' === $key || 'address1' === $key) {
+                    // 整数型
+                    $stmt->bindValue(COLUMN_INFO_VALUES[$key], (int)$value, PDO::PARAM_INT);
+                } else {
+                    // 文字列
+                    $stmt->bindValue(COLUMN_INFO_VALUES[$key], $value, PDO::PARAM_STR);
+                }
+            }
+        }
+
+        // DBへ登録
+        $result = $stmt->execute();
+        return $result;
+    }
+
+    /**
+     * テーブル内のデータ件数を取得する
+     *
      * @return int データ件数
      */
     public function checkNumberOfDataInitial()
@@ -22,7 +58,8 @@ class Contact extends Model {
 
     /**
      * 検索する対象のデータ件数を取得
-     * @param array $values 入力値
+     *
+     * @param  array $values 入力値
      * @return int データ件数
      */
     public function checkNumberOfData(array $values)
@@ -59,41 +96,8 @@ class Contact extends Model {
     }
 
     /**
-     * テーブルにデータを登録する
-     * @param array $values 登録する値
-     * @return bool|object アクセス、登録までできた場合object,失敗時はbool 
-     */
-    public function insert(array $values)
-    {
-        //execute後の判定を代入
-        $result = false;
-
-        //INSERT文のVALUESをステークホルダーで準備INSERT_FORM
-        $sql = INSERT_FORM;
-
-        //空データで、sql実行前
-        $stmt = $this->dbController->prepare($sql);
-
-        //セッションのデータをバインド
-        foreach ($values as $key => $value) {
-            $checkResult[] = array_key_exists($key, COLUMN_INFO_VALUES);
-            if (array_key_exists($key, COLUMN_INFO_VALUES)) {
-                if ('sex' === $key || 'age' === $key || 'blood_type' === $key || 'job' === $key || 'address1' === $key) {
-                    $stmt->bindValue(COLUMN_INFO_VALUES[$key], (int)$value, PDO::PARAM_INT); //int型にキャスト
-                } else {
-                    $stmt->bindValue(COLUMN_INFO_VALUES[$key], $value, PDO::PARAM_STR);
-                }
-            }
-        }
-
-        //DBへ登録
-        $result = $stmt->execute();
-        return $result;
-    }
-
-    /**
      * SELECTで検索
-     * @param  int $page 
+     * @param  int $page
      * @param  array $values 入力値
      * @return array 検索データ、検索数
      */
@@ -137,7 +141,7 @@ class Contact extends Model {
 
     /**
      * 詳細ページでの検索
-     * 
+     *
      */
     public function selectDetailContents(int $contact_no)
     {
@@ -209,7 +213,7 @@ class Contact extends Model {
             if ('mail' === $key && !empty($values['mail'])) {   //mailに入力がある場合
                 if (!empty($sqlStr)) {
                     $sqlStr .= ' AND';
-                } 
+                }
                 $sqlStr .= SELECT_CONTACT_LIST_MAIL;
             }
         }

@@ -90,7 +90,7 @@ $values = $confirmController->index();
                 <p>郵便番号</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($confirmController->concatenationZip($values['zip1'],$values['zip2']), ENT_QUOTES, "UTF-8"); ?></p>
+                <p><?php echo htmlspecialchars($confirmController->concatenationZip($values['zip1'], $values['zip2']), ENT_QUOTES, "UTF-8"); ?></p>
             </div>
         </div>
 

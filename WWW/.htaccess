@@ -5,7 +5,7 @@ Options -Indexes
 
 #topの初期表示ファイル
 DirectoryIndex index.php
- 
+
 #Basic認証
 SetEnvIf Request_URI '^/*' valid-url
 SetEnvIf Request_URI '^/_autholization/' !allow_page
@@ -19,7 +19,7 @@ AuthName 'IDとパスワードを入力してください。'
 <RequireAll>
   <RequireAny>
     Require env valid-url
-    Require valid-user  
+    Require valid-user
   </RequireAny>
 </RequireAll>
 
@@ -39,6 +39,7 @@ AuthName 'IDとパスワードを入力してください。'
   RewriteCond %{Request_URI} ^/admin/login
   RewriteCond %{Remote_Addr} !::1
   RewriteCond %{Remote_Addr} !192.168.48.1
+  RewriteCond %{Remote_Addr} !172.23.0.1
   RewriteCond %{Remote_Addr} !219.113.141.50
   RewriteCond %{Remote_Addr} !110.4.142.112
   RewriteRule ^(.*)$ – [F,L]
@@ -49,7 +50,7 @@ AuthName 'IDとパスワードを入力してください。'
 #  Require all denied
 #  Require ip ::1
 #</Files>
- 
+
 #リダイレクトする場合、ディレクトリ名は、redirectは使ってはいけない
 Redirect 301 /_redirects/ http://localhost:8888/_admin/index.php
 

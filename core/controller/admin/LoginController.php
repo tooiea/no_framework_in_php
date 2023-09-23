@@ -1,10 +1,16 @@
 <?php //検索コントローラ
 require_once(dirname(__FILE__).'/../../model/Administrator.php');
-require_once(dirname(__FILE__).'/../../validation/FormValidator.php');
+require_once(dirname(__FILE__).'/../../validation/AdminFormValidator.php');
 require_once(dirname(__FILE__).'/../../const/sql.php');
 require_once(dirname(__FILE__).'/../../const/message.php');
 
 class LoginController {
+
+    // 表示用エラー時メッセージ
+    private $msg;
+
+    // 表示用バリデーションエラーメッセージ
+    private $errorMsg;
 
     /**
      * ログインチェック
@@ -13,8 +19,6 @@ class LoginController {
      */
     public function index()
     {
-        $values = [];      //入力チェック用配列
-        $errorMsg = [];    //入力チェック後のエラーメッセージ
         $msg = [];         //画面切り替え時のメッセージ
         $administrators = '';     //DBアクセス用インスタンス変数
 
@@ -23,9 +27,11 @@ class LoginController {
                 $values = $_POST;
                 try {
                     unset($values['submit']); //入力チェックする前に、submitの削除
-                    $errorMsg = $this->checkIDPASS($values); //入力チェック
+                    $validator = new AdminFormValidator();
+                    $validator->checkUserPassword($values); //入力チェック
+                    $this->errorMsg = $validator->getErrorMsgs();
 
-                    if (empty($errorMsg)) {    //入力チェックがOKの場合
+                    if (empty($this->errorMsg)) {    //入力チェックがOKの場合
                         //管理用テーブルへアクセス
                         $administrators = new Administrator(
                             PDO_ACCESS_PHP_STUDY,
@@ -60,69 +66,31 @@ class LoginController {
                 }
 
                 //入力内容とDBでの検索結果、問題なければログイン
-                if (empty($errorMsg) && empty($msg)) {
+                if (empty($this->errorMsg) && empty($this->msg)) {
                     header('Location: /admin/list');
                     exit;
                 }
             }
         }
-        //画面側に表示を返す（何らかのエラーがある場合）
-        return [$errorMsg, $msg];
     }
 
     /**
-     * チェック後の値で、DBで検索する
-     * 
-     * @param  array $values
-     * @return array エラーメッセージ
+     * テンプレート表示用入力値を取得
+     *
+     * @return array
      */
-    public function checkIDPASS(array $values)
+    public function getMessage()
     {
-        $errorMsg = [];
-        $errorMsg = $this->nullCheck($values);
-        if (empty($errorMsg)) { //nullチェック
-            $errorMsg = $this->checkDigit($values);
-        }
-        return $errorMsg;
+        return $this->msg;
     }
 
     /**
-     * 桁数チェック
-     * 
-     * @param  array $values 入力値
-     * @return array エラーメッセージ
+     * エラーメッセージ取得
+     *
+     * @return array
      */
-    public function checkDigit(array $values)
+    public function getErrorMsg()
     {
-        $errorMsg = [];
-        $validator = new FormValidator();
-        foreach ($values as $value) {
-            if ($validator->checkDigitStr($value, CHECK_NUMBER_DIGIT_255)) {
-                $errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
-                continue;
-            }
-        }
-        return $errorMsg;
-    }
-
-    /**
-     * ログインIDとパスワードが未入力でないかをチェック
-     * 
-     * @param  array $values 入力データ
-     * @return array エラーメッセージ
-     */
-    public function nullCheck(array $values)
-    {
-        $errorMsg = [];
-        foreach ($values as $key => $value) {
-            if ($this->isEmpty($value)) {
-                if ('login_id' === $key) {
-                    $errorMsg[$key] = NOT_INPUT_LOGINID;
-                } else {
-                    $errorMsg[$key] = NOT_INPUT_PASSWORD;
-                }
-            }
-        }
-        return $errorMsg;
+        return $this->errorMsg;
     }
 }

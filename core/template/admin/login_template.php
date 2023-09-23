@@ -1,10 +1,10 @@
 <?php
-require_once(dirname(__FILE__).'/../../controller/admin/LoginController.php'); //LoginController読み込み
+require_once(dirname(__FILE__).'/../../controller/admin/LoginController.php');
 
 $loginController = new LoginController();
-$result = $loginController->index();
-$errorMsg = $result[0];
-$msg = $result[1];
+$loginController->index();
+$errorMsg = $loginController->getErrorMsg();
+$msg = $loginController->getMessage();
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +43,7 @@ $msg = $result[1];
                 <button type="submit" name="submit" value="<?php echo CHECK_ADMIN_LOGIN; ?>">ログイン</button>
             </div>
         </form>
-        
+
         <!-- エラー発生時 -->
         <?php else: ?>
             <div class="item">
