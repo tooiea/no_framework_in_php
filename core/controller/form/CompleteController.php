@@ -24,7 +24,7 @@ class CompleteController extends Controller {
             // DB登録
             $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);
             $contact = new Contact(
-                PDO_ACCESS_PHP_STUDY,
+                DB_ACCESS_INFO,
                 USER_NAME, PASSWORD,
                 [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]
             );

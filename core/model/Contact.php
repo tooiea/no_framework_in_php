@@ -60,7 +60,7 @@ class Contact extends Model {
      * 検索する対象のデータ件数を取得
      *
      * @param  array $values 入力値
-     * @return int データ件数
+     * @return integer データ件数
      */
     public function checkNumberOfData(array $values)
     {
@@ -71,7 +71,7 @@ class Contact extends Model {
         if (empty($sqlWhereCondition)) {
             $sql = SELECT_CONTACT_LIST_CHECK_NUMBER_OF_DATA;
         } else {
-            $sql = 'SELECT COUNT(*) FROM contacts WHERE' . $sqlWhereCondition . ';';
+            $sql = "SELECT COUNT(*) FROM contacts WHERE $sqlWhereCondition;";
         }
 
         //空データで、sql実行前
@@ -97,9 +97,10 @@ class Contact extends Model {
 
     /**
      * SELECTで検索
-     * @param  int $page
+     *
+     * @param  integer $page
      * @param  array $values 入力値
-     * @return array 検索データ、検索数
+     * @return mixed 検索データ、検索数
      */
     public function select(int $page, array $values = [])
     {
@@ -142,6 +143,8 @@ class Contact extends Model {
     /**
      * 詳細ページでの検索
      *
+     * @param  integer $contact_no
+     * @return mixed
      */
     public function selectDetailContents(int $contact_no)
     {
@@ -161,12 +164,13 @@ class Contact extends Model {
 
     /**
      * 検索用ワードに分割
-     * @param array $values 入力値
+     *
+     * @param  array $values 入力値
      * @return array bind用値に変換
      */
-    public function convertData(array $values)
+    private function convertData(array $values)
     {
-        //初期値を空とする
+        // 初期値を空とする
         $convertedValue = [
             'name' => '',
             'kana' => '',
@@ -194,8 +198,9 @@ class Contact extends Model {
 
     /**
      * 検索時のSQL文のWHERE条件を選択
-     * @param array $values 入力値
-     * @return string　入力値から選択されたSQL文
+     *
+     * @param  array $values 入力値
+     * @return string 入力値から選択されたSQL文
      */
     public function checkSelectContents(array $values)
     {
@@ -222,10 +227,11 @@ class Contact extends Model {
 
     /**
      * 表示したいページ数に対して、SQL文のLIMIT,OFFSET条件を選択
-     * @param int $page
+     *
+     * @param  integer $page
      * @return string LIMIT、OFFSETのSQL文を返す
      */
-    public function checkOffsetSql(int $page)
+    private function checkOffsetSql(int $page)
     {
         $offset = array();
         $offset['offsetValue'] = ($page -1 ) * DISPLAY_IN_PAGE;

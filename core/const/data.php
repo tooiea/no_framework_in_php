@@ -119,7 +119,7 @@ const CHECK_SUBMIT_FORM = 'form_submit';
 const CHECK_SUBMIT_CONFIRM_BACK = 'confirm_back';
 const CHECK_SUBMIT_CONFIRM_NEXT = 'confirm_next';
 const CHECK_ADMIN_LOGIN = 'login_admin';
-const SEARCH_CONTACT_LIST = 'serch_list';
+const SEARCH_CONTACT_LIST = 'search_list';
 
 //セッション内のキー存在チェック用
 const KEY_LIST = [

@@ -76,13 +76,20 @@ class Controller {
      */
     public function removeKey(array $values)
     {
-        $removedKeyValues = array();
+        $keys = [
+            'contact_no',
+            'page_id',
+            'name',
+            'kana',
+            'mail'
+        ];
+        $returnValues = [];
         foreach ($values as $key => $value) {
-            if ('contact_no' === $key || 'page_id' === $key || 'name' === $key || 'kana' === $key || 'mail' === $key) {
-                $removedKeyValues[$key] = $value;
+            if (in_array($key, $keys) && !empty($value)) {
+                $returnValues[$key] = $value;
             }
         }
-        return $removedKeyValues;
+        return $returnValues;
     }
 
     /**

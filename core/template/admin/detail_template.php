@@ -23,7 +23,6 @@ $result = $detailController->index();
         <hr>
 
         <?php if (empty($result['msg'])) :?>
-        <!-- お問い合わせNo -->
         <div class="item conf">
             <div class="label">
                 <p>お問い合わせNO</p>
@@ -33,7 +32,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 名前 -->
         <div class="item conf">
             <div class="label">
                 <p>お名前</p>
@@ -43,7 +41,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- フリガナ -->
         <div class="item conf">
             <div class="label">
                 <p>フリガナ</p>
@@ -53,7 +50,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 性別 -->
         <div class="item conf">
             <div class="label">
                 <p>性別</p>
@@ -65,7 +61,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 年齢 -->
         <div class="item conf">
             <div class="label">
                 <p>年齢</p>
@@ -77,7 +72,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 血液型 -->
         <div class="item conf">
             <div class="label">
                 <p>血液型</p>
@@ -89,7 +83,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 職業 -->
         <div class="item conf">
             <div class="label">
                 <p>職業</p>
@@ -101,7 +94,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 郵便番号 -->
         <div class="item conf">
             <div class="label">
                 <p>郵便番号</p>
@@ -111,7 +103,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 住所 -->
         <div class="item conf">
             <div class="label">
                 <p>住所</p>
@@ -123,7 +114,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- ビル・マンション名 -->
         <div class="item conf">
             <div class="label">
                 <p>ビル・マンション名</p>
@@ -137,7 +127,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 電話番号 -->
         <div class="item conf">
             <div class="label">
                 <p>電話番号</p>
@@ -147,7 +136,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- メールアドレス -->
         <div class="item conf">
             <div class="label">
                 <p>メールアドレス</p>
@@ -157,7 +145,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- カテゴリー -->
         <div class="item">
             <div class="label">
                 <p>興味のあるカテゴリー</p>
@@ -171,7 +158,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- お問い合わせ内容 -->
         <div class="item">
             <div class="label">
                 <p>お問い合わせ内容</p>
@@ -181,7 +167,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- お問い合わせ時期 -->
         <div class="item">
             <div class="label">
                 <p>お問い合わせ時期</p>
@@ -192,7 +177,6 @@ $result = $detailController->index();
             </div>
         </div>
 
-        <!-- 戻るボタン -->
         <div class="btn_group">
             <form action='/admin/list' method="GET">
                 <button type="submit" name="submit" class="return btn" value="<?php echo CHECK_SUBMIT_CONFIRM_BACK; ?>">戻る</button>
@@ -204,7 +188,6 @@ $result = $detailController->index();
             </form>
         </div>
 
-        <!-- エラーメッセージがあった場合 -->
         <?php else:?>
             <p class="errorMsg"><?php echo htmlspecialchars($result['msg'], ENT_QUOTES, 'UTF-8');?></p>
             <div class="errorMsg submit">

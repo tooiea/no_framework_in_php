@@ -19,7 +19,7 @@ class LoginController {
      */
     public function index()
     {
-        $msg = [];         //画面切り替え時のメッセージ
+        $this->msg = [];         //画面切り替え時のメッセージ
         $administrators = '';     //DBアクセス用インスタンス変数
 
         if ("POST" === $_SERVER['REQUEST_METHOD']) {    //postリクエストか
@@ -34,7 +34,7 @@ class LoginController {
                     if (empty($this->errorMsg)) {    //入力チェックがOKの場合
                         //管理用テーブルへアクセス
                         $administrators = new Administrator(
-                            PDO_ACCESS_PHP_STUDY,
+                            DB_ACCESS_INFO,
                             USER_NAME,
                             PASSWORD,
                             [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]
@@ -45,24 +45,26 @@ class LoginController {
                         //select文実行
                         $data = $administrators->select($values);
 
-                        if ($data) {    //検索ヒット
-                            if (!password_verify($values['password'], $data['password'])) { //入力値のハッシュ化された値をDB内のハッシュ化された値と比較する
-                                $errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
+                        // ユーザあり
+                        if ($data) {
+                            //入力値のハッシュ化された値をDB内のハッシュ化された値と比較する
+                            if (!password_verify($values['password'], $data['password'])) {
+                                $this->errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
                             } else {    //パスワードが一致
                                 $administrators->update($values); //ログイン日時の更新
                                 $administrators->commit();
                                 $_SESSION['login_id'] = $values['login_id'];
                             }
-                        } else {    //検索ヒットなし
-                            $errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
+                        } else {
+                            $this->errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
                         }
                     }
                 } catch (PDOEXception $pdo) {
                     // ロールバック実行
                     $administrators->rollback();
-                    $msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
+                    $this->msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
                 } catch (Exception $ex) {
-                    $msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
+                    $this->msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
                 }
 
                 //入力内容とDBでの検索結果、問題なければログイン

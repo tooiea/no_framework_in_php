@@ -9,7 +9,7 @@ class DetailController extends Controller {
 
     /**
      * GETで渡されたクエリパラメータを取得する
-     * 
+     *
      * @return array 表示用データを渡す
      */
     public function index()
@@ -17,55 +17,57 @@ class DetailController extends Controller {
         //テンプレートへ返す配列変数
         $result = [];
 
-        if (isset($_SESSION['login_id'])) {
-            //セッションあり
-            try {
-                if (!isset($result['queryValues']['contact_no']) || !is_numeric($result['queryValues']['contact_no'])) {
-                    //contact_noが存在しない or 数値でない場合
-                    $result['msg'] = NOT_FOUND_CONTACT_NO;
-                } else {
-                    $administrators = new Administrator(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
-                    $isUser = $administrators->checkUser($_SESSION['login_id']);
 
-                    //存在しているユーザかチェック
-                    if (!$isUser) {
-                        header('Location: /admin/login');
-                        exit;
-                    } else {
-                        //クエリパラメータ(戻す用でセット)
-                        parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
-
-                        //不要なキー削除
-                        $result['queryValues'] = $this->removeKey($result['queryValues']);
-
-                        // 詳細データ取得
-                        $contactInfo = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
-                        $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
-                        
-                        if (!$data) {
-                            //検索後、データがない場合
-                            $result['msg'] = NOT_FOUND_CONTACT_NO;
-                        } else {
-                            //表示用に変換
-                            $result['displayValues'] = $this->convertCategory($data);
-                        }
-                    }
-                } 
-            } catch (PDOEXception $pdo) {
-                $result['msg'] = SERVER_ERROR_COMMENT;
-            } catch (Exception $ex) {
-                $result['msg'] = SERVER_ERROR_COMMENT;
-            }
-        } else {
+        //セッションなし
+        if (!isset($_SESSION['login_id'])) {
             header('Location: /admin/login');
             exit;
         }
+
+        try {
+            //クエリパラメータ(戻す用でセット)
+            parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
+
+            //contact_noが存在しない or 数値でない場合
+            if (!isset($result['queryValues']['contact_no']) || !is_numeric($result['queryValues']['contact_no'])) {
+                $result['msg'] = NOT_FOUND_CONTACT_NO;
+            } else {
+                $administrators = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
+                $isUser = $administrators->checkUser($_SESSION['login_id']);
+
+                //存在しているユーザかチェック
+                if (!$isUser) {
+                    header('Location: /admin/login');
+                    exit;
+                } else {
+                    //不要なキー削除
+                    $result['queryValues'] = $this->removeKey($result['queryValues']);
+
+                    // 詳細データ取得
+                    $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
+                    $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
+
+                    if (!$data) {
+                        //検索後、データがない場合
+                        $result['msg'] = NOT_FOUND_CONTACT_NO;
+                    } else {
+                        //表示用に変換
+                        $result['displayValues'] = $this->convertCategory($data);
+                    }
+                }
+            }
+        } catch (PDOEXception $pdo) {
+            $result['msg'] = SERVER_ERROR_COMMENT;
+        } catch (Exception $ex) {
+            $result['msg'] = SERVER_ERROR_COMMENT;
+        }
+
         return $result;
     }
 
     /**
      * DBに登録されているカテゴリーの文字列を配列に変換
-     * 
+     *
      * @param  array $values クエリパラメータの配列
      * @return array カテゴリーの値を変換した後の配列
      */

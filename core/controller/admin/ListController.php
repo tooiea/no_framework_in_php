@@ -17,49 +17,52 @@ class ListController extends Controller {
         $result = [];  //テンプレートへ返す配列変数
 
         //セッション存在チェック
-        if (isset($_SESSION['login_id'])) {
-            try {
-                //管理者用テーブルへアクセス
-                $administrators = new Administrator(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
-                $isUser = $administrators->checkUser($_SESSION['login_id']);
-
-                //存在しているユーザかチェック
-                if (!$isUser) {
-                    header('Location: /admin/login');
-                    exit;
-                } else {
-                    //クエリパラメータ(戻す用でセット)
-                    parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
-
-                    //表示ページ取得
-                    $result['page'] = $this->checkPage($result['queryValues']);
-
-                    //不要なキー削除とカナの変換
-                    $result['queryValues'] = $this->convertKana($this->removeKey($result['queryValues']));
-            
-                    //contact_noのダブりを防ぐため一旦クリア
-                    if (isset($_GET['submit']) && CHECK_SUBMIT_CONFIRM_BACK === $_GET['submit'] && isset($result['queryValues']['contact_no'])) {
-                        unset($result['queryValues']['contact_no']);
-                    }
-
-                    $contactInfo = new Contact(PDO_ACCESS_PHP_STUDY, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
-                    $result['countData'] = $contactInfo->checkNumberOfData($result['queryValues']); //検索件数
-
-                    if (empty($result['countData'])) {
-                        //検索結果が0の場合
-                        $result['msg'] = NOT_FOUND_DATA;
-                    } else {
-                        $result['displayData'] = $contactInfo->select($result['page'], $result['queryValues']); //検索データ
-                    }
-                }
-            } catch (PDOEXception $pdo) {
-                $result['msg'] = SERVER_ERROR_COMMENT;
-            } catch (Exception $ex) { // PDO以外の例外処理
-                $result['msg'] = SERVER_ERROR_COMMENT;
-            }
-        } else {
+        if (!isset($_SESSION['login_id'])) {
+            $_SESSION = [];
             header('Location: /admin/login');
             exit;
+        }
+
+        try {
+            //管理者用テーブルへアクセス
+            $administrators = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
+            $isUser = $administrators->checkUser($_SESSION['login_id']);
+
+            //存在しているユーザかチェック
+            if (!$isUser) {
+                header('Location: /admin/login');
+                exit;
+            } else {
+                //クエリパラメータを取得しセット
+                parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
+
+                //表示ページ取得
+                $result['page'] = $this->checkPage($result['queryValues']);
+
+                //不要なキー削除とカナの変換
+                $result['queryValues'] = $this->convertKana($this->removeKey($result['queryValues']));
+
+                //contact_noのダブりを防ぐため一旦クリア
+                if (isset($_GET['submit']) && CHECK_SUBMIT_CONFIRM_BACK === $_GET['submit'] && isset($result['queryValues']['contact_no'])) {
+                    unset($result['queryValues']['contact_no']);
+                }
+
+                 // 検索件数取得
+                $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
+                $result['countData'] = $contactInfo->checkNumberOfData($result['queryValues']);
+
+                // 検索結果が0の場合
+                if (empty($result['countData'])) {
+                    $result['msg'] = NOT_FOUND_DATA;
+                } else {
+                    // データ取得
+                    $result['displayData'] = $contactInfo->select($result['page'], $result['queryValues']);
+                }
+            }
+        } catch (PDOEXception $pdo) {
+            $result['msg'] = SERVER_ERROR_COMMENT;
+        } catch (Exception $ex) { // PDO以外の例外処理
+            $result['msg'] = SERVER_ERROR_COMMENT;
         }
         return $result;
     }
@@ -69,7 +72,7 @@ class ListController extends Controller {
      * @param  array $values 入力値
      * @return array
      */
-    public function convertKana(array $values)
+    private function convertKana(array $values)
     {
         if (!empty($values['kana'])) {
             $values['kana'] = mb_convert_kana($values['kana'], 'KC');
@@ -82,7 +85,7 @@ class ListController extends Controller {
      * @param  array $values クエリパラメータ
      * @return int ページ数
      */
-    public function checkPage(array $values)
+    private function checkPage(array $values)
     {
         // 初期値
         $page = 1;

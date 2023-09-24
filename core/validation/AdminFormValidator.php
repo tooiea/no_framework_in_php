@@ -18,9 +18,9 @@ class AdminFormValidator extends BaseValidator {
      */
     public function checkUserPassword(array $values)
     {
-        $this->errorMsg[] = $this->nullCheck($values);
+        $this->errorMsg = $this->nullCheck($values);
         if (empty($this->errorMsg)) {
-            $this->errorMsg[] = $this->checkDigit($values);
+            $this->errorMsg = $this->checkDigit($values);
         }
     }
 

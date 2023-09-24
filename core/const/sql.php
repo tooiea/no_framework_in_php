@@ -6,7 +6,7 @@ const TABLE_CONTACT = 'contacts ';
 const TABLE_ADMIN = 'administrators';
 const USER_NAME = 'root';
 const PASSWORD = 'root';
-const PDO_ACCESS_PHP_STUDY = 'mysql:dbname=assignment;host=assignment_db;charset=utf8';
+const DB_ACCESS_INFO = 'mysql:dbname=assignment;host=assignment_db;charset=utf8';
 
 //バインド用
 const COLUMN_INFO_VALUES = [
