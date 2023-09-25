@@ -38,21 +38,21 @@ class DetailController extends Controller {
                 if (!$isUser) {
                     header('Location: /admin/login');
                     exit;
+                }
+
+                //不要なキー削除
+                $result['queryValues'] = $this->removeKey($result['queryValues']);
+
+                // 詳細データ取得
+                $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
+                $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
+
+                if (!$data) {
+                    //検索後、データがない場合
+                    $result['msg'] = NOT_FOUND_CONTACT_NO;
                 } else {
-                    //不要なキー削除
-                    $result['queryValues'] = $this->removeKey($result['queryValues']);
-
-                    // 詳細データ取得
-                    $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
-                    $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
-
-                    if (!$data) {
-                        //検索後、データがない場合
-                        $result['msg'] = NOT_FOUND_CONTACT_NO;
-                    } else {
-                        //表示用に変換
-                        $result['displayValues'] = $this->convertCategory($data);
-                    }
+                    //表示用に変換
+                    $result['displayValues'] = $this->convertCategory($data);
                 }
             }
         } catch (PDOEXception $pdo) {
