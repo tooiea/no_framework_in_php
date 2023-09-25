@@ -22,8 +22,15 @@ class LoginController {
         $this->msg = [];         //画面切り替え時のメッセージ
         $administrators = '';     //DBアクセス用インスタンス変数
 
-        if ("POST" === $_SERVER['REQUEST_METHOD']) {    //postリクエストか
-            if (isset($_POST['submit']) && 'login_admin' == $_POST['submit']) { //submitのリクエストか
+        // ログイン認証済み
+        if (isset($_SESSION['login_id'])) {
+            header('Location: /admin/list');
+            exit;
+        }
+
+        if ("POST" === $_SERVER['REQUEST_METHOD']) {
+            // ログイン処理
+            if (isset($_POST['submit']) && CHECK_ADMIN_LOGIN == $_POST['submit']) {
                 $values = $_POST;
                 try {
                     unset($values['submit']); //入力チェックする前に、submitの削除
@@ -47,13 +54,15 @@ class LoginController {
 
                         // ユーザあり
                         if ($data) {
-                            //入力値のハッシュ化された値をDB内のハッシュ化された値と比較する
-                            if (!password_verify($values['password'], $data['password'])) {
-                                $this->errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
-                            } else {    //パスワードが一致
+                            // パスワードをハッシュ化されたものと比較
+                            if (password_verify($values['password'], $data['password'])) {
                                 $administrators->update($values); //ログイン日時の更新
                                 $administrators->commit();
+
+                                // 各ページで認証チェックをするため、セッションにlogin_idをセット
                                 $_SESSION['login_id'] = $values['login_id'];
+                            } else {
+                                $this->errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
                             }
                         } else {
                             $this->errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
@@ -62,9 +71,11 @@ class LoginController {
                 } catch (PDOEXception $pdo) {
                     // ロールバック実行
                     $administrators->rollback();
-                    $this->msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
+                    $this->msg[0] = ERROR_MESSAGE;
+                    $this->msg[1]= SERVER_ERROR_COMMENT;
                 } catch (Exception $ex) {
-                    $this->msg = array(ERROR_MESSAGE, SERVER_ERROR_COMMENT);
+                    $this->msg[0] = ERROR_MESSAGE;
+                    $this->msg[1]= SERVER_ERROR_COMMENT;
                 }
 
                 //入力内容とDBでの検索結果、問題なければログイン

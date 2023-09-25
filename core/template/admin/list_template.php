@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__).'/../../controller/admin/ListController.php');
-require_once(dirname(__FILE__).'/../../const/data.php');
+require_once(dirname(__FILE__).'/../../const/common_const.php');
 
 $listController = new ListController();
 $result = $listController->index(); //現在のページを渡す

@@ -1,6 +1,6 @@
 <?php
 
-//開発or本番モードの切り替え用フラグ
+// 開発or本番モードの切り替え用フラグ
 const MODE = 'PRODUCTION';
 
 // 性別リスト
@@ -102,26 +102,26 @@ const CATEGORY_LIST = [
     8 => 'その他'
 ];
 
-//バリデーション用（桁数チェック）
+// バリデーション用（桁数チェック）
 const CHECK_NUMBER_DIGIT_3 = 3;
 const CHECK_NUMBER_DIGIT_4 = 4;
 const CHECK_NUMBER_DIGIT_5 = 5;
 const CHECK_NUMBER_DIGIT_255 = 255;
 
-//返信メールフォーマット用
+// 返信メールフォーマット用
 const SUBJECT_TO_CUSTOMER = '[un-T system]お問い合わせありがとうございました。';
 const SUBJECT_TO_ADMINISTRATOR = '[un-T system]お問い合わせがありました。';
 const ADDRESS_TO_ADMINISTRATOR = 't-watanabe@un-t.com';
 const ADDRESS_MAIL_HEADER = 'From: t-watanabe@un-t.com';
 
-//submitチェック用
+// submitチェック用
 const CHECK_SUBMIT_FORM = 'form_submit';
 const CHECK_SUBMIT_CONFIRM_BACK = 'confirm_back';
 const CHECK_SUBMIT_CONFIRM_NEXT = 'confirm_next';
 const CHECK_ADMIN_LOGIN = 'login_admin';
 const SEARCH_CONTACT_LIST = 'search_list';
 
-//セッション内のキー存在チェック用
+// セッション内のキー存在チェック用
 const KEY_LIST = [
     1 => 'name1',
     2 => 'name2',
@@ -145,5 +145,5 @@ const KEY_LIST = [
     20 => 'info'
 ];
 
-//ページャーページ表示数
-define('DISPLAY_IN_PAGE', '5');
+// 1ページ表示数(ページャー設定)
+const DISPLAY_IN_PAGE = 5;

@@ -16,7 +16,7 @@ class ListController extends Controller {
     {
         $result = [];  //テンプレートへ返す配列変数
 
-        //セッション存在チェック
+        // ログイン認証されていない
         if (!isset($_SESSION['login_id'])) {
             $_SESSION = [];
             header('Location: /admin/login');
@@ -28,37 +28,37 @@ class ListController extends Controller {
             $administrators = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
             $isUser = $administrators->checkUser($_SESSION['login_id']);
 
-            //存在しているユーザかチェック
+            // 存在しているユーザかチェック
             if (!$isUser) {
                 header('Location: /admin/login');
                 exit;
-            } else {
-                //クエリパラメータを取得しセット
-                parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
-
-                //表示ページ取得
-                $result['page'] = $this->checkPage($result['queryValues']);
-
-                //不要なキー削除とカナの変換
-                $result['queryValues'] = $this->convertKana($this->removeKey($result['queryValues']));
-
-                //contact_noのダブりを防ぐため一旦クリア
-                if (isset($_GET['submit']) && CHECK_SUBMIT_CONFIRM_BACK === $_GET['submit'] && isset($result['queryValues']['contact_no'])) {
-                    unset($result['queryValues']['contact_no']);
-                }
-
-                 // 検索件数取得
-                $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
-                $result['countData'] = $contactInfo->checkNumberOfData($result['queryValues']);
-
-                // 検索結果が0の場合
-                if (empty($result['countData'])) {
-                    $result['msg'] = NOT_FOUND_DATA;
-                } else {
-                    // データ取得
-                    $result['displayData'] = $contactInfo->select($result['page'], $result['queryValues']);
-                }
             }
+
+            // クエリパラメータを取得しセット
+            parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
+
+            // 表示ページ取得
+            $result['page'] = $this->checkPage($result['queryValues']);
+
+            // 不要なキー削除とカナの変換
+            $result['queryValues'] = $this->convertKana($this->removeKey($result['queryValues']));
+
+            // contact_noのダブりを防ぐため一旦リセット
+            if (isset($_GET['submit']) && CHECK_SUBMIT_CONFIRM_BACK === $_GET['submit'] && isset($result['queryValues']['contact_no'])) {
+                unset($result['queryValues']['contact_no']);
+            }
+
+            // 検索件数取得
+            $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
+            $result['countData'] = $contactInfo->checkNumberOfData($result['queryValues']);
+
+            // 検索した条件からデータなし
+            if (empty($result['countData'])) {
+                $result['msg'] = NOT_FOUND_DATA;
+            } else {
+                $result['displayData'] = $contactInfo->select($result['page'], $result['queryValues']);
+            }
+
         } catch (PDOEXception $pdo) {
             $result['msg'] = SERVER_ERROR_COMMENT;
         } catch (Exception $ex) { // PDO以外の例外処理

@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__) . '/../const/data.php');
+require_once(dirname(__FILE__) . '/../const/common_const.php');
 require_once(dirname(__FILE__) . '/../validation/BaseValidator.php');
 
 class AdminFormValidator extends BaseValidator {
@@ -18,7 +18,7 @@ class AdminFormValidator extends BaseValidator {
      */
     public function checkUserPassword(array $values)
     {
-        $this->errorMsg = $this->nullCheck($values);
+        $this->nullCheck($values);
         if (empty($this->errorMsg)) {
             $this->errorMsg = $this->checkDigit($values);
         }

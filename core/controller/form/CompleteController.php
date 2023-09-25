@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__).'/../../mail/SendMail.php');                 //SendMail.phpの読み込み
 require_once(dirname(__FILE__).'/../../controller/form/Controller.php');    //Controllerの読み込み
-require_once(dirname(__FILE__).'/../../const/data.php');                    //データ処理用定義ファイルの読み込み
+require_once(dirname(__FILE__).'/../../const/common_const.php');                    //データ処理用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../const/sql.php');                    //sql用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../const/message.php');                 //メッセージ用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベース登録用ファイルの読み込み

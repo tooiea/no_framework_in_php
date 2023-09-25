@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__).'/../../controller/form/Controller.php');    //controllerの読み込み
-require_once(dirname(__FILE__) . '/../../const/data.php');                  //定義用php
+require_once(dirname(__FILE__) . '/../../const/common_const.php');                  //定義用php
 
 class ConfirmController extends Controller {
 

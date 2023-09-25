@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__).'/../../const/data.php');
+require_once(dirname(__FILE__).'/../../const/common_const.php');
 require_once(dirname(__FILE__).'/../../controller/admin/DetailController.php');
 $detailController = new DetailController();
 $result = $detailController->index();

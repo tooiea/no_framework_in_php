@@ -1,7 +1,7 @@
 <?php
-require_once(dirname(__FILE__) . '/../../validation/FormValidator.php');           //バリデーション用ファイル
-require_once(dirname(__FILE__) . '/../../const/data.php');                      //定義用php
-require_once(dirname(__FILE__) . '/../../controller/form/Controller.php');      //controllerの読み込み
+require_once(dirname(__FILE__) . '/../../validation/FormValidator.php');
+require_once(dirname(__FILE__) . '/../../const/common_const.php');
+require_once(dirname(__FILE__) . '/../../controller/form/Controller.php');
 
 class InputController extends Controller {
 
@@ -11,10 +11,16 @@ class InputController extends Controller {
     // 表示用バリデーションエラーメッセージ
     private $errorMsg;
 
+    /**
+     * 初期表示
+     * POSTリクエスト(バリデーション、確認画面から戻り)
+     *
+     * @return void
+     */
     public function index()
     {
         if ("POST" === $_SERVER["REQUEST_METHOD"]) {
-            //formページで送信ボタンを押したとき
+            // 入力画面から
             if (isset($_POST['submit']) && CHECK_SUBMIT_FORM == $_POST['submit']) {
                 // 入力値を変換
                 $this->values = $this->convertStr($_POST);
@@ -38,9 +44,12 @@ class InputController extends Controller {
                     header("Location: /form/confirm/");
                     exit;
                 }
+
                 // 表示用エラーメッセージ取得
                 $this->errorMsg = $validator->getErrorMsgs();
-            } elseif(isset($_POST['submit']) && "confirm_back" == $_POST['submit']) { //confirmページから戻ってきたとき
+
+            } elseif (isset($_POST['submit']) && "confirm_back" == $_POST['submit']) {
+                // 確認画面からの戻り
                 $this->values = $_SESSION; //値を変換し表示用として代入
             }
         }

@@ -17,8 +17,7 @@ class DetailController extends Controller {
         //テンプレートへ返す配列変数
         $result = [];
 
-
-        //セッションなし
+        // ログイン認証されていない
         if (!isset($_SESSION['login_id'])) {
             header('Location: /admin/login');
             exit;

@@ -1,6 +1,7 @@
 <?php
 
 class BaseValidator {
+
     /**
      * エラーメッセージが含まれているかをチェック
      *
@@ -30,7 +31,7 @@ class BaseValidator {
         $result = false;
         if (is_null($value)) {
             $result = true;
-        } elseif ("" == $value) {
+        } elseif ("" === $value) {
             $result = true;
         }
         return $result;
@@ -90,10 +91,10 @@ class BaseValidator {
     /**
      * 半角→全角変換,半角チェック（数値）
      *
-     * @param  int $value formで入力された数字
+     * @param  mixed $value formで入力された数字
      * @return bool 判定と変換後の文字列
      */
-    public function checkRegexNum(int $value)
+    public function checkRegexNum(mixed $value)
     {
         $result = false;
         if (!preg_match('/^[0-9]+$/', $value)) {
@@ -120,11 +121,11 @@ class BaseValidator {
     /**
      * 桁数チェック（共通）
      *
-     * @param  string $value formで入力された文字列
+     * @param  mixed $value formで入力された文字列
      * @param  int $num 桁数チェック用の値
      * @return bool
      */
-    public function checkMaxDigit(string $value, int $num)
+    public function checkMaxDigit(mixed $value, int $num)
     {
         $result = false;
         if (mb_strlen($value) > $num) {
@@ -136,12 +137,12 @@ class BaseValidator {
     /**
      * テキスト [nullチェック＋桁チェック]のみ
      *
-     * @param  string $value formで入力された文字列
+     * @param  mixed $value formで入力された文字列
      * @param  int $num 桁数チェック用の値
      * @param  string $name 項目名
      * @return string エラーメッセージ
      */
-    public function checkText(string $value, int $num, string $name)
+    public function checkText(mixed $value, int $num, string $name)
     {
         $msg = "";
         if ($this->isEmpty($value)) {
@@ -165,9 +166,9 @@ class BaseValidator {
         $msg = "";
         if ($this->isEmpty($value)) {
             $msg = $name . "を入力してください。";
-        } else if ($this->checkMaxDigit($value, $num)) {
+        } elseif ($this->checkMaxDigit($value, $num)) {
             $msg = $name . "を正しく入力してください。";
-        } else if ($this->checkRegexKana($value)) {
+        } elseif ($this->checkRegexKana($value)) {
             $msg = $name . "を正しく入力してください。";
         }
         return $msg;
@@ -186,7 +187,7 @@ class BaseValidator {
         $msg = "";
         if ($this->isEmpty($value)) {
             $msg = $name . "を選択してください。";
-        } else if ($this->isValueInList($value, $list)) {
+        } elseif ($this->isValueInList($value, $list)) {
             $msg = "画面から選択してください。";
         }
         return $msg;
@@ -205,7 +206,7 @@ class BaseValidator {
         $msg = "";
         if ($this->isUnselect($value)) {
             $msg = $name . "を選択してください。";
-        } else if ($this->isValueInList($value, $list)) {
+        } elseif ($this->isValueInList($value, $list)) {
             $msg = "画面から選択してください";
         }
         return $msg;
@@ -262,9 +263,9 @@ class BaseValidator {
         $msg = "";
         if ($this->isEmpty($value)) {
             $msg = $name . "を入力してください。";
-        } else if ($this->checkMaxDigit($value, $num)) {
+        } elseif ($this->checkMaxDigit($value, $num)) {
             $msg = $name . "を正しく入力してください。";
-        } else if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+        } elseif (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             $msg = $name . "を正しく入力してください。";
         }
         return $msg;
