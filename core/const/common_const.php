@@ -1,7 +1,7 @@
 <?php
 
 // 開発or本番モードの切り替え用フラグ
-const MODE = 'PRODUCTION';
+const MODE = 'DEV';
 
 // 性別リスト
 const SEX_LIST = [

@@ -9,6 +9,11 @@ require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベー�
 
 class CompleteController extends Controller {
 
+    /**
+     * 完了画面
+     *
+     * @return void
+     */
     public function index()
     {
         $msg = []; //テンプレート表示用変数
@@ -58,26 +63,25 @@ class CompleteController extends Controller {
 
                 //メール送信が失敗した場合、DB登録しないようにスローする
                 if (!$resultMail) {
-                    throw new Exception();
+                    throw new Exception;
                 }
             }
-
             // メール送信完了後にコミット
             $contact->commit();
+
+            // postクリア
+            $_POST = [];
+            //完了用メッセージを渡す
+            $msg['header'] = RECEPTION_COMPLETED;
+            $msg['body'] = MESSAGE_AFTER_COMPLETED;
         } catch (PDOEXception $ex) {
             $contact->rollBack();
             $msg['header'] = ERROR_MESSAGE;
             $msg['body'] = SERVER_ERROR_COMMENT;
-        } catch (EXception $ex) { //メール送信・他例外
+        } catch (Exception $ex) { //メール送信・他例外
             $msg['header'] = ERROR_MESSAGE;
             $msg['body'] = SERVER_ERROR_COMMENT;
         }
-
-        //コミット後
-        $_POST = [];    //セッションクリア
-        $msg['header'] = RECEPTION_COMPLETED; //完了用メッセージを渡す
-        $msg['body'] = MESSAGE_AFTER_COMPLETED;
-
         return $msg;
     }
 
@@ -100,7 +104,7 @@ class CompleteController extends Controller {
                 if (isset($values['category'])) {
                     $convertValues['category'] = implode(',', $values['category']);
                 }
-            }  else {
+            } else {
                 $convertValues[$key] = $values[$key];
             }
         }

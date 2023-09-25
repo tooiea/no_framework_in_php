@@ -45,6 +45,8 @@ RUN dnf install -y epel-release\
     php-pecl-xdebug\
     # postfixのインストール
     postfix\
+    sendmail\
+    mailx\
     && dnf -y install mailx \
     && dnf clean all \
     && rm -rf /var/cache/*
