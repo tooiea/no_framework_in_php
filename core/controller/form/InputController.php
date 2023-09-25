@@ -41,7 +41,7 @@ class InputController extends Controller {
                     foreach ($this->values as $key =>$value) {
                         $_SESSION[$key] = $value;
                     }
-                    header("Location: /form/confirm/");
+                    header("Location: /form/confirm/", true, 307);
                     exit;
                 }
 
