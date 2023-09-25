@@ -64,6 +64,11 @@ class CompleteController extends Controller {
 
             // メール送信完了後にコミット
             $contact->commit();
+
+            //コミット後
+            $_SESSION = [];    //セッションクリア
+            $msg['header'] = RECEPTION_COMPLETED; //完了用メッセージを渡す
+            $msg['body'] = MESSAGE_AFTER_COMPLETED;
         } catch (PDOEXception $ex) {
             $contact->rollBack();
             $msg['header'] = ERROR_MESSAGE;
@@ -72,12 +77,6 @@ class CompleteController extends Controller {
             $msg['header'] = ERROR_MESSAGE;
             $msg['body'] = SERVER_ERROR_COMMENT;
         }
-
-        //コミット後
-        $_SESSION = [];    //セッションクリア
-        $msg['header'] = RECEPTION_COMPLETED; //完了用メッセージを渡す
-        $msg['body'] = MESSAGE_AFTER_COMPLETED;
-
         return $msg;
     }
 
