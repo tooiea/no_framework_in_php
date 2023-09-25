@@ -34,14 +34,8 @@ class InputController extends Controller {
 
                 // バリデーションエラーなし、不正な入力なし
                 if ($isVerified || !$this->isInListValue($this->values)) {
-                    // SESSION化する前に、submitの削除とセッションの中身をリセット
-                    unset($this->values["submit"]);
-
-                    // セッションに再セット
-                    foreach ($this->values as $key =>$value) {
-                        $_SESSION[$key] = $value;
-                    }
-                    header("Location: /form/confirm/");
+                    // 強制的にPOSTで送信する
+                    header("Location: /form/confirm/", true, 307);
                     exit;
                 }
 
@@ -50,7 +44,7 @@ class InputController extends Controller {
 
             } elseif (isset($_POST['submit']) && "confirm_back" == $_POST['submit']) {
                 // 確認画面からの戻り
-                $this->values = $_SESSION; //値を変換し表示用として代入
+                $this->values = $_POST; //値を変換し表示用として代入
             }
         }
     }

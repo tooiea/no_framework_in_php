@@ -23,7 +23,7 @@ $errorMsg = $inputController->getErrorMsg();
                 <label for="name1" class="label">お名前：姓<span>*</span></label>
                 <div class="inputs">
                     <input type="text" name="name1" id="name1" value="<?php if (isset($values['name1'])) {
-                                                                        echo htmlspecialchars($values['name1'],ENT_QUOTES,"UTF-8");
+                                                                        echo htmlspecialchars($values['name1'], ENT_QUOTES, "UTF-8");
                                                                     } ?>">
                     <?php if (isset($errorMsg['name1']) && "" != $errorMsg['name1']):?>
                         <p class="error_msg"><?php echo $errorMsg['name1'] ?></p>
@@ -35,7 +35,7 @@ $errorMsg = $inputController->getErrorMsg();
                 <label for="name2" class="label">お名前：名<span>*</span></label>
                 <div class="inputs">
                     <input type="text" name="name2" id="name2" value="<?php if (isset($values['name2'])) {
-                                                                        echo htmlspecialchars($values['name2'],ENT_QUOTES,"UTF-8");
+                                                                        echo htmlspecialchars($values['name2'], ENT_QUOTES, "UTF-8");
                                                                     } ?>">
                     <?php if (isset($errorMsg['name2']) && "" != $errorMsg['name2']):?>
                         <p class="error_msg"><?php echo $errorMsg['name2'] ?></p>
@@ -47,7 +47,7 @@ $errorMsg = $inputController->getErrorMsg();
                 <label for="kana1" class="label">フリガナ：セイ<span>*</span></label>
                 <div class="inputs">
                     <input type="text" name="kana1" id="kana1" value="<?php if (isset($values['kana1'])) {
-                                                                        echo htmlspecialchars($values['kana1'],ENT_QUOTES,"UTF-8") ;
+                                                                        echo htmlspecialchars($values['kana1'], ENT_QUOTES, "UTF-8") ;
                                                                     } ?>">
                     <?php if (isset($errorMsg['kana1']) && "" != $errorMsg['kana1']):?>
                         <p class="error_msg"><?php echo $errorMsg['kana1'] ?></p>
@@ -59,7 +59,7 @@ $errorMsg = $inputController->getErrorMsg();
                 <label for="kana2" class="label">フリガナ：メイ<span>*</span></label>
                 <div class="inputs">
                     <input type="text" name="kana2" id="kana2" value="<?php if (isset($values['kana2'])) {
-                                                                        echo htmlspecialchars($values['kana2'],ENT_QUOTES,"UTF-8") ;
+                                                                        echo htmlspecialchars($values['kana2'], ENT_QUOTES, "UTF-8") ;
                                                                     } ?>">
                     <?php if (isset($errorMsg['kana2']) && "" != $errorMsg['kana2']):?>
                         <p class="error_msg"><?php echo $errorMsg['kana2'] ?></p>
@@ -71,12 +71,12 @@ $errorMsg = $inputController->getErrorMsg();
                 <label for="sex" class="label">性別<span>*</span></label>
                 <div class="inputs">
                     <?php foreach (SEX_LIST as $key => $value) : ?>
-                        <label><input type="radio" name="sex" id="sex" value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>"<?php if (isset($values['sex']) && $key == $values['sex']) echo 'checked' ?>><?php echo $value ?>
+                        <label><input type="radio" name="sex" id="sex" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>"<?php if (isset($values['sex']) && $key == $values['sex']) echo 'checked' ?>><?php echo $value ?>
                     <?php endforeach ?>
                         </label>
-                        <?php if (isset($errorMsg['sex']) && "" != $errorMsg['sex']) :?>
-                            <p class="error_msg"><?php echo $errorMsg['sex'] ?></p>
-                        <?php endif;?>
+                    <?php if (isset($errorMsg['sex']) && "" != $errorMsg['sex']) :?>
+                        <p class="error_msg"><?php echo $errorMsg['sex'] ?></p>
+                    <?php endif;?>
                 </div>
             </div>
 
@@ -86,7 +86,7 @@ $errorMsg = $inputController->getErrorMsg();
                     <select name="age" id="age" >
                         <option hidden>未選択</option>
                         <?php foreach (AGE_LIST as $key => $value) : ?>
-                            <option value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>" <?php if (isset($values['age']) && $key == $values['age']) echo 'selected' ?>><?php echo $value ?></option>
+                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['age']) && $key == $values['age']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
                     <?php if (isset($errorMsg['age']) && "" != $errorMsg['age']) :?>
@@ -99,9 +99,9 @@ $errorMsg = $inputController->getErrorMsg();
                 <label for="blood_type" class="label">血液型<span>*</span></label>
                 <div class="inputs">
                     <?php foreach (BLOOD_LIST as $key => $value) : ?>
-                        <label><input type="radio" name="blood_type" id="blood_type" value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>" <?php if (isset($values['blood_type']) && $key == $values['blood_type']) echo 'checked' ?>><?php echo $value ?></label>
+                        <label><input type="radio" name="blood_type" id="blood_type" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['blood_type']) && $key == $values['blood_type']) echo 'checked' ?>><?php echo htmlspecialchars($value, ENT_QUOTES, "UTF-8") ?></label>
                     <?php endforeach ?>
-                    <?php if (isset($errorMsg['blood_type']) && "" != $errorMsg['blood_type']):?>
+                    <?php if (isset($errorMsg['blood_type']) && "" != $errorMsg['blood_type']): ?>
                         <p class="error_msg"><?php echo $errorMsg['blood_type'] ?></p>
                     <?php endif;?>
                 </div>
@@ -113,7 +113,7 @@ $errorMsg = $inputController->getErrorMsg();
                     <select name="job" id="job">
                         <option hidden>未選択</option>
                         <?php foreach (JOB_LIST as $key => $value) : ?>
-                            <option value="<?php echo htmlspecialchars($key,ENT_QUOTES,"UTF-8") ?>"<?php if (isset($values['job']) && $key == $values['job']) echo 'selected' ?>><?php echo $value ?></option>
+                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>"<?php if (isset($values['job']) && $key == $values['job']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
                     <?php if (isset($errorMsg['job']) && "" != $errorMsg['job']) :?>

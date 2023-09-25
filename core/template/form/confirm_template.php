@@ -28,7 +28,7 @@ $values = $confirmController->index();
                 <p>お名前</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($confirmController->concatenationName($values['name1'],$values['name2']), ENT_QUOTES, "UTF-8"); ?></p>
+                <p><?php echo htmlspecialchars($confirmController->concatenationName($values['name1'], $values['name2']), ENT_QUOTES, "UTF-8"); ?></p>
             </div>
         </div>
 
@@ -37,7 +37,7 @@ $values = $confirmController->index();
                 <p>フリガナ</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($confirmController->concatenationName($values['kana1'],$values['kana2']), ENT_QUOTES, "UTF-8"); ?></p>
+                <p><?php echo htmlspecialchars($confirmController->concatenationName($values['kana1'], $values['kana2']), ENT_QUOTES, "UTF-8"); ?></p>
             </div>
         </div>
 
@@ -100,7 +100,7 @@ $values = $confirmController->index();
             </div>
             <div class="inputs">
                 <?php if (isset($values['address1']) && isset($values['address2'])) : ?>
-                    <p><?php echo htmlspecialchars($confirmController->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']), ENT_QUOTES, "UTF-8");  ?></p>
+                    <p><?php echo htmlspecialchars($confirmController->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']), ENT_QUOTES, "UTF-8"); ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -123,7 +123,7 @@ $values = $confirmController->index();
                 <p>電話番号</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($confirmController->concatenationTelnum($values['tel1'],$values['tel2'],$values['tel3']), ENT_QUOTES, "UTF-8") ?></p>
+                <p><?php echo htmlspecialchars($confirmController->concatenationTelnum($values['tel1'], $values['tel2'], $values['tel3']), ENT_QUOTES, "UTF-8") ?></p>
             </div>
         </div>
 
@@ -160,10 +160,28 @@ $values = $confirmController->index();
 
         <div class="btn_group">
             <form action="/form/" method="POST">
+                <?php foreach ($values as $key => $value): ?>
+                    <?php if ('category' === $key) : ?>
+                        <?php foreach ($value as $ckey => $cvalue): ?>
+                            <input type="hidden" name="<?php echo htmlspecialchars($key . '[]', ENT_QUOTES, "UTF-8") ?>" value="<?php echo htmlspecialchars($cvalue, ENT_QUOTES, "UTF-8") ?>">
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <input type="hidden" name="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, "UTF-8") ?>">
+                    <?php endif; ?>
+                <?php endforeach; ?>
                 <button type="submit" name="submit" class="return btn" value="<?php echo CHECK_SUBMIT_CONFIRM_BACK; ?>">戻る</button>
             </form>
 
             <form action="/form/complete/" method="POST">
+                <?php foreach ($values as $key => $value): ?>
+                    <?php if ('category' === $key) : ?>
+                        <?php foreach ($value as $ckey => $cvalue): ?>
+                            <input type="hidden" name="<?php echo htmlspecialchars($key . '[]', ENT_QUOTES, "UTF-8") ?>" value="<?php echo htmlspecialchars($cvalue, ENT_QUOTES, "UTF-8") ?>">
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <input type="hidden" name="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, "UTF-8") ?>">
+                    <?php endif; ?>
+                <?php endforeach; ?>
                 <button type="submit" name="submit" class="next btn" value="<?php echo CHECK_SUBMIT_CONFIRM_NEXT; ?>">送信する</button>
             </form>
         </div>

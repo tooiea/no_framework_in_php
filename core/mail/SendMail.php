@@ -30,7 +30,7 @@ class SendMail {
 
         //送信結果の確認
         foreach ($results as $result) {
-            if ($result !== true) {
+            if (!$result) {
                 $resultTotal = false;
                 break;
             }

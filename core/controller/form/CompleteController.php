@@ -14,15 +14,15 @@ class CompleteController extends Controller {
         $msg = []; //テンプレート表示用変数
 
         // セッションの中身が空か指定のキーが入っているかチェック
-        if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD'] || $this->isInListValue($_SESSION)) {
-            $_SESSION = [];
+        if ("POST" !== $_SERVER['REQUEST_METHOD']) {
+            $_POST = [];
             header('Location: /form/');
             exit;
         }
 
         try {
             // DB登録
-            $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);
+            $convertedValues = $this->convertValue($_POST, DB_CONTACT_INFO_ITEM);
             $contact = new Contact(
                 DB_ACCESS_INFO,
                 USER_NAME, PASSWORD,
@@ -34,7 +34,7 @@ class CompleteController extends Controller {
             $contact->insert($convertedValues);
 
             // メール表示用
-            $values = $_SESSION;
+            $values = $_POST;
             $values['name'] = $this->concatenationName($values['name1'], $values['name2']);
             $values['kana'] = $this->concatenationName($values['kana1'], $values['kana2']);
             $values['zip'] = $this->concatenationZip($values['zip1'], $values['zip2']);
@@ -74,7 +74,7 @@ class CompleteController extends Controller {
         }
 
         //コミット後
-        $_SESSION = [];    //セッションクリア
+        $_POST = [];    //セッションクリア
         $msg['header'] = RECEPTION_COMPLETED; //完了用メッセージを渡す
         $msg['body'] = MESSAGE_AFTER_COMPLETED;
 
@@ -88,8 +88,8 @@ class CompleteController extends Controller {
      * @param  array $list DB登録用のリスト
      * @return array DB登録に必要な配列を返す
      */
-    public function convertValue(array $values, array $list) {
-
+    public function convertValue(array $values, array $list)
+    {
         $convertValues = []; //データベース用の配列
 
         foreach ($list as $key) {
