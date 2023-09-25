@@ -17,12 +17,6 @@ class DetailController extends Controller {
         //テンプレートへ返す配列変数
         $result = [];
 
-        // ログイン認証されていない
-        if (!isset($_SESSION['login_id'])) {
-            header('Location: /admin/login');
-            exit;
-        }
-
         try {
             //クエリパラメータ(戻す用でセット)
             parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
@@ -31,29 +25,21 @@ class DetailController extends Controller {
             if (!isset($result['queryValues']['contact_no']) || !is_numeric($result['queryValues']['contact_no'])) {
                 $result['msg'] = NOT_FOUND_CONTACT_NO;
             } else {
-                $administrators = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
-                $isUser = $administrators->checkUser($_SESSION['login_id']);
+                //不要なキー削除
+                $result['queryValues'] = $this->removeKey($result['queryValues']);
 
-                //存在しているユーザかチェック
-                if (!$isUser) {
-                    header('Location: /admin/login');
-                    exit;
+                // 詳細データ取得
+                $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
+                $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
+
+                if (!$data) {
+                    //検索後、データがない場合
+                    $result['msg'] = NOT_FOUND_CONTACT_NO;
                 } else {
-                    //不要なキー削除
-                    $result['queryValues'] = $this->removeKey($result['queryValues']);
-
-                    // 詳細データ取得
-                    $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
-                    $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
-
-                    if (!$data) {
-                        //検索後、データがない場合
-                        $result['msg'] = NOT_FOUND_CONTACT_NO;
-                    } else {
-                        //表示用に変換
-                        $result['displayValues'] = $this->convertCategory($data);
-                    }
+                    //表示用に変換
+                    $result['displayValues'] = $this->convertCategory($data);
                 }
+                
             }
         } catch (PDOEXception $pdo) {
             $result['msg'] = SERVER_ERROR_COMMENT;

@@ -16,24 +16,7 @@ class ListController extends Controller {
     {
         $result = [];  //テンプレートへ返す配列変数
 
-        // ログイン認証されていない
-        if (!isset($_SESSION['login_id'])) {
-            $_SESSION = [];
-            header('Location: /admin/login');
-            exit;
-        }
-
         try {
-            //管理者用テーブルへアクセス
-            $administrators = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
-            $isUser = $administrators->checkUser($_SESSION['login_id']);
-
-            // 存在しているユーザかチェック
-            if (!$isUser) {
-                header('Location: /admin/login');
-                exit;
-            }
-
             // クエリパラメータを取得しセット
             parse_str(urldecode($_SERVER['QUERY_STRING']), $result['queryValues']);
 
@@ -69,6 +52,7 @@ class ListController extends Controller {
 
     /**
      * 入力されたカナを変換（カナを入力された時のみ）
+     * 
      * @param  array $values 入力値
      * @return array
      */
@@ -82,6 +66,7 @@ class ListController extends Controller {
 
     /**
      * テンプレートで表示するページの取得
+     * 
      * @param  array $values クエリパラメータ
      * @return int ページ数
      */

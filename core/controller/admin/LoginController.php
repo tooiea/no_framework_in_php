@@ -22,12 +22,6 @@ class LoginController {
         $this->msg = [];         //画面切り替え時のメッセージ
         $administrators = '';     //DBアクセス用インスタンス変数
 
-        // ログイン認証済み
-        if (isset($_SESSION['login_id'])) {
-            header('Location: /admin/list');
-            exit;
-        }
-
         if ("POST" === $_SERVER['REQUEST_METHOD']) {
             // ログイン処理
             if (isset($_POST['submit']) && CHECK_ADMIN_LOGIN == $_POST['submit']) {
@@ -58,9 +52,6 @@ class LoginController {
                             if (password_verify($values['password'], $data['password'])) {
                                 $administrators->update($values); //ログイン日時の更新
                                 $administrators->commit();
-
-                                // 各ページで認証チェックをするため、セッションにlogin_idをセット
-                                $_SESSION['login_id'] = $values['login_id'];
                             } else {
                                 $this->errorMsg['password'] = WRONG_LOGIN_ID_OR_PASSWORD;
                             }
