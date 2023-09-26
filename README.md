@@ -1,9 +1,14 @@
-# no_framework_in_php
+# フレームワーク使用なし
  
 var_dump(password_hash('password', PASSWORD_BCRYPT));
 
 
 # laravel構築手順
+
+### コマンドによるインストール
+
+- 実行するディレクトリ
+    `/var/www/core` *アプリケーションのあるtinkerが実行できるディレクトリ
 
 1. Laravel本体のインストール
     `composer create-project laravel/laravel`
@@ -22,4 +27,6 @@ var_dump(password_hash('password', PASSWORD_BCRYPT));
         └──────────────────────────────────────────────────────────────┘
 
         ┌ Which testing framework do you prefer? ──────────────────────┐
-        │ PHPUnit   
+        │ PHPUnit
+5. 言語ファイルのインストール
+   `php artisan lang:publish`
