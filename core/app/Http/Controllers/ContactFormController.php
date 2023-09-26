@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactFormRequest;
 use Illuminate\Http\Request;
 
 class ContactFormController extends Controller
@@ -11,7 +12,7 @@ class ContactFormController extends Controller
         return view('form.index');
     }
 
-    public function confirm()
+    public function confirm(ContactFormRequest $request)
     {
         return view('form.confirm');
     }

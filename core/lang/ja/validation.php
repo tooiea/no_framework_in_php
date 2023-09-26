@@ -48,7 +48,7 @@ return [
     'distinct' => 'The :attribute field has a duplicate value.',
     'doesnt_end_with' => 'The :attribute field must not end with one of the following: :values.',
     'doesnt_start_with' => 'The :attribute field must not start with one of the following: :values.',
-    'email' => 'The :attribute field must be a valid email address.',
+    'email' => ':attributeを正しく入力してください。',
     'ends_with' => 'The :attribute field must end with one of the following: :values.',
     'enum' => 'The selected :attribute is invalid.',
     'exists' => 'The selected :attribute is invalid.',
@@ -67,9 +67,9 @@ return [
         'string' => 'The :attribute field must be greater than or equal to :value characters.',
     ],
     'image' => 'The :attribute field must be an image.',
-    'in' => 'The selected :attribute is invalid.',
+    'in' => '画面から選択してください。',
     'in_array' => 'The :attribute field must exist in :other.',
-    'integer' => 'The :attribute field must be an integer.',
+    'integer' => ':attributeを正しく入力してください。',
     'ip' => 'The :attribute field must be a valid IP address.',
     'ipv4' => 'The :attribute field must be a valid IPv4 address.',
     'ipv6' => 'The :attribute field must be a valid IPv6 address.',
@@ -91,8 +91,8 @@ return [
     'max' => [
         'array' => 'The :attribute field must not have more than :max items.',
         'file' => 'The :attribute field must not be greater than :max kilobytes.',
-        'numeric' => 'The :attribute field must not be greater than :max.',
-        'string' => 'The :attribute field must not be greater than :max characters.',
+        'numeric' => ':attributeを正しく入力してください。',
+        'string' => ':attributeを正しく入力してください。',
     ],
     'max_digits' => 'The :attribute field must not have more than :max digits.',
     'mimes' => 'The :attribute field must be a file of type: :values.',
@@ -125,8 +125,8 @@ return [
     'prohibited_if' => 'The :attribute field is prohibited when :other is :value.',
     'prohibited_unless' => 'The :attribute field is prohibited unless :other is in :values.',
     'prohibits' => 'The :attribute field prohibits :other from being present.',
-    'regex' => 'The :attribute field format is invalid.',
-    'required' => 'The :attribute field is required.',
+    'regex' => ':attributeを正しく入力してください。',
+    'required' => ':attributeを入力してください。',
     'required_array_keys' => 'The :attribute field must contain entries for: :values.',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
@@ -135,7 +135,7 @@ return [
     'required_with_all' => 'The :attribute field is required when :values are present.',
     'required_without' => 'The :attribute field is required when :values is not present.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
-    'same' => 'The :attribute field must match :other.',
+    'same' => ':attributeを正しく入力してください。',
     'size' => [
         'array' => 'The :attribute field must contain :size items.',
         'file' => 'The :attribute field must be :size kilobytes.',
@@ -164,8 +164,23 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'sex' => [
+            'required' => '性別を選択してください。'
+        ],
+        'age' => [
+            'required' => '年齢を選択してください。'
+        ],
+        'blood_type' => [
+            'required' => '血液型を選択してください。'
+        ],
+        'job' => [
+            'required' => '職業を選択してください。'
+        ],
+        'address1' => [
+            'required' => '都道府県を選択してください。'
+        ],
+        'tel' => [
+            'required' => '電話番号を入力してください。'
         ],
     ],
 
@@ -180,6 +195,26 @@ return [
     |
     */
 
-    'attributes' => [],
-
+    'attributes' => [
+        'name1' => 'お名前：姓',
+        'name2' => 'お名前：名',
+        'kana1' => 'フリガナ：セイ',
+        'kana2' => 'フリガナ：メイ',
+        'sex' => '性別',
+        'age' => '年齢',
+        'blood_type' => '血液型',
+        'job' => '職業',
+        'zip1' => '郵便番号（上）',
+        'zip2' => '郵便番号（下）',
+        'address1' => '都道府県',
+        'address2' => '住所',
+        'address3' => 'ビル・マンション名',
+        'tel1' => '電話番号',
+        'tel2' => '電話番号',
+        'tel3' => '電話番号',
+        'mail' => 'メールアドレス',
+        'mail2' => 'メールアドレス（確認用）',
+        'category' => '興味のあるカテゴリー',
+        'info' => 'お問合せ内容',
+    ],
 ];
