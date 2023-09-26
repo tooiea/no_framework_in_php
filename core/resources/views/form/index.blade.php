@@ -9,7 +9,7 @@
     <div class="contents">
         <h1>お問合せフォーム</h1>
 
-        <form action='/form/' method="POST">
+        <form action='{{ route('form.confirm') }}' method="POST">
             <div class="item">
                 <label for="name1" class="label">お名前：姓<span>*</span></label>
                 <div class="inputs">

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +31,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 require __DIR__.'/auth.php';
+
+// フォーム用ルーティング
+Route::get('form', [ContactFormController::class, 'index'])->name('form.index');
+Route::post('form/back', function (Request $request) {
+
+})->name('form.back');
+Route::post('form/confirm', [ContactFormController::class, 'confirm'])->name('form.confirm');
+Route::post('form/complete', [ContactFormController::class, 'complete'])->name('form.complete');
