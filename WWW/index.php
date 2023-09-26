@@ -1,42 +1,55 @@
 <?php
-// セッション開始
-if (!isset($_SESSION)) {
-    session_start();
-    session_regenerate_id(true); //sessionID更新
+
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
+
+define('LARAVEL_START', microtime(true));
+
+/*
+|--------------------------------------------------------------------------
+| Check If The Application Is Under Maintenance
+|--------------------------------------------------------------------------
+|
+| If the application is in maintenance / demo mode via the "down" command
+| we will load this file so that any pre-rendered content can be shown
+| instead of starting the framework, which could cause an exception.
+|
+*/
+
+if (file_exists($maintenance = __DIR__.'/../core/storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
-// リクエストURIを取り出す
-$str = urldecode($_SERVER['REQUEST_URI']);
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| this application. We just need to utilize it! We'll simply require it
+| into the script here so we don't need to manually load our classes.
+|
+*/
 
-// トレイリングスラッシュを削除
-$url= rtrim(parse_url($str)['path'], "/");
+require __DIR__.'/../core/vendor/autoload.php';
 
-// リクエストURIから読み込むテンプレートを決定
-switch ($url) {
-    case '/form':
-        include(dirname(__FILE__) . '/../core/template/form/input_template.php');
-        break;
-    case '/form/confirm':
-        include(dirname(__FILE__) . '/../core/template/form/confirm_template.php');
-        break;
-    case '/form/complete':
-        include(dirname(__FILE__) . '/../core/template/form/complete_template.php');
-        break;
-    case '/':
-        header("Location: /form");
-        exit;
-    case '/admin':
-        header("Location: /admin/login");
-        exit;
-    case '/admin/login':
-        include(dirname(__FILE__).'/../core/template/admin/login_template.php');
-        break;
-    case '/admin/list':
-        include(dirname(__FILE__).'/../core/template/admin/list_template.php');
-        break;
-    case '/admin/detail':
-        include(dirname(__FILE__).'/../core/template/admin/detail_template.php');
-        break;
-    default:
-       include(dirname(__FILE__).'/../core/template/error/error_template.php');
-}
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request using
+| the application's HTTP kernel. Then, we will send the response back
+| to this client's browser, allowing them to enjoy our application.
+|
+*/
+
+$app = require_once __DIR__.'/../core/bootstrap/app.php';
+
+$kernel = $app->make(Kernel::class);
+
+$response = $kernel->handle(
+    $request = Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);
