@@ -6,9 +6,9 @@
 </head>
 
 <body class="complete_page">
-    <h1><?php echo htmlspecialchars($msg['header']) ?></h1>
+    <h1>{{ session('complete_header') }}</h1>
     <div class="contents complete">
-        <p><?php echo nl2br(htmlspecialchars($msg['body'])) ?></p>
+        <p>{!! session('complete_body') !!}</p>
         <a href="/form">
             <p class="return_top">戻る</p>
         </a>

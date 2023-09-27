@@ -122,4 +122,14 @@ return [
         ],
     ],
 
+    'subject' => [
+        'customer' => 'un-T System! お問い合わせありがとうございました。',
+        'admin' => 'un-T System! お問い合わせがありました。',
+    ],
+
+    'display_name' => [
+        'customer' => 'un-T System!',
+        'admin' => 'un-T System! '
+    ],
+
 ];

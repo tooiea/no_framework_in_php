@@ -32,10 +32,20 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-// フォーム用ルーティング
+// お問い合わせ
 Route::get('form', [ContactFormController::class, 'index'])->name('form.index');
 Route::post('form/back', function (Request $request) {
 
+    // セッションなし
+    if (!$request->session()->has('contact_form')) {
+        return redirect()->route('form.index');
+    }
+
+    // セッションから取得
+    $values = $request->session()->pull('contact_form');
+    return redirect()->route('form.index')->withInput($values);
 })->name('form.back');
 Route::post('form/confirm', [ContactFormController::class, 'confirm'])->name('form.confirm');
 Route::post('form/complete', [ContactFormController::class, 'complete'])->name('form.complete');
+
+// 管理画面

@@ -75,7 +75,6 @@ class ContactFormRequest extends FormRequest
                 'max:255'
             ],
             'address3' => [
-                'required',
                 'max:255'
             ],
             'tel1' => [

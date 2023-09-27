@@ -121,26 +121,26 @@ class FormConstant {
      * セッション内のキー存在チェック用(入力戻り含む)
      */
     public const SESSION_KEY_LIST = [
-        1 => 'name1',
-        2 => 'name2',
-        3 => 'kana1',
-        4 => 'kana2',
-        5 => 'sex',
-        6 => 'age',
-        7 => 'blood_type',
-        8 => 'job',
-        9 => 'zip1',
-        10 => 'zip2',
-        11 => 'address1',
-        12 => 'address2',
-        13 => 'address3',
-        14 => 'tel1',
-        15 => 'tel2',
-        16 => 'tel3',
-        17 => 'mail',
-        18 => 'mail2',
-        19 => 'category',
-        20 => 'info'
+        'name1',
+        'name2',
+        'kana1',
+        'kana2',
+        'sex',
+        'age',
+        'blood_type',
+        'job',
+        'zip1',
+        'zip2',
+        'address1',
+        'address2',
+        'address3',
+        'tel1',
+        'tel2',
+        'tel3',
+        'mail',
+        'mail2',
+        'category',
+        'info'
     ];
 
     /**
@@ -151,4 +151,27 @@ class FormConstant {
     public const REGEX_ZIP2 = '/^[0-9]{4,4}+$/';
     public const REGEX_TEL1 = '/^[0-9]{1,5}+$/';
     public const REGEX_TEL23 = '/^[0-9]{1,4}+$/';
+
+    /**
+     * Contactモデルへインサートするカラム
+     */
+    public const CONTACT_INSERT_KEY_LIST = [
+        'name1',
+        'name2',
+        'kana1',
+        'kana2',
+        'sex',
+        'age',
+        'blood_type',
+        'job',
+        'zip1',
+        'zip2',
+        'address1',
+        'address2',
+        'address3',
+        'tel',
+        'mail',
+        'category',
+        'info'
+    ];
 }
