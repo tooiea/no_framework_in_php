@@ -7,5 +7,13 @@ use Illuminate\Http\Request;
 
 class UserSearchController extends Controller
 {
-    //
+    public function userList()
+    {
+
+    }
+
+    public function userDetail()
+    {
+        
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\UserSearchController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
@@ -15,22 +17,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-require __DIR__.'/auth.php';
 
 // お問い合わせ
 Route::get('form', [ContactFormController::class, 'index'])->name('form.index');
@@ -49,3 +35,15 @@ Route::post('form/confirm', [ContactFormController::class, 'confirm'])->name('fo
 Route::post('form/complete', [ContactFormController::class, 'complete'])->name('form.complete');
 
 // 管理画面
+Route::middleware('guest')->group(function () {
+    Route::get('admin/login', [LoginController::class, 'create'])->name('admin.index');
+    Route::post('admin/login', [LoginController::class, 'store'])->name('admin.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('admin/list', [UserSearchController::class, 'userList'])->name('admin.user_list');
+    Route::get('admin/detail/{id}', [UserSearchController::class, 'userDetail'])->name('admin.user_detail');
+
+    // ボタンがないため一旦保留
+    Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
+});
