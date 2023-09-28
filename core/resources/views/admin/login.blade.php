@@ -5,14 +5,14 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
     <body class="admin_login_page">
-        <form action='{{ route('admin.index') }}' method="post">
+        <form action="{{ route('admin.store') }}" method="POST">
             @csrf
             <div class="item">
                 <label for="login_id" class="label">ログインID</label>
                 <div class="inputs">
                     <input type="text" name="login_id" id="login_id">
                     @error ('login_id')
-                    <p class="error_msg"{{ $message }}</p>
+                    <p class="error_msg">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <div class="inputs">
                     <input type="password" name="password" id="password">
                     @error ('password')
-                    <p class="error_msg"{{ $message }}</p>
+                    <p class="error_msg">{{ $message }}</p>
                     @enderror
                 </div>
             </div>

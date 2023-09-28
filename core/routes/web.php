@@ -40,7 +40,9 @@ Route::middleware('guest')->group(function () {
     Route::post('admin/login', [LoginController::class, 'store'])->name('admin.store');
 });
 
-Route::middleware('auth')->group(function () {
+// Route::prefix('admin')
+
+Route::middleware('auth:admin')->group(function () {
     Route::get('admin/list', [UserSearchController::class, 'userList'])->name('admin.user_list');
     Route::get('admin/detail/{id}', [UserSearchController::class, 'userDetail'])->name('admin.user_detail');
 

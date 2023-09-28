@@ -43,4 +43,9 @@ class Contact extends Model
         }
         return $insertValues;
     }
+
+    public static function getUsers()
+    {
+        return Contact::paginate(10);
+    }
 }
