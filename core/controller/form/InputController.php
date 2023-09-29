@@ -48,7 +48,7 @@ class InputController extends Controller {
                 // 表示用エラーメッセージ取得
                 $this->errorMsg = $validator->getErrorMsgs();
 
-            } elseif (isset($_POST['submit']) && "confirm_back" == $_POST['submit']) {
+            } elseif (isset($_POST['submit']) && CHECK_SUBMIT_CONFIRM_BACK == $_POST['submit']) {
                 // 確認画面からの戻り
                 $this->values = $_SESSION; //値を変換し表示用として代入
             }

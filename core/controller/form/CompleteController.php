@@ -87,8 +87,8 @@ class CompleteController extends Controller {
      * @param  array $list DB登録用のリスト
      * @return array DB登録に必要な配列を返す
      */
-    public function convertValue(array $values, array $list) {
-
+    public function convertValue(array $values, array $list)
+    {
         $convertValues = []; //データベース用の配列
 
         foreach ($list as $key) {
@@ -99,7 +99,7 @@ class CompleteController extends Controller {
                 if (isset($values['category'])) {
                     $convertValues['category'] = implode(',', $values['category']);
                 }
-            }  else {
+            } else {
                 $convertValues[$key] = $values[$key];
             }
         }
