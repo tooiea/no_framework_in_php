@@ -15,7 +15,7 @@ class CompleteController extends Controller {
 
         // セッションの中身が空か指定のキーが入っているかチェック
         if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD'] || $this->isInListValue($_SESSION)) {
-            $_SESSION = [];
+            session_destroy();
             header('Location: /form/');
             exit;
         }
@@ -66,7 +66,7 @@ class CompleteController extends Controller {
             $contact->commit();
 
             //コミット後
-            $_SESSION = [];    //セッションクリア
+            session_destroy();;    //セッションクリア
             $msg['header'] = RECEPTION_COMPLETED; //完了用メッセージを渡す
             $msg['body'] = MESSAGE_AFTER_COMPLETED;
         } catch (PDOEXception $ex) {
