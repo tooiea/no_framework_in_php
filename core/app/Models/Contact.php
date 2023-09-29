@@ -61,9 +61,29 @@ class Contact extends Model
         return DB::table('list_view')->paginate(5);
     }
 
-    public static function getUserByQuery($query)
+    /**
+     * 入力値から検索
+     *
+     * @param  array $queryParam
+     * @return object
+     */
+    public static function getUserByQuery($queryParam)
     {
-        var_dump($query);
-        return DB::table('list_view')->where($query)->paginate(5);
+        // 検索対象のキー
+        $searchKeys = [
+            'name',
+            'kana',
+            'mail'
+        ];
+        $queryContact = DB::table('list_view');
+
+        // クエリにwhere句をセット
+        foreach ($queryParam as $key => $value) {
+            if (in_array($key, $searchKeys) && !empty($queryParam[$key])) {
+                $queryContact->where($key, 'like binary', "%$queryParam[$key]%");
+            }
+        }
+
+        return $queryContact->paginate(5);
     }
 }

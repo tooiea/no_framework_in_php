@@ -21,10 +21,11 @@ class UserSearchController extends Controller
         unset($query['submit']); // ボタン削除
         $users = [];
 
-        // 
+        // 全件取得
         if (empty($query)) {
             $users = Contact::getUsers();
         } else {
+            // 検索値入力あり
             $users = Contact::getUserByQuery($query);
             $users->appends($query);
         }

@@ -14,7 +14,7 @@
             <div class="item">
                 <label for="name" class="label">お名前</label>
                 <div class="inputs">
-                    <input type="text" name="name" id="name" value="{{ old('name') }}">
+                    <input type="text" name="name" id="name" value="@if (!empty(old('name'))){{ old('name') }}@elseif(!empty($query['name'])){{ $query['name'] }}@endif">
                     @error('name')<p class="error_msg">{{ $message }}</p>@enderror
                 </div>
             </div>
@@ -22,7 +22,7 @@
             <div class="item">
                 <label for="kana" class="label">カナ</label>
                 <div class="inputs">
-                    <input type="text" name="kana" id="kana" value="{{ old('kana') }}">
+                    <input type="text" name="kana" id="kana" value="@if (!empty(old('kana'))){{ old('kana') }}@elseif(!empty($query['kana'])){{ $query['kana'] }}@endif">
                     @error('kana')<p class="error_msg">{{ $message }}</p>@enderror
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="item">
                 <label for="mail" class="label">メールアドレス</label>
                 <div class="inputs">
-                    <input type="text" name="mail" id="mail" value="{{ old('mail') }}">
+                    <input type="text" name="mail" id="mail" value="@if (!empty(old('mail'))){{ old('mail') }}@elseif(!empty($query['mail'])){{ $query['mail'] }}@endif">
                     @error('mail')<p class="error_msg">{{ $message }}</p>@enderror
                 </div>
             </div>
