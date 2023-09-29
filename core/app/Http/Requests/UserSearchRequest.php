@@ -11,7 +11,7 @@ class UserSearchRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,24 @@ class UserSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'kana' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'mail' => [
+                'bail',
+                'nullable',
+                'max:255',
+                'email:rfc,filter'
+            ],
         ];
     }
 }

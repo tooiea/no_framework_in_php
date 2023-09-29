@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Constants\FormConstant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Contact extends Model
 {
@@ -12,6 +13,12 @@ class Contact extends Model
 
     protected $fillable = FormConstant::CONTACT_INSERT_KEY_LIST;
 
+    /**
+     * フォームから新規登録
+     *
+     * @param  array $values
+     * @return void
+     */
     public function createContact($values)
     {
         // 登録用に配列をセット
@@ -44,8 +51,19 @@ class Contact extends Model
         return $insertValues;
     }
 
+    /**
+     * 一覧取得(全件)
+     *
+     * @return Concatct
+     */
     public static function getUsers()
     {
-        return Contact::paginate(10);
+        return DB::table('list_view')->paginate(5);
+    }
+
+    public static function getUserByQuery($query)
+    {
+        var_dump($query);
+        return DB::table('list_view')->where($query)->paginate(5);
     }
 }

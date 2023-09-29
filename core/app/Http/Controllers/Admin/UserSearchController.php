@@ -3,20 +3,30 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserSearchRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class UserSearchController extends Controller
 {
-    public function userList(Request $request)
+    /**
+     * ユーザ一覧表示
+     *
+     * @param  Request $request
+     * @return void
+     */
+    public function userList(UserSearchRequest $request)
     {
         $query = $request->query();
-        var_dump($request->query());
-
+        unset($query['submit']); // ボタン削除
         $users = [];
 
+        // 
         if (empty($query)) {
             $users = Contact::getUsers();
+        } else {
+            $users = Contact::getUserByQuery($query);
+            $users->appends($query);
         }
 
         return view('admin.list', compact('users', 'query'));
