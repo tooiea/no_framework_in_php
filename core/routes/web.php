@@ -18,34 +18,44 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// お問い合わせ
-Route::get('form', [ContactFormController::class, 'index'])->name('form.index');
-Route::post('form/back', function (Request $request) {
+// お問い合わせフォーム
+Route::prefix('form')->group(function () {
+    Route::get('/', [ContactFormController::class, 'index'])->name('form.index');
+    Route::post('back', function (Request $request) {
 
-    // セッションなし
-    if (!$request->session()->has('contact_form')) {
+        // セッションなし
+        if (!$request->session()->has('contact_form')) {
+            return redirect()->route('form.index');
+        }
+
+        // セッションから取得
+        $values = $request->session()->pull('contact_form');
+        return redirect()->route('form.index')->withInput($values);
+    })->name('form.back');
+    Route::post('confirm', [ContactFormController::class, 'confirm'])->name('form.confirm');
+    Route::post('complete', [ContactFormController::class, 'complete'])->name('form.complete');
+
+    // フォーム直アクセス
+    Route::get('confirm', function () {
         return redirect()->route('form.index');
-    }
-
-    // セッションから取得
-    $values = $request->session()->pull('contact_form');
-    return redirect()->route('form.index')->withInput($values);
-})->name('form.back');
-Route::post('form/confirm', [ContactFormController::class, 'confirm'])->name('form.confirm');
-Route::post('form/complete', [ContactFormController::class, 'complete'])->name('form.complete');
-
-// 管理画面
-Route::middleware('guest')->group(function () {
-    Route::get('admin/login', [LoginController::class, 'create'])->name('admin.index');
-    Route::post('admin/login', [LoginController::class, 'store'])->name('admin.store');
+    });
+    Route::get('complete', function () {
+        return redirect()->route('form.index');
+    });
 });
 
-// Route::prefix('admin')
+// 管理画面
+Route::prefix('admin')->group(function () {
+    // 認証なし
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('login', [LoginController::class, 'create'])->name('admin.index');
+        Route::post('login', [LoginController::class, 'store'])->name('admin.store');
+    });
 
-Route::middleware('auth:admin')->group(function () {
-    Route::get('admin/list', [UserSearchController::class, 'userList'])->name('admin.user_list');
-    Route::get('admin/detail/{id}', [UserSearchController::class, 'userDetail'])->name('admin.user_detail');
-
-    // ボタンがないため一旦保留
-    Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
+    // 認証必要
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('list', [UserSearchController::class, 'userList'])->name('admin.user_list');
+        Route::get('detail/{id}', [UserSearchController::class, 'userDetail'])->name('admin.user_detail');
+        Route::get('logout', [LoginController::class, 'destroy'])->name('logout');
+    });
 });
