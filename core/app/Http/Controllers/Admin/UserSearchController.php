@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserDetailRequest;
 use App\Http\Requests\UserSearchRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
@@ -33,8 +34,18 @@ class UserSearchController extends Controller
         return view('admin.list', compact('users', 'query'));
     }
 
-    public function userDetail()
+    /**
+     * ユーザ情報詳細
+     *
+     * @param  UserDetailRequest $request
+     * @param  int $id
+     * @return void
+     */
+    public function userDetail(UserDetailRequest $request, $id)
     {
-        return view('admin.detail');
+        // 対象のユーザ情報を取得
+        $query = $request->only(['name', 'kana', 'mail']);
+        $user = Contact::query()->where('contact_no', $id)->first();
+        return view('admin.detail', compact('user', 'query'));
     }
 }

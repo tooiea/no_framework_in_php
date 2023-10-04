@@ -80,7 +80,7 @@ class Contact extends Model
         // クエリにwhere句をセット
         foreach ($queryParam as $key => $value) {
             if (in_array($key, $searchKeys) && !empty($queryParam[$key])) {
-                $queryContact->where($key, 'like binary', "%$queryParam[$key]%");
+                $queryContact->where($key, 'like', "%$queryParam[$key]%");
             }
         }
 
