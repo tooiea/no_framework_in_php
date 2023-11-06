@@ -28,7 +28,7 @@ class Contact extends Model {
         foreach ($values as $key => $value) {
             $checkResult[] = array_key_exists($key, COLUMN_INFO_VALUES);
             if (array_key_exists($key, COLUMN_INFO_VALUES)) {
-                if ('sex' === $key || 'age' === $key || 'blood_type' === $key || 'job' === $key || 'address1' === $key) {
+                if ('sex_id' === $key || 'age_id' === $key || 'blood_type_id' === $key || 'job_id' === $key || 'prefecture_id' === $key) {
                     // 整数型
                     $stmt->bindValue(COLUMN_INFO_VALUES[$key], (int)$value, PDO::PARAM_INT);
                 } else {
@@ -71,7 +71,7 @@ class Contact extends Model {
         if (empty($sqlWhereCondition)) {
             $sql = SELECT_CONTACT_LIST_CHECK_NUMBER_OF_DATA;
         } else {
-            $sql = "SELECT COUNT(*) FROM contacts WHERE $sqlWhereCondition;";
+            $sql = "SELECT COUNT(*) FROM inquiry_contents WHERE $sqlWhereCondition;";
         }
 
         //空データで、sql実行前
@@ -110,9 +110,9 @@ class Contact extends Model {
         //検索値の入力がある場合
         if (!empty($values['name']) || !empty($values['kana']) || !empty($values['mail'])) {
             $sqlWhereCondition = $this->checkSelectContents($values);
-            $sql = 'SELECT contact_no,name1,name2,kana1,kana2,mail,created FROM contacts WHERE' . $sqlWhereCondition. $offset['sql'];
+            $sql = 'SELECT contact_no,first_name,last_name,first_name_kana,last_name_kana,mail,created_date FROM inquiry_contents WHERE' . $sqlWhereCondition. $offset['sql'];
         } else {
-            $sql = 'SELECT contact_no,name1,name2,kana1,kana2,mail,created FROM contacts' . $offset['sql'];
+            $sql = 'SELECT contact_no,first_name,last_name,first_name_kana,last_name_kana,mail,created_date FROM inquiry_contents' . $offset['sql'];
         }
 
         //空データで、sql実行前

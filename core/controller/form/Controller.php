@@ -99,12 +99,12 @@ class Controller {
      */
     public function convertStr(array $values)
     {
-        if ($values['kana1']) {
-            $values['kana1'] = mb_convert_kana($values['kana1'], "KVC");
+        if ($values['first_name_kana']) {
+            $values['first_name_kana'] = mb_convert_kana($values['first_name_kana'], "KVC");
         }
 
-        if ($values['kana2']) {
-            $values['kana2'] = mb_convert_kana($values['kana2'], "KVC");
+        if ($values['last_name_kana']) {
+            $values['last_name_kana'] = mb_convert_kana($values['last_name_kana'], "KVC");
         }
 
         if ($values['zip1']) {

@@ -8,13 +8,13 @@
 
 ■フリガナ               {{kana}}
 
-■性別                  {{sex}}
+■性別                  {{sex_id}}
 
-■年齢                  {{age}}
+■年齢                  {{age_id}}
 
-■血液型                {{blood_type}}
+■血液型                {{blood_type_id}}
 
-■職業                  {{job}}
+■職業                  {{job_id}}
 
 ■郵便番号               {{zip}}
 
@@ -26,6 +26,6 @@
 
 ■メールアドレス          {{mail}}
 
-■興味のあるカテゴリー     {{category}}
+■興味のあるカテゴリー     {{inquiry_content_ids}}
 
-■お問合せ内容           {{info}}
+■お問合せ内容           {{inpuiry_detail}}

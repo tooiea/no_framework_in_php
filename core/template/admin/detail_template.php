@@ -37,7 +37,7 @@ $result = $detailController->index();
                 <p>お名前</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($result['displayValues']['name1'] . '　' . $result['displayValues']['name2'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <p><?php echo htmlspecialchars($result['displayValues']['first_name'] . '　' . $result['displayValues']['last_name'], ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
         </div>
 
@@ -46,7 +46,7 @@ $result = $detailController->index();
                 <p>フリガナ</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($result['displayValues']['kana1'] . '　' . $result['displayValues']['kana2'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <p><?php echo htmlspecialchars($result['displayValues']['first_name_kana'] . '　' . $result['displayValues']['last_name_kana'], ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
         </div>
 
@@ -55,8 +55,8 @@ $result = $detailController->index();
                 <p>性別</p>
             </div>
             <div class="inputs">
-                <?php if (isset($result['displayValues']['sex'])) : ?>
-                    <p><?php echo htmlspecialchars(SEX_LIST[$result['displayValues']['sex']], ENT_QUOTES, 'UTF-8') ?></p>
+                <?php if (isset($result['displayValues']['sex_id'])) : ?>
+                    <p><?php echo htmlspecialchars(SEX_LIST[$result['displayValues']['sex_id']], ENT_QUOTES, 'UTF-8') ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -66,8 +66,8 @@ $result = $detailController->index();
                 <p>年齢</p>
             </div>
             <div class="inputs">
-                <?php if (isset($result['displayValues']['age'])) : ?>
-                    <p><?php echo htmlspecialchars(AGE_LIST[$result['displayValues']['age']], ENT_QUOTES, 'UTF-8') ?></p>
+                <?php if (isset($result['displayValues']['age_id'])) : ?>
+                    <p><?php echo htmlspecialchars(AGE_LIST[$result['displayValues']['age_id']], ENT_QUOTES, 'UTF-8') ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -77,8 +77,8 @@ $result = $detailController->index();
                 <p>血液型</p>
             </div>
             <div class="inputs">
-                <?php if (isset($result['displayValues']['blood_type'])) : ?>
-                    <p><?php echo htmlspecialchars(BLOOD_LIST[$result['displayValues']['blood_type']], ENT_QUOTES, 'UTF-8') . '型' ?></p>
+                <?php if (isset($result['displayValues']['blood_type_id'])) : ?>
+                    <p><?php echo htmlspecialchars(BLOOD_LIST[$result['displayValues']['blood_type_id']], ENT_QUOTES, 'UTF-8') . '型' ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -88,8 +88,8 @@ $result = $detailController->index();
                 <p>職業</p>
             </div>
             <div class="inputs">
-                <?php if (isset($result['displayValues']['job'])) : ?>
-                    <p><?php echo htmlspecialchars(JOB_LIST[$result['displayValues']['job']], ENT_QUOTES, 'UTF-8') ?></p>
+                <?php if (isset($result['displayValues']['job_id'])) : ?>
+                    <p><?php echo htmlspecialchars(JOB_LIST[$result['displayValues']['job_id']], ENT_QUOTES, 'UTF-8') ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -99,7 +99,7 @@ $result = $detailController->index();
                 <p>郵便番号</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars($result['displayValues']['zip1'] . '-' . $result['displayValues']['zip2'],ENT_QUOTES, 'UTF-8'); ?></p>
+                <p><?php echo htmlspecialchars($result['displayValues']['zip'], ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
         </div>
 
@@ -108,8 +108,8 @@ $result = $detailController->index();
                 <p>住所</p>
             </div>
             <div class="inputs">
-                <?php if (isset($result['displayValues']['address1']) && isset($result['displayValues']['address2'])) : ?>
-                    <p><?php echo htmlspecialchars(PREFUCTURES_LIST[(int)$result['displayValues']['address1']] . $result['displayValues']['address2'],ENT_QUOTES, 'UTF-8');  ?></p>
+                <?php if (isset($result['displayValues']['prefecture_id']) && isset($result['displayValues']['address2'])) : ?>
+                    <p><?php echo htmlspecialchars(PREFUCTURES_LIST[(int)$result['displayValues']['prefecture_id']] . $result['displayValues']['address2'],ENT_QUOTES, 'UTF-8');  ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -150,8 +150,8 @@ $result = $detailController->index();
                 <p>興味のあるカテゴリー</p>
             </div>
             <div class="inputs">
-                <?php if (isset($result['displayValues']['category'])) :?>
-                <?php foreach ($result['displayValues']['category'] as $value):?>
+                <?php if (isset($result['displayValues']['inquiry_content_ids'])) :?>
+                <?php foreach ($result['displayValues']['inquiry_content_ids'] as $value):?>
                     <p><?php echo nl2br(htmlspecialchars($value, ENT_QUOTES, 'UTF-8'))  ?></p>
                 <?php endforeach;?>
                 <?php endif; ?>
@@ -163,7 +163,7 @@ $result = $detailController->index();
                 <p>お問い合わせ内容</p>
             </div>
             <div class="inputs">
-                <p><?php echo nl2br(htmlspecialchars($result['displayValues']['info'], ENT_QUOTES, 'UTF-8')) ?></p>
+                <p><?php echo nl2br(htmlspecialchars($result['displayValues']['inpuiry_detail'], ENT_QUOTES, 'UTF-8')) ?></p>
             </div>
         </div>
 
@@ -172,8 +172,8 @@ $result = $detailController->index();
                 <p>お問い合わせ時期</p>
             </div>
             <div class="inputs">
-                <p><?php echo htmlspecialchars(date('Y年n月j日', strtotime($result['displayValues']['created'])), ENT_QUOTES, 'UTF-8') . '<br>' .
-                htmlspecialchars(date('H時i分s秒', strtotime($result['displayValues']['created'])), ENT_QUOTES, 'UTF-8'); ?></p>
+                <p><?php echo htmlspecialchars(date('Y年n月j日', strtotime($result['displayValues']['created_date'])), ENT_QUOTES, 'UTF-8') . '<br>' .
+                htmlspecialchars(date('H時i分s秒', strtotime($result['displayValues']['created_date'])), ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
         </div>
 

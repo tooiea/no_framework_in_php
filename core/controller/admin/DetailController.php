@@ -72,8 +72,8 @@ class DetailController extends Controller {
      */
     public function convertCategory(array $values)
     {
-        $data = explode(',', $values['category']);
-        $values['category'] = $this->getArrayInList($data, CATEGORY_LIST);
+        $data = explode(',', $values['inquiry_content_ids']);
+        $values['inquiry_content_ids'] = $this->getArrayInList($data, CATEGORY_LIST);
         return $values;
     }
 

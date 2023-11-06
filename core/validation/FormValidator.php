@@ -21,45 +21,45 @@ class FormValidator extends BaseValidator {
         $errorMsg = [];
 
         // お名前メッセージ取得
-        $errorMsg['name1'] = $this->checkText($values['name1'], CHECK_NUMBER_DIGIT_255, 'お名前：姓');
-        $errorMsg['name2'] = $this->checkText($values['name2'], CHECK_NUMBER_DIGIT_255, 'お名前：名');
+        $errorMsg['first_name'] = $this->checkText($values['first_name'], CHECK_NUMBER_DIGIT_255, 'お名前：姓');
+        $errorMsg['last_name'] = $this->checkText($values['last_name'], CHECK_NUMBER_DIGIT_255, 'お名前：名');
 
         // フリガナメッセージ取得
-        $errorMsg['kana1'] = $this->checkKana($values['kana1'], CHECK_NUMBER_DIGIT_255, 'フリガナ：セイ');
-        $errorMsg['kana2'] = $this->checkKana($values['kana2'], CHECK_NUMBER_DIGIT_255, 'フリガナ：メイ');
+        $errorMsg['first_name_kana'] = $this->checkKana($values['first_name_kana'], CHECK_NUMBER_DIGIT_255, 'フリガナ：セイ');
+        $errorMsg['last_name_kana'] = $this->checkKana($values['last_name_kana'], CHECK_NUMBER_DIGIT_255, 'フリガナ：メイ');
 
         // 性別メッセージ取得
-        if (isset($values['sex'])) {
-            $errorMsg['sex'] = $this->checkRadio($values['sex'], SEX_LIST, '性別');
-        } elseif (!isset($values['sex'])) {
-            $errorMsg['sex'] = $this->checkRadio("", SEX_LIST, '性別');
+        if (isset($values['sex_id'])) {
+            $errorMsg['sex_id'] = $this->checkRadio($values['sex_id'], SEX_LIST, '性別');
+        } elseif (!isset($values['sex_id'])) {
+            $errorMsg['sex_id'] = $this->checkRadio("", SEX_LIST, '性別');
         }
 
         // 年齢メッセージ取得
-        $errorMsg['age'] = $this->checkSelect($values['age'], AGE_LIST, '年齢');
+        $errorMsg['age_id'] = $this->checkSelect($values['age_id'], AGE_LIST, '年齢');
 
         // 血液型メッセージ取得
-        if (isset($values['blood_type'])) {
-            $errorMsg['blood_type'] = $this->checkRadio($values['blood_type'], BLOOD_LIST, '血液型');
-        } elseif (!isset($blood_type)) {
-            $errorMsg['blood_type'] = $this->checkRadio("", BLOOD_LIST, '血液型');
+        if (isset($values['blood_type_id'])) {
+            $errorMsg['blood_type_id'] = $this->checkRadio($values['blood_type_id'], BLOOD_LIST, '血液型');
+        } elseif (!isset($blood_type_id)) {
+            $errorMsg['blood_type_id'] = $this->checkRadio("", BLOOD_LIST, '血液型');
         }
 
         // 職業メッセージ取得
-        $errorMsg['job'] = $this->checkSelect($values['job'], JOB_LIST, '職業');
+        $errorMsg['job_id'] = $this->checkSelect($values['job_id'], JOB_LIST, '職業');
 
         // 郵便番号（上下）チェック後の結果、msg振り分け
         $errorMsg['zip1'] = $this->checkNum($values['zip1'], CHECK_NUMBER_DIGIT_3, '郵便番号上');
         $errorMsg['zip2'] = $this->checkNum($values['zip2'], CHECK_NUMBER_DIGIT_4, '郵便番号下');
 
         // 都道府県メッセージ取得
-        $errorMsg['address1'] = $this->checkSelect($values['address1'], PREFUCTURES_LIST, '都道府県');
+        $errorMsg['prefecture_id'] = $this->checkSelect($values['prefecture_id'], PREFUCTURES_LIST, '都道府県');
 
         // 住所メッセージ取得
-        $errorMsg['address2'] = $this->checkText($values['address2'], CHECK_NUMBER_DIGIT_255, '住所');
+        $errorMsg['address1'] = $this->checkText($values['address1'], CHECK_NUMBER_DIGIT_255, '住所');
 
         // ビル・マンションメッセージ取得
-        $errorMsg['address3'] = $this->checkAddress3($values['address3'], CHECK_NUMBER_DIGIT_255, 'ビル・マンション名');
+        $errorMsg['address2'] = $this->checkAddress2($values['address2'], CHECK_NUMBER_DIGIT_255, 'ビル・マンション名');
 
         // 電話番号（1,2,3）チェック後の結果、msg振り分け
         $errorMsg['tel1'] = $this->checkNum($values['tel1'], CHECK_NUMBER_DIGIT_5, '電話番号1');
@@ -71,12 +71,12 @@ class FormValidator extends BaseValidator {
         $errorMsg['mail2'] = $this->checkMail2($values['mail'], $values['mail2'], 'メールアドレス2');
 
         // カテゴリーメッセージ取得
-        if (isset($values['category'])) {
-            $errorMsg['category'] = $this->checkCategory($values['category'], CATEGORY_LIST);
+        if (isset($values['inquiry_content_ids'])) {
+            $errorMsg['inquiry_content_ids'] = $this->checkCategory($values['inquiry_content_ids'], CATEGORY_LIST);
         }
 
         // お問い合わせメッセージ取得
-        $errorMsg['info'] = $this->checkInfo($values['info'], 'お問い合わせ内容');
+        $errorMsg['inpuiry_detail'] = $this->checkInfo($values['inpuiry_detail'], 'お問い合わせ内容');
 
         return $errorMsg;
     }

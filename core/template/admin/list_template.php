@@ -71,10 +71,10 @@ $maxPage = (int)ceil($result['countData'] / DISPLAY_IN_PAGE);    //トータル�
             <tbody>
                 <tr>
                     <th><?php echo '<a href="/admin/detail?contact_no=' . $value['contact_no']  . '&' . http_build_query($result['queryValues'], $encoding_type = PHP_QUERY_RFC1738) .'">'. htmlspecialchars($value['contact_no'],ENT_QUOTES,"UTF-8") . '</a> '; ?></th>
-                    <td><?php echo htmlspecialchars($value['name1']. ' ' . $value['name2'], ENT_QUOTES,"UTF-8") ?></td>
-                    <td><?php echo htmlspecialchars($value['kana1']. ' ' . $value['kana2'], ENT_QUOTES,"UTF-8") ?></td>
+                    <td><?php echo htmlspecialchars($value['first_name']. ' ' . $value['last_name'], ENT_QUOTES,"UTF-8") ?></td>
+                    <td><?php echo htmlspecialchars($value['first_name_kana']. ' ' . $value['last_name_kana'], ENT_QUOTES,"UTF-8") ?></td>
                     <td><?php echo '<a href="mailto:' . $value['mail'] . '">' . htmlspecialchars($value['mail'], ENT_QUOTES,"UTF-8") . '</a>'; ?></td>
-                    <td><?php echo htmlspecialchars($value['created'], ENT_QUOTES,"UTF-8")?></td>
+                    <td><?php echo htmlspecialchars($value['created_date'], ENT_QUOTES,"UTF-8")?></td>
                 </tr>
             </tbody>
             <?php endforeach; ?>

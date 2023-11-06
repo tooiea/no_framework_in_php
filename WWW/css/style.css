@@ -35,7 +35,7 @@ span {
     width: 400px;
 }
 
-.category {
+.inquiry_content_ids {
     width: 370px;
 }
 
@@ -79,7 +79,7 @@ select {
 
 /* confirm */
 
-.info p {
+.inpuiry_detail p {
     text-indent: 100px;
     margin-top: 0;
     margin-bottom: 0;

@@ -1,25 +1,25 @@
 #お問合わせテーブル作成
-CREATE TABLE contacts (
+CREATE TABLE inquiry_contents (
     contact_no INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    name1 VARCHAR(255) NOT NULL,
-    name2 VARCHAR(255) NOT NULL,
-    kana1 VARCHAR(255) NOT NULL,
-    kana2 VARCHAR(255) NOT NULL,
-    sex INT NOT NULL,
-    age INT NOT NULL,
-    blood_type INT NOT NULL,
-    job INT NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    first_name_kana VARCHAR(255) NOT NULL,
+    last_name_kana VARCHAR(255) NOT NULL,
+    sex_id INT NOT NULL,
+    age_id INT NOT NULL,
+    blood_type_id INT NOT NULL,
+    job_id INT NOT NULL,
     zip1 VARCHAR(3) NOT NULL,
     zip2 VARCHAR(4) NOT NULL,
-    address1 INT NOT NULL,
+    prefecture_id INT NOT NULL,
     address2 VARCHAR(255) NOT NULL,
     address3 VARCHAR(255),
     tel VARCHAR(50) NOT NULL,
     mail VARCHAR(255) NOT NULL,
-    category VARCHAR(255) NOT NULL,
-    info TEXT NOT NULL,
-    created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    inquiry_content_ids VARCHAR(255) NOT NULL,
+    inpuiry_detail TEXT NOT NULL,
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 #管理者情報テーブル作成
@@ -28,8 +28,8 @@ CREATE TABLE administrators (
     password TEXT NOT NULL,
     account_name VARCHAR(255) NOT NULL,
     last_login_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 #リスト画面表示用ビュー作成
@@ -38,9 +38,9 @@ contact_no,
 name,
 kana,
 mail,
-created) AS
+created_date) AS
 SELECT contact_no,
-CONCAT(name1,' ',name2),
-CONCAT(kana1,' ',kana2),
+CONCAT(first_name,' ',last_name),
+CONCAT(first_name_kana,' ',last_name_kana),
 mail,
-created from contacts;
+created_date from inquiry_contents;

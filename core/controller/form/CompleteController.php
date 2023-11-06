@@ -35,11 +35,11 @@ class CompleteController extends Controller {
 
             // メール表示用
             $values = $_SESSION;
-            $values['name'] = $this->concatenationName($values['name1'], $values['name2']);
-            $values['kana'] = $this->concatenationName($values['kana1'], $values['kana2']);
+            $values['name'] = $this->concatenationName($values['first_name'], $values['last_name']);
+            $values['kana'] = $this->concatenationName($values['first_name_kana'], $values['last_name_kana']);
             $values['zip'] = $this->concatenationZip($values['zip1'], $values['zip2']);
             $values['tel'] = $this->concatenationTelnum($values['tel1'], $values['tel2'], $values['tel3']);
-            $values['address12'] = $this->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']);
+            $values['address'] = $this->concatenationAddress(PREFUCTURES_LIST[$values['prefecture_id']], $values['address1']);
 
             //MODE切り替え
             if ('DEV' === MODE) {
@@ -94,6 +94,8 @@ class CompleteController extends Controller {
         foreach ($list as $key) {
             if ('tel' === $key) {
                 $convertValues['tel'] = $values['tel1'] . $values['tel2'] . $values['tel3'];
+            } elseif ('zip' === $key) {
+                $convertValues['zip'] = $values['zip1'] . $values['zip2'];
             } elseif ('category' === $key) {
                 $convertValues['category'] = '';
                 if (isset($values['category'])) {

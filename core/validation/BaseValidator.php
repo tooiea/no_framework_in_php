@@ -241,7 +241,7 @@ class BaseValidator {
      * @param string $name 項目名
      * @return string エラーメッセージ
      */
-    public function checkAddress3(string $value, int $num, string $name)
+    public function checkAddress2(string $value, int $num, string $name)
     {
         $msg = "";
         if ($this->checkMaxDigit($value, $num)) {

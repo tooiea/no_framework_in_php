@@ -1,7 +1,7 @@
 <?php
 
 // 開発or本番モードの切り替え用フラグ
-const MODE = 'PRODUCTION';
+const MODE = 'DEV';
 
 // 性別リスト
 const SEX_LIST = [
@@ -123,26 +123,26 @@ const SEARCH_CONTACT_LIST = 'search_list';
 
 // セッション内のキー存在チェック用
 const KEY_LIST = [
-    1 => 'name1',
-    2 => 'name2',
-    3 => 'kana1',
-    4 => 'kana2',
-    5 => 'sex',
-    6 => 'age',
-    7 => 'blood_type',
-    8 => 'job',
+    1 => 'first_name',
+    2 => 'last_name',
+    3 => 'first_name_kana',
+    4 => 'last_name_kana',
+    5 => 'sex_id',
+    6 => 'age_id',
+    7 => 'blood_type_id',
+    8 => 'job_id',
     9 => 'zip1',
     10 => 'zip2',
-    11 => 'address1',
-    12 => 'address2',
-    13 => 'address3',
+    11 => 'prefecture_id',
+    12 => 'address1',
+    13 => 'address2',
     14 => 'tel1',
     15 => 'tel2',
     16 => 'tel3',
     17 => 'mail',
     18 => 'mail2',
-    19 => 'category',
-    20 => 'info'
+    19 => 'inquiry_content_ids',
+    20 => 'inpuiry_detail'
 ];
 
 // 1ページ表示数(ページャー設定)

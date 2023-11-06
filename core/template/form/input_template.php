@@ -20,105 +20,105 @@ $errorMsg = $inputController->getErrorMsg();
 
         <form action='/form/' method="POST">
             <div class="item">
-                <label for="name1" class="label">お名前：姓<span>*</span></label>
+                <label for="first_name" class="label">お名前：姓<span>*</span></label>
                 <div class="inputs">
-                    <input type="text" name="name1" id="name1" value="<?php if (isset($values['name1'])) {
-                                                                        echo htmlspecialchars($values['name1'], ENT_QUOTES, "UTF-8");
+                    <input type="text" name="first_name" id="first_name" value="<?php if (isset($values['first_name'])) {
+                                                                        echo htmlspecialchars($values['first_name'], ENT_QUOTES, "UTF-8");
                                                                     } ?>">
-                    <?php if (isset($errorMsg['name1']) && "" != $errorMsg['name1']):?>
-                        <p class="error_msg"><?php echo $errorMsg['name1'] ?></p>
+                    <?php if (isset($errorMsg['first_name']) && "" != $errorMsg['first_name']):?>
+                        <p class="error_msg"><?php echo $errorMsg['first_name'] ?></p>
                     <?php endif; ?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="name2" class="label">お名前：名<span>*</span></label>
+                <label for="last_name" class="label">お名前：名<span>*</span></label>
                 <div class="inputs">
-                    <input type="text" name="name2" id="name2" value="<?php if (isset($values['name2'])) {
-                                                                        echo htmlspecialchars($values['name2'], ENT_QUOTES, "UTF-8");
+                    <input type="text" name="last_name" id="last_name" value="<?php if (isset($values['last_name'])) {
+                                                                        echo htmlspecialchars($values['last_name'], ENT_QUOTES, "UTF-8");
                                                                     } ?>">
-                    <?php if (isset($errorMsg['name2']) && "" != $errorMsg['name2']):?>
-                        <p class="error_msg"><?php echo $errorMsg['name2'] ?></p>
+                    <?php if (isset($errorMsg['last_name']) && "" != $errorMsg['last_name']):?>
+                        <p class="error_msg"><?php echo $errorMsg['last_name'] ?></p>
                     <?php endif; ?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="kana1" class="label">フリガナ：セイ<span>*</span></label>
+                <label for="first_name_kana" class="label">フリガナ：セイ<span>*</span></label>
                 <div class="inputs">
-                    <input type="text" name="kana1" id="kana1" value="<?php if (isset($values['kana1'])) {
-                                                                        echo htmlspecialchars($values['kana1'], ENT_QUOTES, "UTF-8") ;
+                    <input type="text" name="first_name_kana" id="first_name_kana" value="<?php if (isset($values['first_name_kana'])) {
+                                                                        echo htmlspecialchars($values['first_name_kana'], ENT_QUOTES, "UTF-8") ;
                                                                     } ?>">
-                    <?php if (isset($errorMsg['kana1']) && "" != $errorMsg['kana1']):?>
-                        <p class="error_msg"><?php echo $errorMsg['kana1'] ?></p>
+                    <?php if (isset($errorMsg['first_name_kana']) && "" != $errorMsg['first_name_kana']):?>
+                        <p class="error_msg"><?php echo $errorMsg['first_name_kana'] ?></p>
                     <?php endif;?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="kana2" class="label">フリガナ：メイ<span>*</span></label>
+                <label for="last_name_kana" class="label">フリガナ：メイ<span>*</span></label>
                 <div class="inputs">
-                    <input type="text" name="kana2" id="kana2" value="<?php if (isset($values['kana2'])) {
-                                                                        echo htmlspecialchars($values['kana2'], ENT_QUOTES, "UTF-8") ;
+                    <input type="text" name="last_name_kana" id="last_name_kana" value="<?php if (isset($values['last_name_kana'])) {
+                                                                        echo htmlspecialchars($values['last_name_kana'], ENT_QUOTES, "UTF-8") ;
                                                                     } ?>">
-                    <?php if (isset($errorMsg['kana2']) && "" != $errorMsg['kana2']):?>
-                        <p class="error_msg"><?php echo $errorMsg['kana2'] ?></p>
+                    <?php if (isset($errorMsg['last_name_kana']) && "" != $errorMsg['last_name_kana']):?>
+                        <p class="error_msg"><?php echo $errorMsg['last_name_kana'] ?></p>
                     <?php endif;?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="sex" class="label">性別<span>*</span></label>
+                <label for="sex_id" class="label">性別<span>*</span></label>
                 <div class="inputs">
                     <label>
                     <?php foreach (SEX_LIST as $key => $value) : ?>
-                        <input type="radio" name="sex" id="sex" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>"<?php if (isset($values['sex']) && $key == $values['sex']) echo 'checked' ?>><?php echo $value ?>
+                        <input type="radio" name="sex_id" id="sex_id" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>"<?php if (isset($values['sex_id']) && $key == $values['sex_id']) echo 'checked' ?>><?php echo $value ?>
                     <?php endforeach ?>
                     </label>
-                        <?php if (isset($errorMsg['sex']) && "" != $errorMsg['sex']) :?>
-                            <p class="error_msg"><?php echo $errorMsg['sex'] ?></p>
+                        <?php if (isset($errorMsg['sex_id']) && "" != $errorMsg['sex_id']) :?>
+                            <p class="error_msg"><?php echo $errorMsg['sex_id'] ?></p>
                         <?php endif;?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="age" class="label">年齢<span>*</span></label>
+                <label for="age_id" class="label">年齢<span>*</span></label>
                 <div class="inputs">
-                    <select name="age" id="age" >
+                    <select name="age_id" id="age_id" >
                         <option hidden>未選択</option>
                         <?php foreach (AGE_LIST as $key => $value) : ?>
-                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['age']) && $key == $values['age']) echo 'selected' ?>><?php echo $value ?></option>
+                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['age_id']) && $key == $values['age_id']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
-                    <?php if (isset($errorMsg['age']) && "" != $errorMsg['age']) :?>
-                        <p class="error_msg"><?php echo $errorMsg['age'] ?></p>
+                    <?php if (isset($errorMsg['age_id']) && "" != $errorMsg['age_id']) :?>
+                        <p class="error_msg"><?php echo $errorMsg['age_id'] ?></p>
                     <?php endif;?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="blood_type" class="label">血液型<span>*</span></label>
+                <label for="blood_type_id" class="label">血液型<span>*</span></label>
                 <div class="inputs">
                     <?php foreach (BLOOD_LIST as $key => $value) : ?>
-                        <label><input type="radio" name="blood_type" id="blood_type" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['blood_type']) && $key == $values['blood_type']) echo 'checked' ?>><?php echo $value ?></label>
+                        <label><input type="radio" name="blood_type_id" id="blood_type_id" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['blood_type_id']) && $key == $values['blood_type_id']) echo 'checked' ?>><?php echo $value ?></label>
                     <?php endforeach ?>
-                    <?php if (isset($errorMsg['blood_type']) && "" != $errorMsg['blood_type']):?>
-                        <p class="error_msg"><?php echo $errorMsg['blood_type'] ?></p>
+                    <?php if (isset($errorMsg['blood_type_id']) && "" != $errorMsg['blood_type_id']):?>
+                        <p class="error_msg"><?php echo $errorMsg['blood_type_id'] ?></p>
                     <?php endif;?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="job" class="label">職業<span>*</span></label>
+                <label for="job_id" class="label">職業<span>*</span></label>
                 <div class="inputs">
-                    <select name="job" id="job">
+                    <select name="job_id" id="job_id">
                         <option hidden>未選択</option>
                         <?php foreach (JOB_LIST as $key => $value) : ?>
-                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>"<?php if (isset($values['job']) && $key == $values['job']) echo 'selected' ?>><?php echo $value ?></option>
+                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>"<?php if (isset($values['job_id']) && $key == $values['job_id']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
-                    <?php if (isset($errorMsg['job']) && "" != $errorMsg['job']) :?>
-                        <p class="error_msg"><?php echo $errorMsg['job'] ?></p>
+                    <?php if (isset($errorMsg['job_id']) && "" != $errorMsg['job_id']) :?>
+                        <p class="error_msg"><?php echo $errorMsg['job_id'] ?></p>
                     <?php endif;?>
                 </div>
             </div>
@@ -148,40 +148,40 @@ $errorMsg = $inputController->getErrorMsg();
             </div>
 
             <div class="item">
-                <label for="address1" class="label">都道府県<span>*</span></label>
+                <label for="prefecture_id" class="label">都道府県<span>*</span></label>
                 <div class="inputs">
-                    <select name="address1" id="address1">
+                    <select name="prefecture_id" id="prefecture_id">
                         <option hidden>未選択</option>
                         <?php foreach (PREFUCTURES_LIST as $key => $value) : ?>
-                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['address1']) && $key == $values['address1']) echo 'selected' ?>><?php echo $value ?></option>
+                            <option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['prefecture_id']) && $key == $values['prefecture_id']) echo 'selected' ?>><?php echo $value ?></option>
                         <?php endforeach ?>
                     </select>
-                    <?php if (isset($errorMsg['address1']) && "" != $errorMsg['address1']):?>
-                        <p class="error_msg"><?php echo $errorMsg['address1'] ?></p>
+                    <?php if (isset($errorMsg['prefecture_id']) && "" != $errorMsg['prefecture_id']):?>
+                        <p class="error_msg"><?php echo $errorMsg['prefecture_id'] ?></p>
                     <?php endif;?>
                 </div>
             </div class="item">
 
             <div class="item">
-                <label for="address2" class="label">住所<span>*</span></label>
+                <label for="address1" class="label">住所<span>*</span></label>
                 <div class="inputs">
-                    <input type="text" name="address2" id="address2" value="<?php if (isset($values['address2'])) {
-                                                                                echo htmlspecialchars($values['address2'], ENT_QUOTES, "UTF-8");
+                    <input type="text" name="address1" id="address1" value="<?php if (isset($values['address1'])) {
+                                                                                echo htmlspecialchars($values['address1'], ENT_QUOTES, "UTF-8");
                                                                             } ?>">
-                    <?php if (isset($errorMsg['address2']) && "" != $errorMsg['address2']) :?>
-                        <p class="error_msg"><?php echo $errorMsg['address2'] ?></p>
+                    <?php if (isset($errorMsg['address1']) && "" != $errorMsg['address1']) :?>
+                        <p class="error_msg"><?php echo $errorMsg['address1'] ?></p>
                     <?php endif;?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="address3" class="label">ビル・マンション名</label>
+                <label for="address2" class="label">ビル・マンション名</label>
                 <div class="inputs">
-                    <input type="text" name="address3" id="address3" value="<?php if (isset($values['address3'])) {
-                                                                        echo htmlspecialchars($values['address3'], ENT_QUOTES, "UTF-8");
+                    <input type="text" name="address2" id="address2" value="<?php if (isset($values['address2'])) {
+                                                                        echo htmlspecialchars($values['address2'], ENT_QUOTES, "UTF-8");
                                                                     } ?>">
-                    <?php if (isset($errorMsg['address3']) && "" != $errorMsg['address3']) :?>
-                        <p class="error_msg"><?php echo $errorMsg['address3'] ?></p>
+                    <?php if (isset($errorMsg['address2']) && "" != $errorMsg['address2']) :?>
+                        <p class="error_msg"><?php echo $errorMsg['address2'] ?></p>
                     <?php endif;?>
                 </div>
             </div>
@@ -236,25 +236,25 @@ $errorMsg = $inputController->getErrorMsg();
             </div>
 
             <div class="item">
-                <label for="category" class="label">興味のあるカテゴリー<br>(複数選択可）</label>
-                <div class="inputs category">
+                <label for="inquiry_content_ids" class="label">興味のあるカテゴリー<br>(複数選択可）</label>
+                <div class="inputs inquiry_content_ids">
                     <?php foreach (CATEGORY_LIST as $key => $value) : ?>
-                        <label><input type="checkbox" name="category[]" id="category" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['category']) && is_int(array_search($key, $values['category']))) echo 'checked'; ?>><?php echo $value ?></label>
+                        <label><input type="checkbox" name="inquiry_content_ids[]" id="inquiry_content_ids" value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8") ?>" <?php if (isset($values['inquiry_content_ids']) && is_int(array_search($key, $values['inquiry_content_ids']))) echo 'checked'; ?>><?php echo $value ?></label>
                     <?php endforeach ?>
-                    <?php if (isset($errorMsg['category']) && "" != $errorMsg['category']):?>
-                        <p class="error_msg"><?php echo $errorMsg['category']; ?></p>
+                    <?php if (isset($errorMsg['inquiry_content_ids']) && "" != $errorMsg['inquiry_content_ids']):?>
+                        <p class="error_msg"><?php echo $errorMsg['inquiry_content_ids']; ?></p>
                     <?php endif;?>
                 </div>
             </div>
 
             <div class="item">
-                <label for="info" class="label">お問合せ内容<span>*</span></label>
+                <label for="inpuiry_detail" class="label">お問合せ内容<span>*</span></label>
                 <div class="inputs">
-                    <textarea name="info" id="info" cols="50" rows="10"><?php if (isset($values['info'])) {
-                                                                                    echo htmlspecialchars($values['info'], ENT_QUOTES, "UTF-8");
+                    <textarea name="inpuiry_detail" id="inpuiry_detail" cols="50" rows="10"><?php if (isset($values['inpuiry_detail'])) {
+                                                                                    echo htmlspecialchars($values['inpuiry_detail'], ENT_QUOTES, "UTF-8");
                                                                                 } ?></textarea>
-                    <?php if (isset($errorMsg['info']) && "" != $errorMsg['info']):?>
-                        <p class="error_msg"><?php echo $errorMsg['info']; ?></p>
+                    <?php if (isset($errorMsg['inpuiry_detail']) && "" != $errorMsg['inpuiry_detail']):?>
+                        <p class="error_msg"><?php echo $errorMsg['inpuiry_detail']; ?></p>
                     <?php endif;?>
                 </div>
             </div>

@@ -47,8 +47,8 @@ class SendMail {
     {
         //カテゴリーの値を変換し、本文表示用に処理
         $valueCategory = '';
-        if (!empty($data['category'])) {
-            $datalist = $this->getArrayInList($data['category'], CATEGORY_LIST);
+        if (!empty($data['inquiry_content_ids'])) {
+            $datalist = $this->getArrayInList($data['inquiry_content_ids'], CATEGORY_LIST);
             $valueCategory = implode("\n", $datalist);
         }
 
@@ -59,31 +59,31 @@ class SendMail {
         $searchItems = [
             '{{name}}',
             '{{kana}}',
-            '{{sex}}',
-            '{{age}}',
-            '{{blood_type}}',
-            '{{job}}',
+            '{{sex_id}}',
+            '{{age_id}}',
+            '{{blood_type_id}}',
+            '{{job_id}}',
             '{{zip}}',
             '{{address12}}',
             '{{address3}}',
             '{{tel}}',
             '{{mail}}',
-            '{{category}}',
-            '{{info}}'
+            '{{inquiry_content_ids}}',
+            '{{inpuiry_detail}}'
         ];
         $replaceValues = [
             $data['name'],
             $data['kana'],
-            SEX_LIST[$data['sex']],
-            AGE_LIST[$data['age']],
-            BLOOD_LIST[$data['blood_type']].'型',
-            JOB_LIST[$data['job']], $data['zip'],
-            $data['address12'],
-            $data['address3'],
+            SEX_LIST[$data['sex_id']],
+            AGE_LIST[$data['age_id']],
+            BLOOD_LIST[$data['blood_type_id']].'型',
+            JOB_LIST[$data['job_id']], $data['zip'],
+            $data['address_p1'],
+            $data['address2'],
             $data['tel'],
             $data['mail'],
             $valueCategory,
-            $data['info']
+            $data['inpuiry_detail']
         ];
         $msgBody = str_replace($searchItems, $replaceValues, $mailTemplate);
 
@@ -100,8 +100,8 @@ class SendMail {
     {
         //カテゴリーの値を変換し、本文表示用に処理
         $valueCategory = '';
-        if (!empty($data['category'])) {
-            $datalist = $this->getArrayInList($data['category'], CATEGORY_LIST);
+        if (!empty($data['inquiry_content_ids'])) {
+            $datalist = $this->getArrayInList($data['inquiry_content_ids'], CATEGORY_LIST);
             $valueCategory = implode("\n", $datalist);
         }
 
@@ -113,33 +113,33 @@ class SendMail {
             '{{time}}',
             '{{name}}',
             '{{kana}}',
-            '{{sex}}',
-            '{{age}}',
-            '{{blood_type}}',
-            '{{job}}',
+            '{{sex_id}}',
+            '{{age_id}}',
+            '{{blood_type_id}}',
+            '{{job_id}}',
             '{{zip}}',
             '{{address12}}',
             '{{address3}}',
             '{{tel}}',
             '{{mail}}',
-            '{{category}}',
-            '{{info}}'
+            '{{inquiry_content_ids}}',
+            '{{inpuiry_detail}}'
         ];
         $replaceValues = [
             date("Y/m/d H:i:s"),
             $data['name'],
             $data['kana'],
-            SEX_LIST[$data['sex']],
-            AGE_LIST[$data['age']],
-            BLOOD_LIST[$data['blood_type']].'型',
-            JOB_LIST[$data['job']],
+            SEX_LIST[$data['sex_id']],
+            AGE_LIST[$data['age_id']],
+            BLOOD_LIST[$data['blood_type_id']].'型',
+            JOB_LIST[$data['job_id']],
             $data['zip'],
             $data['address12'],
             $data['address3'],
             $data['tel'],
             $data['mail'],
             $valueCategory,
-            $data['info']
+            $data['inpuiry_detail']
         ];
         $msgBody = str_replace($searchItems, $replaceValues, $mailTemplate);
 
