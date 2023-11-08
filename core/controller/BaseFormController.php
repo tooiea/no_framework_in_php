@@ -37,7 +37,8 @@ class BaseFormController {
      * @param  string $value3
      * @return string
      */
-    public function concatTel($value1, $value2, $value3) {
+    public function concatTel($value1, $value2, $value3)
+    {
         $data = $value1 . '-' . $value2 . '-' . $value3;
         return $data;
     }
@@ -49,7 +50,8 @@ class BaseFormController {
      * @param  string $value2
      * @return string
      */
-    public function concatZipNum($value1, $value2) {
+    public function concatZipNum($value1, $value2)
+    {
         $data = $value1 . '-' . $value2;
         return $data;
     }

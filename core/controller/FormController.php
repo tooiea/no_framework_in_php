@@ -49,7 +49,8 @@ class FormController extends BaseFormController {
      */
     public function confirm()
     {
-        $validater = new FormValidator($_POST);
+        $values = $this->convertValues($_POST);
+        $validater = new FormValidator($values);
         $result = $validater->isValidated();
 
         // 直アクセスされた、入力値が正常でない場合
@@ -57,9 +58,6 @@ class FormController extends BaseFormController {
             header('Location: /form/');
             exit();
         }
-
-        // 画面用で変数にセット
-        $values = $_POST;
 
         // POSTの入力値をクリア
         $_POST = [];
@@ -73,7 +71,8 @@ class FormController extends BaseFormController {
      */
     public function complete()
     {
-        $validater = new FormValidator($_POST);
+        $values = $this->convertValues($_POST);
+        $validater = new FormValidator($values);
         $result = $validater->isValidated();
 
         // 直アクセスされた、入力値が正常でない場合
@@ -85,11 +84,11 @@ class FormController extends BaseFormController {
         try {
             $contactInstance = new Contact();
             $contactInstance->beginTransaction();
-            $processedDataForDB = $this->processingDataToDataBase($_POST);
+            $processedDataForDB = $this->processingDataToDataBase($values);
             $result = $contactInstance->insert($processedDataForDB);
 
             // 問い合わせ者へ返信
-            $valuesToCustomer = $this->processingDataToCustomer($_POST);
+            $valuesToCustomer = $this->processingDataToCustomer($values);
             $mailToCustomer = new SendCustomerMailer(
                 $valuesToCustomer['mail'],
                 MailConstant::SUBJECT_TO_CUSTOMER,
@@ -104,7 +103,7 @@ class FormController extends BaseFormController {
             }
 
             // 管理者へ送信
-            $valuesToAdmin = $this->processingDataToAdmin($_POST);
+            $valuesToAdmin = $this->processingDataToAdmin($values);
             $mailToAdmin = new SendAdministratorMailer(
                 MailConstant::ADDRESS_TO_ADMINISTRATOR,
                 MailConstant::SUBJECT_TO_ADMINISTRATOR,

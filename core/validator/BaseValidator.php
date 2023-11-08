@@ -6,11 +6,13 @@ class BaseValidator {
     private $data;
     private $errors = [];
     private $errorMsg = [];
+    private $baseErrorMsg = [];
 
     // 入力値セット
     public function __construct($data)
     {
         $this->data = $data;
+        $this->baseErrorMsg = $this->messages();
     }
 
     /**
@@ -84,7 +86,7 @@ class BaseValidator {
     private function required($field, $_)
     {
         if (!isset($this->data[$field]) || empty($this->data[$field]) || is_null($this->data[$field]) || "未選択" === $this->data[$field]) {
-            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->errorMsg['required']);
+            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['required']);
         }
     }
 
@@ -98,7 +100,7 @@ class BaseValidator {
     private function max($field, $maxLength)
     {
         if (isset($this->data[$field]) && mb_strlen($this->data[$field]) > $maxLength) {
-            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->getErrorMsg('maxLength', $maxLength, $this->errorMsg['max']));
+            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->getErrorMsg('maxLength', $maxLength, $this->baseErrorMsg['max']));
         }
     }
 
@@ -112,7 +114,7 @@ class BaseValidator {
     private function regex($field, $pattern)
     {
         if (isset($this->data[$field]) && !preg_match($pattern, $this->data[$field])) {
-            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->errorMsg['regex']);
+            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['regex']);
         }
     }
 
@@ -133,12 +135,12 @@ class BaseValidator {
             if (is_array($this->data[$dataKey])) {
                 foreach ($this->data[$dataKey] as $value) {
                     if (!array_key_exists($value, $list)) {
-                        $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->errorMsg['in']);
+                        $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['in']);
                     }
                 }
             } else {
                 if (!array_key_exists($this->data[$field], $list)) {
-                    $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->errorMsg['in']);
+                    $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['in']);
                 }
             }
         }
@@ -154,7 +156,7 @@ class BaseValidator {
     private function integer($field, $_)
     {
         if (isset($this->data[$field]) && !filter_var($this->data[$field], FILTER_VALIDATE_INT)) {
-            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->errorMsg['integer']);
+            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['integer']);
         }
     }
 
@@ -168,7 +170,7 @@ class BaseValidator {
     private function email($field, $_)
     {
         if (isset($this->data[$field]) && !filter_var($this->data[$field], FILTER_VALIDATE_EMAIL)) {
-            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->errorMsg['mail']);
+            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['mail']);
         }
     }
 
@@ -182,7 +184,7 @@ class BaseValidator {
     private function same($field, $field2)
     {
         if (isset($this->data[$field]) && $this->data[$field] !== $this->data[$field2]) {
-            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->errorMsg['same']);
+            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['same']);
         }
     }
 
@@ -193,7 +195,6 @@ class BaseValidator {
      */
     public function isValidated()
     {
-        $this->errorMsg = $this->messages();
         foreach ($this->rules() as $field => $rules) {
             foreach ($rules as $ruleKey => $ruleValue) {
                 // 同一カラム名ですでにエラーとなった場合は、スキップ
@@ -201,7 +202,7 @@ class BaseValidator {
                     break;
                 }
 
-                 if (is_numeric($ruleKey)) {
+                if (is_numeric($ruleKey)) {
                     $ruleMethod = $ruleValue;
                     $value = true;
                 } else { // ルールがキーとして定義されている場合
@@ -209,7 +210,7 @@ class BaseValidator {
                     $value = $ruleValue;
                 }
 
-                // ババリデーションルールが存在する場合
+                // バリデーションルールが存在する場合
                 if (method_exists($this, $ruleMethod)) {
                     $this->$ruleMethod($field, $value);
                 } else {
