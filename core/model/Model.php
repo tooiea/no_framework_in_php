@@ -11,9 +11,12 @@ class Model {
     * @param string $password パスワード
     * @return object　PDOクラス
     */
-    public function __construct(string $dsn, string $userName, string $password, array $option)
+    public function __construct(string $dsn, string $userName, string $password)
     {
-        $this->dbController = new PDO($dsn, $userName, $password, $option);
+        $this->dbController = new PDO($dsn, $userName, $password);
+        $this->dbController->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $this->dbController->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         return $this->dbController;
     }
 

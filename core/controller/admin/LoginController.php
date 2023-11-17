@@ -37,8 +37,7 @@ class LoginController {
                         $administrators = new Administrator(
                             DB_ACCESS_INFO,
                             USER_NAME,
-                            PASSWORD,
-                            [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]
+                            PASSWORD
                         );
                         //トランザクション開始
                         $administrators->beginTransaction();
