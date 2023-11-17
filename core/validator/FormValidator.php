@@ -76,7 +76,6 @@ class FormValidator extends BaseValidator {
             ],
             'tel3' => [
                 'required',
-                'integer',
                 'regex' => '/^[0-9]{1,4}+$/',
             ],
             'mail' => [

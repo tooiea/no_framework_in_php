@@ -24,13 +24,15 @@ class FormController extends BaseFormController {
         if ('POST' === $_SERVER['REQUEST_METHOD']) {
             // 戻るボタン
             if (FormConstant::SUBMIT_CONFIRM_BACK === $_POST['submit']) {
-                $values = $_POST;
+                $values = $_SESSION['form_values'];
             } else {
                 // 入力値を変換した状態でバリデーション実施
                 $values = $this->convertValues($_POST);
                 $validater = new FormValidator($values);
                 $result = $validater->isValidated();
                 if ($result) {
+                    $_POST = [];
+                    $_SESSION['form_values'] = $values;
                     header('Location: /form/confirm/', true, 307);
                     exit();
                 }
@@ -49,18 +51,20 @@ class FormController extends BaseFormController {
      */
     public function confirm()
     {
-        $values = $this->convertValues($_POST);
+        // フォーム用のセッションがない(直アクセスされた場合)
+        $this->hasSession();
+
+        $values = $this->convertValues($_SESSION['form_values']);
         $validater = new FormValidator($values);
         $result = $validater->isValidated();
 
-        // 直アクセスされた、入力値が正常でない場合
-        if (empty($_POST) || !$result) {
+        // 入力値が正常でない場合
+        if (!$result) {
+            session_destroy();
             header('Location: /form/');
             exit();
         }
 
-        // POSTの入力値をクリア
-        $_POST = [];
         include dirname(__FILE__) . '/../view/form/confirm.php';
     }
 
@@ -71,12 +75,16 @@ class FormController extends BaseFormController {
      */
     public function complete()
     {
-        $values = $this->convertValues($_POST);
+        // フォーム用のセッションがない(直アクセスされた場合)
+        $this->hasSession();
+
+        $values = $this->convertValues($_SESSION['form_values']);
         $validater = new FormValidator($values);
         $result = $validater->isValidated();
 
         // 直アクセスされた、入力値が正常でない場合
-        if (empty($_POST) || !$result) {
+        if (!$result) {
+            session_destroy();
             header('Location: /form/');
             exit();
         }
@@ -120,9 +128,6 @@ class FormController extends BaseFormController {
             $msgHeader = MessageConstant::SUCCESS_SEND_MAIL_HEADER;
             $msgBody = MessageConstant::SUCCESS_SEND_MAIL_BODY;
 
-            // post初期化
-            $_POST = [];
-
             // DBへ登録
             $contactInstance->commit();
         } catch (SendMailException) {
@@ -132,6 +137,10 @@ class FormController extends BaseFormController {
         } catch (\Throwable $th) {
             $contactInstance->rollback();
         }
+
+        // フォーム用セッションのみ削除
+        unset($_SESSION['form_values']);
+
         include dirname(__FILE__) . '/../view/form/complete.php';
     }
 

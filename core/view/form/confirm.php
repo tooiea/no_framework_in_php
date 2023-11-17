@@ -175,29 +175,11 @@
         <!-- 戻るボタン -->
         <div class="btn_group">
             <form action="/form/" method="POST">
-                <?php foreach ($values as $key => $value): ?>
-                    <?php if ($key === 'category'): ?>
-                        <?php foreach ($value as $category) :?>
-                            <input type="hidden" name="<?php echo htmlspecialchars($key . '[]', ENT_QUOTES, "UTF-8")?>" value="<?php echo htmlspecialchars($category, ENT_QUOTES, "UTF-8")?>">
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <input type="hidden" name="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8")?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, "UTF-8")?>">
-                    <?php endif;?>
-                <?php endforeach; ?>
                 <button type="submit" name="submit" class="return btn" value="<?php echo FormConstant::SUBMIT_CONFIRM_BACK; ?>">戻る</button>
             </form>
 
             <!-- 送信ボタン  -->
             <form action="/form/complete/" method="POST">
-                <?php foreach ($values as $key => $value): ?>
-                    <?php if ($key === 'category'): ?>
-                        <?php foreach ($value as $category) :?>
-                            <input type="hidden" name="<?php echo htmlspecialchars($key . '[]', ENT_QUOTES, "UTF-8")?>" value="<?php echo htmlspecialchars($category, ENT_QUOTES, "UTF-8")?>">
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                            <input type="hidden" name="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8")?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, "UTF-8")?>">
-                    <?php endif;?>
-                <?php endforeach; ?>
                 <button type="submit" name="submit" class="next btn" value="<?php echo FormConstant::SUBMIT_COMPLETE; ?>">送信する</button>
             </form>
         </div>

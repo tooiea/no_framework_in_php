@@ -5,6 +5,29 @@ require_once(dirname(__FILE__) . '/../constant/FormConstant.php');
 class BaseFormController {
 
     /**
+     * セッション開始
+     */
+    public function __construct()
+    {
+        session_start();
+    }
+
+    /**
+     * セッションチェック
+     *
+     * @return boolean
+     */
+    public function hasSession()
+    {
+        // フォーム用のセッション確認
+        if (empty($_SESSION['form_values'])) {
+            session_destroy();
+            header('Location: /form/');
+            exit();
+        }
+    }
+
+    /**
      * 名前連結処理
      *
      * @param  string $value

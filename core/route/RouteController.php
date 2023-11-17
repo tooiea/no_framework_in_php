@@ -14,12 +14,12 @@ class RouteController {
             'function' => 'index'
         ],
         '/form/confirm/' => [
-            'method' => ['POST'],
+            'method' => ['GET', 'POST'],
             'controller' => 'FormController',
             'function' => 'confirm'
         ],
         '/form/complete/' => [
-            'method' => ['POST'],
+            'method' => ['GET', 'POST'],
             'controller' => 'FormController',
             'function' => 'complete'
         ],
