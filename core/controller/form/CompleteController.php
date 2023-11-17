@@ -25,8 +25,8 @@ class CompleteController extends Controller {
             $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);
             $contact = new Contact(
                 DB_ACCESS_INFO,
-                USER_NAME, PASSWORD,
-                [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]
+                USER_NAME,
+                PASSWORD
             );
 
             // トランザクション開始
