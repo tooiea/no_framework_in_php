@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
     <body class="admin_login_page">
         <?php if (empty($msg)):?>
-        <form action='/admin/login' method="post">
+        <form action='/admin/login/' method="post">
             <!-- ログインID -->
             <div class="item">
                 <label for="login_id" class="label">ログインID</label>
@@ -31,7 +31,7 @@
 
             <!-- 送信ボタン -->
             <div class="item submit">
-                <button type="submit" name="submit" value="<?php echo CHECK_ADMIN_LOGIN; ?>">ログイン</button>
+                <button type="submit" name="submit">ログイン</button>
             </div>
         </form>
         

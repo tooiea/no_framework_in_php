@@ -1,6 +1,9 @@
 <?php
 
 require_once(dirname(__FILE__) . '/../error/RouteException.php');
+require_once(dirname(__FILE__) . '/../controller/FormController.php');
+require_once(dirname(__FILE__) . '/../controller/admin/LoginController.php');
+require_once(dirname(__FILE__) . '/../controller/admin/UserSearchController.php');
 
 class RouteController {
 
@@ -25,17 +28,17 @@ class RouteController {
         ],
         '/admin/login/' => [
             'method' => ['GET', 'POST'],
-            'controller' => '/admin/LoginController',
-            'function' => 'complete'
+            'controller' => 'LoginController',
+            'function' => 'login'
         ],
         '/admin/list/' => [
             'method' => ['GET'],
-            'controller' => '/admin/SearchUserController',
+            'controller' => 'UserSearchController',
             'function' => 'userList'
         ],
         '/admin/detail/' => [
             'method' => ['GET'],
-            'controller' => '/admin/SearchUserController',
+            'controller' => 'UserSearchController',
             'function' => 'userDetail'
         ],
     ];
@@ -82,7 +85,6 @@ class RouteController {
      */
     private static function executeController($controllerName, $functionName)
     {
-        require_once(dirname(__FILE__) . '/../controller/' . $controllerName . '.php');
         $controller = new $controllerName();
         return $controller->$functionName();
     }
