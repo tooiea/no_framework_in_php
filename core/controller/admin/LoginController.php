@@ -27,12 +27,12 @@ class LoginController extends BaseAdminController {
                     $administrator->beginTransaction();
 
                     //select文実行
-                    $data = $administrator->select($values);
+                    $user = $administrator->select($values);
 
                     // ユーザあり
-                    if ($data) {
+                    if ($user) {
                         // パスワードをハッシュ化されたものと比較
-                        if (password_verify($values['password'], $data['password'])) {
+                        if (password_verify($values['password'], $user['password'])) {
                             $administrator->updateLoginDate($values); //ログイン日時の更新
                             $administrator->commit();
 

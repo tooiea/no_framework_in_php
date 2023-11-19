@@ -1,17 +1,9 @@
 <?php
 
 require_once(dirname(__FILE__) . '/../constant/FormConstant.php');
+require_once(dirname(__FILE__) . '/Controller.php');
 
-class BaseFormController {
-
-    /**
-     * セッション開始
-     */
-    public function __construct()
-    {
-        session_start();
-    }
-
+class BaseFormController extends Controller {
     /**
      * セッションチェック
      *

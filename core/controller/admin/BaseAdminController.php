@@ -1,11 +1,8 @@
 <?php
 
-class BaseAdminController {
-    public function __construct()
-    {
-        session_start();
-    }
+require_once(dirname(__FILE__) . '/../Controller.php');
 
+class BaseAdminController extends Controller {
     /**
      * セッションチェック
      *
