@@ -170,7 +170,7 @@ class BaseValidator {
     private function email($field, $_)
     {
         if (isset($this->data[$field]) && !filter_var($this->data[$field], FILTER_VALIDATE_EMAIL)) {
-            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['mail']);
+            $this->errors[$field] = $this->getErrorMsg('field', $this->attributes()[$field], $this->baseErrorMsg['email']);
         }
     }
 

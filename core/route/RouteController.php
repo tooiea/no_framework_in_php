@@ -68,12 +68,11 @@ class RouteController {
             header("HTTP/1.1 404 Not Found");
             include(dirname(__FILE__) . '/../view/error/404.php');
             exit;
+        } catch (\Throwable $th) {
+            header("HTTP/1.1 500 server error");
+            include(dirname(__FILE__) . '/../view/error/500.php');
+            exit;
         }
-        //  catch (\Throwable $th) {
-        //     header("HTTP/1.1 500 server error");
-        //     include(dirname(__FILE__) . '/../view/error/500.php');
-        //     exit;
-        // }
     }
 
     /**

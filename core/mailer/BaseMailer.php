@@ -52,7 +52,7 @@ class BaseMailer {
                     $this->mail,
                     $this->subject,
                     $msgBody,
-                    $this->header,
+                    $this->header
                 );
 
         return $sendTo;
