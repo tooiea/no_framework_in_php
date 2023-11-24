@@ -104,4 +104,9 @@ class Contact extends Model {
 
         return $insertFirst . $insertValue;
     }
+
+    public function getContacts()
+    {
+        
+    }
 }

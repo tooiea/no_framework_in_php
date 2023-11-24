@@ -3,8 +3,9 @@
 require_once(dirname(__FILE__) . '/../Controller.php');
 
 class BaseAdminController extends Controller {
+
     /**
-     * セッションチェック
+     * ログイン済みのユーザである
      *
      * @return boolean
      */
@@ -13,6 +14,20 @@ class BaseAdminController extends Controller {
         // フォーム用のセッション確認
         if (!empty($_SESSION['login_id'])) {
             header('Location: /admin/list');
+            exit();
+        }
+    }
+
+    /**
+     * 
+     *
+     * @return boolean
+     */
+    public function isLoggedinUser()
+    {
+        // フォーム用のセッション確認
+        if (empty($_SESSION['login_id'])) {
+            header('Location: /admin/login');
             exit();
         }
     }

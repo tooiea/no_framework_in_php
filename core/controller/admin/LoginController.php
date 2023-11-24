@@ -22,7 +22,7 @@ class LoginController extends BaseAdminController {
 
                 if ($validator->isValidated()) {    //入力チェックがOKの場合
                     //管理用テーブルへアクセス
-                    $administrator = new Adminstrator();
+                    $administrator = new Administrator();
                     //トランザクション開始
                     $administrator->beginTransaction();
 

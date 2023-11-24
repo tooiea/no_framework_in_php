@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__) . '/Model.php');
 
-class Adminstrator extends Model {
+class Administrator extends Model {
 
     private const SELECT_LOGIN_ID_PASSWORD = 'SELECT login_id, password FROM administrators WHERE login_id = :login_id';
     private const UPDATE_LOGIN_DATE = 'UPDATE administrators set last_login_date = :last_login_date';
