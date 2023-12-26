@@ -5,7 +5,7 @@ services:
     build: "./linux"
     # vscodeでデバッグするためにホスト追加
     container_name: "assignment_web"
-    platform: linux/x86_64
+    # platform: linux/x86_64
     environment:
       - SMTP_HOST=assignment_mailhog
       - SMTP_PORT=1025
@@ -53,7 +53,7 @@ services:
   mailhog:
     image: mailhog/mailhog
     container_name: assignment_mailhog
-    restart: always
+    # restart: always
     ports:
       - '1025:1025'
       - '8025:8025'

@@ -60,4 +60,52 @@ class UserSearchController extends BaseAdminController {
         }
         return $result;
     }
+
+    /**
+     * 検索時のSQL文のWHERE条件を選択
+     *
+     * @param  array $values 入力値
+     * @return string 入力値から選択されたSQL文
+     */
+    public function checkSelectContents(array $values)
+    {
+        $sqlStr = '';
+        foreach ($values as $key => $value) {
+            if ('name' === $key && !empty($values['name'])) {   //nameに入力がある場合
+                $sqlStr .= SELECT_CONTACT_LIST_NAME;
+            }
+            if ('kana' === $key && !empty($values['kana'])) {   //kanaに入力がある場合
+                if (!empty($sqlStr)) {
+                    $sqlStr .= ' AND';
+                }
+                $sqlStr .= SELECT_CONTACT_LIST_KANA;
+            }
+            if ('mail' === $key && !empty($values['mail'])) {   //mailに入力がある場合
+                if (!empty($sqlStr)) {
+                    $sqlStr .= ' AND';
+                }
+                $sqlStr .= SELECT_CONTACT_LIST_MAIL;
+            }
+        }
+        return $sqlStr;
+    }
+
+    /**
+     * 表示したいページ数に対して、SQL文のLIMIT,OFFSET条件を選択
+     *
+     * @param  integer $page
+     * @return string LIMIT、OFFSETのSQL文を返す
+     */
+    private function checkOffsetSql(int $page)
+    {
+        $offset = array();
+        $offset['offsetValue'] = ($page -1 ) * DISPLAY_IN_PAGE;
+
+        if ($offset['offsetValue'] !== 0) {
+            $offset['sql'] = IS_OFFSET;
+        } else {
+            $offset['sql'] = NO_OFFSET;
+        }
+        return $offset;
+    }
 }
