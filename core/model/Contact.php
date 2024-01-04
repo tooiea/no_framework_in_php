@@ -1,8 +1,4 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
 require_once(dirname(__FILE__).'/../model/Model.php');    //データベースアクセスクラス
 require_once(dirname(__FILE__).'/../const/sql.php');           //定義用php
 

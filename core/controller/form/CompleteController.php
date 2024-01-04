@@ -9,15 +9,25 @@ require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベー�
 
 class CompleteController extends Controller {
 
+    /**
+     * Undocumented function
+     *
+     * @return array
+     */
     public function index()
     {
         $msg = []; //テンプレート表示用変数
 
         // セッションの中身が空か指定のキーが入っているかチェック
         if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD'] || $this->isInListValue($_SESSION)) {
-            session_destroy();
+            // セッション配列のクリーンアップ
+            $_SESSION = [];
+
             header('Location: /form/');
-            exit;
+            // テスト時はexitしない
+            if (!$this->shouldExit()) {
+                exit;
+            }
         }
 
         try {
@@ -65,8 +75,8 @@ class CompleteController extends Controller {
             // メール送信完了後にコミット
             $contact->commit();
 
-            //コミット後
-            session_destroy();;    //セッションクリア
+            $_SESSION = [];
+
             $msg['header'] = RECEPTION_COMPLETED; //完了用メッセージを渡す
             $msg['body'] = MESSAGE_AFTER_COMPLETED;
         } catch (PDOEXception $ex) {

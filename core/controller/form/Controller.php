@@ -1,7 +1,7 @@
 <?php
+require_once dirname(__FILE__) . '/../../interfaces/ExitHandlerInterface.php';
 
-class Controller {
-
+class Controller implements ExitHandlerInterface {
     /**
      * 名前、フリガナの文字連結処理
      * @param  string $num1 名前：性
@@ -127,5 +127,15 @@ class Controller {
             $values['tel3'] = mb_convert_kana($values['tel3'], "a");
         }
         return $values;
+    }
+
+    /**
+     * 環境変数からexit要否の判定する(テスト実施のため)
+     *
+     * @return boolean
+     */
+    public function shouldExit()
+    {
+        return getenv('TEST_MODE');
     }
 }

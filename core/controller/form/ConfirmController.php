@@ -6,18 +6,16 @@ class ConfirmController extends Controller {
 
     public function index()
     {
-        //セッションの中身が空かどうかチェック
-        if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD']) {
-            session_destroy();
-            header("Location: /form/");
-            exit;
-        }
+        // セッションの中身が空か指定のキーが入っているかチェック
+        if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD'] || $this->isInListValue($_SESSION)) {
+            // セッション配列のクリーンアップ
+            $_SESSION = [];
+            header('Location: /form/');
 
-        // セッション内の値が不正
-        if ($this->isInListValue($_SESSION)) {
-            session_destroy();
-            header("Location: /form/");
-            exit;
+            // テスト時はexitしない
+            if (!$this->shouldExit()) {
+                exit;
+            }
         }
 
         //セッションに保存されている値を表示用の値として代入

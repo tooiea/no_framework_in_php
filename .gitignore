@@ -2,3 +2,4 @@ core/vendor/*
 core/storage/*
 core/bootstrap/*
 core/.env
+core/.phpunit.cache*

@@ -4,7 +4,6 @@ require_once(dirname(__FILE__) . '/../../const/common_const.php');
 require_once(dirname(__FILE__) . '/../../controller/form/Controller.php');
 
 class InputController extends Controller {
-
     // 再表示用
     private $values;
 
@@ -42,7 +41,11 @@ class InputController extends Controller {
                         $_SESSION[$key] = $value;
                     }
                     header("Location: /form/confirm/", true, 307);
-                    exit;
+
+                    // テスト時はexitしない
+                    if (!$this->shouldExit()) {
+                        exit;
+                    }
                 }
 
                 // 表示用エラーメッセージ取得

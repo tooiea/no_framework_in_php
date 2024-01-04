@@ -4,7 +4,7 @@ require_once(dirname(__FILE__).'/../../validation/AdminFormValidator.php');
 require_once(dirname(__FILE__).'/../../const/sql.php');
 require_once(dirname(__FILE__).'/../../const/message.php');
 
-class LoginController {
+class LoginController extends Controller {
 
     // 表示用エラー時メッセージ
     private $msg;
