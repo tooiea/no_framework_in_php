@@ -43,6 +43,13 @@ RUN dnf install -y epel-release\
     php-pear\
     php-devel\
     php-pecl-xdebug\
+    # phpunitインストール用
+    php-cli \
+    php-json \
+    php-mbstring \
+    php-process \
+    php-xml \
+    php-pecl-pcov \
     # postfixのインストール
     postfix\
     && dnf -y install mailx \
