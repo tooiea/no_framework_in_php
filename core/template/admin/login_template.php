@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__).'/../../controller/admin/LoginController.php');
 
-$loginController = new LoginController();
+$loginController = new LoginController(new Redirector());
 $loginController->index();
 $errorMsg = $loginController->getErrorMsg();
 $msg = $loginController->getMessage();

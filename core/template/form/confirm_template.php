@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__).'/../../controller/form/ConfirmController.php'); //Confirmcontrollerの読み込み
 
-$confirmController = new ConfirmController();
+$confirmController = new ConfirmController(new Redirector());
 $values = $confirmController->index();
 ?>
 

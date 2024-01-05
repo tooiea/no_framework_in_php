@@ -10,12 +10,7 @@ class ConfirmController extends Controller {
         if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD'] || $this->isInListValue($_SESSION)) {
             // セッション配列のクリーンアップ
             $_SESSION = [];
-            header('Location: /form/');
-
-            // テスト時はexitしない
-            if (!$this->shouldExit()) {
-                exit;
-            }
+            $this->redirector->getRedirectTo('/form/');
         }
 
         //セッションに保存されている値を表示用の値として代入

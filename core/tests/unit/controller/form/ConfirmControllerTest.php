@@ -15,7 +15,7 @@ class ConfirmControllerTest extends BaseController
      */
     protected function setUp(): void
     {
-        $this->instance = new ConfirmController();
+        $this->instance = new ConfirmController(new Redirector());
         if (!isset($_SESSION)) {
             session_start();
             session_regenerate_id(true); //sessionID更新
@@ -42,6 +42,12 @@ class ConfirmControllerTest extends BaseController
      */
     public function testIndexFail(): void
     {
+        $mockRedirector = $this->createMock(Redirector::class);
+        $mockRedirector->expects($this->once())
+                       ->method('getRedirectTo')
+                       ->with($this->equalTo('/form/'));
+        $this->instance = new ConfirmController($mockRedirector);
+
         $this->setUpBefore(REQUEST_METHOD_GET, SESSION_FORM_DATA, []);
         $this->assertEmpty($this->instance->index());
     }

@@ -15,7 +15,7 @@ class CompleteControllerTest extends BaseController
      */
     protected function setUp(): void
     {
-        $this->instance = new CompleteController();
+        $this->instance = new CompleteController(new Redirector());
         if (!isset($_SESSION)) {
             session_start();
             session_regenerate_id(true); //sessionID更新
@@ -44,6 +44,12 @@ class CompleteControllerTest extends BaseController
      */
     public function testIndexFail(): void
     {
+        $mockRedirector = $this->createMock(Redirector::class);
+        $mockRedirector->expects($this->once())
+                       ->method('getRedirectTo')
+                       ->with($this->equalTo('/form/'));
+        $this->instance = new CompleteController($mockRedirector);
+
         $this->setUpBefore(REQUEST_METHOD_POST, [], []);
         $this->assertNotEmpty($this->instance->index());
     }
@@ -51,6 +57,8 @@ class CompleteControllerTest extends BaseController
     /**
      * インデックス入力エラー
      * @covers Controller
+     * @covers Contact
+     * @covers Model
      *
      * @return void
      */
@@ -62,11 +70,14 @@ class CompleteControllerTest extends BaseController
 
     /**
      * @covers Controller
+     * @covers Contact
+     * @covers Model
      *
      * @return void
      */
     public function testPDOException(): void
     {
+        // TODO 要修正
         $this->expectException(PDOEXception::class);
         $this->setUpBefore(REQUEST_METHOD_POST, SESSION_FORM_DATA, []);
         $this->instance->index();

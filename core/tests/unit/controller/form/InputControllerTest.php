@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../data/formData.php';
 /**
  * @covers InputController
  */
-class InputFormControllerTest extends BaseController {
+class InputControllerTest extends BaseController {
     /**
      * クラス初期化
      *
@@ -14,7 +14,11 @@ class InputFormControllerTest extends BaseController {
      */
     protected function setUp(): void
     {
-        $this->instance = new InputController();
+        if (!isset($_SESSION)) {
+            session_start();
+            session_regenerate_id(true); //sessionID更新
+        }
+        $this->instance = new InputController(new Redirector());
     }
 
     /**
@@ -25,6 +29,12 @@ class InputFormControllerTest extends BaseController {
      */
     public function testIndexPass(): void
     {
+        $mockRedirector = $this->createMock(Redirector::class);
+        $mockRedirector->expects($this->once())
+                       ->method('postRedirectTo')
+                       ->with($this->equalTo('/form/confirm/'));
+        $this->instance = new InputController($mockRedirector);
+
         $this->setUpBefore(REQUEST_METHOD_POST, PASS_FORM_DATA, PASS_FORM_DATA);
         $this->assertEmpty($this->instance->index());
     }
@@ -37,7 +47,7 @@ class InputFormControllerTest extends BaseController {
      */
     public function testIndexFail(): void
     {
-        $this->setUpBefore(REQUEST_METHOD_POST, FAIL_FORM_DATA, PASS_FORM_DATA);
+        $this->setUpBefore(REQUEST_METHOD_POST, FAIL_FORM_DATA, FAIL_FORM_DATA);
         $this->assertEmpty($this->instance->index());
     }
 
@@ -61,8 +71,6 @@ class InputFormControllerTest extends BaseController {
      */
     public function testGetValues(): void
     {
-        // $this->setUpBefore(REQUEST_METHOD_POST, PASS_FORM_DATA, PASS_FORM_DATA);
-        // $this->instance->index();
         $this->assertEmpty($this->instance->getValues());
     }
 

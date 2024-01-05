@@ -6,7 +6,6 @@ require_once(dirname(__FILE__).'/../../const/sql.php');                    //sql
 require_once(dirname(__FILE__).'/../../const/message.php');                 //メッセージ用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベース登録用ファイルの読み込み
 
-
 class CompleteController extends Controller {
 
     /**
@@ -22,12 +21,7 @@ class CompleteController extends Controller {
         if (empty($_SESSION) || "POST" !== $_SERVER['REQUEST_METHOD'] || $this->isInListValue($_SESSION)) {
             // セッション配列のクリーンアップ
             $_SESSION = [];
-
-            header('Location: /form/');
-            // テスト時はexitしない
-            if (!$this->shouldExit()) {
-                exit;
-            }
+            $this->redirector->getRedirectTo('/form/');
         }
 
         try {

@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__) . '/../../controller/form/InputController.php');
 
-$inputController = new InputController();
+$inputController = new InputController(new Redirector());
 $inputController->index();
 $values = $inputController->getValues();
 $errorMsg = $inputController->getErrorMsg();

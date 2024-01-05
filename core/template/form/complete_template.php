@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__).'/../../controller/form/CompleteController.php');    //CompleteControllerの読み込み
 
 //インスタンス化し、メール送信処理を実行
-$completeController = new CompleteController();
+$completeController = new CompleteController(new Redirector());
 $msg = $completeController->index();
 ?>
 

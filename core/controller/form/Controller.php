@@ -1,7 +1,15 @@
 <?php
-require_once dirname(__FILE__) . '/../../interfaces/ExitHandlerInterface.php';
+require_once dirname(__FILE__) . '/../../route/Redirector.php';
 
-class Controller implements ExitHandlerInterface {
+class Controller {
+
+    protected $redirector;
+
+    public function __construct(Redirector $redirector)
+    {
+        $this->redirector = $redirector;
+    }
+
     /**
      * 名前、フリガナの文字連結処理
      * @param  string $num1 名前：性
@@ -127,15 +135,5 @@ class Controller implements ExitHandlerInterface {
             $values['tel3'] = mb_convert_kana($values['tel3'], "a");
         }
         return $values;
-    }
-
-    /**
-     * 環境変数からexit要否の判定する(テスト実施のため)
-     *
-     * @return boolean
-     */
-    public function shouldExit()
-    {
-        return getenv('TEST_MODE');
     }
 }

@@ -40,12 +40,7 @@ class InputController extends Controller {
                     foreach ($this->values as $key =>$value) {
                         $_SESSION[$key] = $value;
                     }
-                    header("Location: /form/confirm/", true, 307);
-
-                    // テスト時はexitしない
-                    if (!$this->shouldExit()) {
-                        exit;
-                    }
+                    $this->redirector->postRedirectTo('/form/confirm/');
                 }
 
                 // 表示用エラーメッセージ取得
