@@ -52,14 +52,14 @@ class LoginController extends Controller {
             if (isset($_POST['submit']) && CHECK_ADMIN_LOGIN == $_POST['submit']) {
                 $values = $_POST;
                 try {
+                    // 管理用テーブルへアクセス
+                    $administrators = $this->getInstance('administrator', 'Administrator', $this->administratorContainer);
                     unset($values['submit']); //入力チェックする前に、submitの削除
                     $validator = new AdminFormValidator();
                     $validator->checkUserPassword($values); //入力チェック
                     $this->errorMsg = $validator->getErrorMsgs();
 
                     if (empty($this->errorMsg)) {    //入力チェックがOKの場合
-                        // 管理用テーブルへアクセス
-                        $administrators = $this->getInstance('administrator', 'Administrator', $this->administratorContainer);
                         // トランザクション開始
                         $administrators->beginTransaction();
 
@@ -84,7 +84,7 @@ class LoginController extends Controller {
                     }
                 } catch (PDOEXception $pdo) {
                     // ロールバック実行
-                    $administrators->rollback();
+                    !empty($administrators) ? $administrators->rollback() : "";
                     $this->msg[0] = ERROR_MESSAGE;
                     $this->msg[1]= SERVER_ERROR_COMMENT;
                 } catch (Exception $ex) {

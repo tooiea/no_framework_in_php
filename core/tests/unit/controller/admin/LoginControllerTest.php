@@ -73,6 +73,7 @@ class LoginControllerTest extends BaseController {
     /**
      * インデックス入力パス
      * @covers controller
+     * @covers Model
      *
      * @return void
      */
@@ -91,32 +92,30 @@ class LoginControllerTest extends BaseController {
     /**
      * インデックス入力パス
      * @covers controller
+     * @covers Model
+     * @covers Administrator
      *
      * @return void
      */
     public function testPDOException(): void
     {
-        $mockRedirector = $this->createMock(Redirector::class);
-        $mockRedirector->expects($this->once())
-                       ->method('getRedirectTo')
-                       ->with($this->equalTo('/admin/list'));
-
         // サービスコンテナモック
-        $mockAdministrator = $this->createMock(ConfirmController::class);
+        $mockAdministrator = $this->createMock(Contact::class);
         $container = new ServiceModelContainer();
         $container->setMode('administrator', 'test');
         $container->set('administrator', function() use ($mockAdministrator) {
             return $mockAdministrator;
         });
 
-        $this->instance = new LoginController($mockRedirector, $container, new ServiceModelContainer());
-        $this->setUpBefore(REQUEST_METHOD_POST, ADMIN_SESSION_LOGIN_ID, ADMIN_LOG_IN_INFO_PASS);
+        $this->instance = new LoginController(new Redirector(), $container);
+        $this->setUpBefore(REQUEST_METHOD_POST, [], ADMIN_LOG_IN_INFO_PASS);
         $this->assertEmpty($this->instance->index());
     }
 
     /**
      * インデックス入力パス
      * @covers controller
+     * @covers Model
      *
      * @return void
      */

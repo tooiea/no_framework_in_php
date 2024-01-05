@@ -125,11 +125,8 @@ class ListControllerTest extends BaseController {
      */
     public function testPDOException(): void
     {
-        // TODO 要検討
-        // $this->setUpBefore(GET_QUERY_PARMATER, ADMIN_SESSION_LOGIN_ID_FAIL, QUERY_STRING_EXCEPTION);
-        // $this->assertIsArray($this->instance->index());
         // サービスコンテナモック
-        $mockAdministrator = $this->createMock(ConfirmController::class);
+        $mockAdministrator = $this->createMock(Administrator::class);
         $container = new ServiceModelContainer();
         $container->setMode('administrator', 'test');
         $container->set('administrator', function() use ($mockAdministrator) {

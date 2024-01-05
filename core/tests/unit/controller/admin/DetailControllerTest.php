@@ -142,7 +142,7 @@ class DetailControllerTest extends BaseController {
     public function testPDOEXception(): void
     {
         // サービスコンテナモック
-        $mockAdministrator = $this->createMock(ConfirmController::class);
+        $mockAdministrator = $this->createMock(Administrator::class);
         $container = new ServiceModelContainer();
         $container->setMode('administrator', 'test');
         $container->set('administrator', function() use ($mockAdministrator) {
