@@ -5,6 +5,7 @@ require_once(dirname(__FILE__).'/../../const/common_const.php');                
 require_once(dirname(__FILE__).'/../../const/sql.php');                    //sql用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../const/message.php');                 //メッセージ用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベース登録用ファイルの読み込み
+require_once(dirname(__FILE__).'/../../util/AppModeController.php');
 
 class CompleteController extends Controller {
 
@@ -45,8 +46,8 @@ class CompleteController extends Controller {
             $values['tel'] = $this->concatenationTelnum($values['tel1'], $values['tel2'], $values['tel3']);
             $values['address12'] = $this->concatenationAddress(PREFUCTURES_LIST[$values['address1']], $values['address2']);
 
-            //MODE切り替え
-            if ('DEV' === MODE) {
+            // MODEによって処理を切り替える
+            if ('DEV' === $this->appMode) {
                 //メール本文のみログへ出力
                 $sendMail = new SendMail();
                 $file = dirname(__FILE__) . '/../../logs/log.txt';

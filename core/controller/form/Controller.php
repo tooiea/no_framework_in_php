@@ -1,13 +1,25 @@
 <?php
 require_once dirname(__FILE__) . '/../../route/Redirector.php';
+require_once dirname(__FILE__) . '/../../util/AppModeController.php';
 
 class Controller {
 
     protected $redirector;
+    protected $appMode;
 
-    public function __construct(Redirector $redirector)
+    /**
+     * リダイレクトクラス、開発モードの指定
+     *
+     * @param Redirector $redirector
+     * @param string $mode
+     */
+    public function __construct(Redirector $redirector, string $mode = null)
     {
         $this->redirector = $redirector;
+
+        // 開発モード指定
+        $appMode = new AppModeController($mode);
+        $this->appMode = $appMode->getAppMode();
     }
 
     /**
