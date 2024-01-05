@@ -116,12 +116,23 @@ class LoginControllerTest extends BaseController {
      * インデックス入力パス
      * @covers controller
      * @covers Model
+     * @covers Administrator
      *
      * @return void
      */
     public function testException(): void
     {
-        $this->setUpBefore(REQUEST_METHOD_GET, SESSION_FORM_DATA_FAIL, ADMIN_LOG_IN_INFO_PDOEXCEPTION);
+        $mockAdministrator = $this->createMock(Administrator::class);
+        $mockAdministrator->method('select')->will($this->throwException(new Exception()));
+
+        $container = new ServiceModelContainer();
+        $container->set('administrator', function() use ($mockAdministrator) {
+            return $mockAdministrator;
+        });
+
+        $mockRedirector = $this->createMock(Redirector::class);
+        $this->instance = new LoginController($mockRedirector, $container);
+        $this->setUpBefore(REQUEST_METHOD_POST, SESSION_FORM_DATA_FAIL, ADMIN_LOG_IN_INFO_PASS);
         $this->assertEmpty($this->instance->index());
     }
 
