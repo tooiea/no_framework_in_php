@@ -19,7 +19,7 @@ class AdministratorTest extends BaseModel
         $this->setUpBefore();
 
         // 対象モデルをインスタンス化
-        $this->instance = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD);
+        $this->instance = new Administrator();
     }
 
     /**

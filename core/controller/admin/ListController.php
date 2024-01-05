@@ -4,8 +4,19 @@ require_once(dirname(__FILE__).'/../../const/message.php');
 require_once(dirname(__FILE__).'/../../model/Contact.php');
 require_once(dirname(__FILE__).'/../../model/Administrator.php');
 require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
+require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
 
 class ListController extends Controller {
+
+    private $administratorContainer;
+    private $contactContainer;
+
+    public function __construct(Redirector $redirector, ServiceModelContainer $administratorContainer, ServiceModelContainer $contactContainer)
+    {
+        $this->redirector = $redirector;
+        $this->administratorContainer = $administratorContainer;
+        $this->contactContainer = $contactContainer;
+    }
 
     /**
      * ユーザ一覧取得、検索クエリが入力されたら条件にあったユーザを取得
@@ -24,7 +35,7 @@ class ListController extends Controller {
 
         try {
             //管理者用テーブルへアクセス
-            $administrators = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
+            $administrators = $this->getInstance('administrator', 'Administrator', $this->administratorContainer);
             $isUser = $administrators->checkUser($_SESSION['login_id']);
 
             // 存在しているユーザかチェック
@@ -47,7 +58,7 @@ class ListController extends Controller {
             }
 
             // 検索件数取得
-            $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION, PDO::ERRMODE_WARNING]);
+            $contactInfo = $this->getInstance('contact', 'Contact', $this->contactContainer);
             $result['countData'] = $contactInfo->checkNumberOfData($result['queryValues']);
 
             // 検索した条件からデータなし

@@ -138,6 +138,31 @@ const SESSION_FORM_DATA = [
 ];
 
 /**
+ * セッション用データ:エラー用
+ */
+const SESSION_FORM_DATA_FAIL = [
+    'name1' => '渡邊',
+    'name2' => '透也',
+    'kana1' => 'わたなべ',
+    'kana2' => 'とうや',
+    'sex' => 1,
+    'age' => 2,
+    'blood_type' => 1,
+    'job' => 1,
+    'zip1' => '111a',
+    'zip2' => 222,
+    'address1' => 45,
+    'address2' => 'address2',
+    'address3' => 'address3',
+    'tel1' => 111,
+    'tel2' => 111,
+    'tel3' => 111,
+    'mail' => 't-watanabe@un-t.com',
+    'category' => [],
+    'info' => 'info'
+];
+
+/**
  * フォーム登録用入力値
  */
 const INSERT_DATA = [
@@ -210,6 +235,15 @@ const ADMIN_LOG_IN_INFO_FAIL2 = [
 ];
 
 /**
+ * 管理画面ユーザ情報:エラー
+ */
+const ADMIN_LOG_IN_INFO_PDOEXCEPTION = [
+    'login_id' => ["1"],
+    'password' => ["1"],
+    'submit' => CHECK_ADMIN_LOGIN
+];
+
+/**
  * 管理画面ログインID
  */
 const ADMIN_SESSION_LOGIN_ID = [
@@ -221,6 +255,13 @@ const ADMIN_SESSION_LOGIN_ID = [
  */
 const ADMIN_SESSION_LOGIN_ID_FAIL = [
     'login_id' => 't-watanabe'
+];
+
+/**
+ * 管理画面ログインID:PDOEXCEPTION
+ */
+const ADMIN_SESSION_LOGIN_ID_PDOEXCEPTION = [
+    'login_id' => "';SELECT * FROM contact;douhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadoudouhaouhadou"
 ];
 
 /**
@@ -249,6 +290,11 @@ const QUERY_STRING_NOT_EXISTS = 'contact_no=1&page_id=2&kana=アンティ';
  * URLデコード用パラメータ:存在しないデータ2
  */
 const QUERY_STRING_NOT_EXISTS2 = 'contact_no=a&page_id=2&kana=アンティ';
+
+/**
+ * URLデコード用パラメータ:Exception用
+ */
+const QUERY_STRING_EXCEPTION = 'contact_no=a&&page_id=2&kana=アンティ';
 
 /**
  * GETパラメータ

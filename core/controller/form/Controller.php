@@ -23,6 +23,19 @@ class Controller {
     }
 
     /**
+     * 使用するモデルインスタンスを取得する
+     *
+     * @param  string $name
+     * @param  string $modelName
+     * @return object
+     */
+    public function getInstance(string $name, string $modelName, $serviceInstance)
+    {
+        $serviceInstance->set($name, $modelName);
+        return $serviceInstance->get($name);
+    }
+
+    /**
      * 名前、フリガナの文字連結処理
      * @param  string $num1 名前：性
      * @param  string $num2 名前：名

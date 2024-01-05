@@ -4,8 +4,19 @@ require_once(dirname(__FILE__).'/../../const/message.php');
 require_once(dirname(__FILE__).'/../../model/Contact.php');
 require_once(dirname(__FILE__).'/../../model/Administrator.php');
 require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
+require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
 
 class DetailController extends Controller {
+
+    private $administratorContainer;
+    private $contactContainer;
+
+    public function __construct(Redirector $redirector, ServiceModelContainer $administratorContainer, ServiceModelContainer $contactContainer)
+    {
+        $this->redirector = $redirector;
+        $this->administratorContainer = $administratorContainer;
+        $this->contactContainer = $contactContainer;
+    }
 
     /**
      * GETで渡されたクエリパラメータを取得する
@@ -30,7 +41,7 @@ class DetailController extends Controller {
             if (!isset($result['queryValues']['contact_no']) || !is_numeric($result['queryValues']['contact_no'])) {
                 $result['msg'] = NOT_FOUND_CONTACT_NO;
             } else {
-                $administrators = new Administrator(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
+                $administrators = $this->getInstance('administrator', 'Administrator', $this->administratorContainer);
                 $isUser = $administrators->checkUser($_SESSION['login_id']);
 
                 //存在しているユーザかチェック
@@ -42,7 +53,7 @@ class DetailController extends Controller {
                 $result['queryValues'] = $this->removeKey($result['queryValues']);
 
                 // 詳細データ取得
-                $contactInfo = new Contact(DB_ACCESS_INFO, USER_NAME, PASSWORD, [PDO::ERRMODE_EXCEPTION,PDO::ERRMODE_WARNING]);
+                $contactInfo = $this->getInstance('contact', 'Contact', $this->contactContainer);
                 $data = $contactInfo->selectDetailContents($result['queryValues']['contact_no']);
 
                 if (!$data) {

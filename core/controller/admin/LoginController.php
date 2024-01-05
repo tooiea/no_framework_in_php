@@ -5,6 +5,7 @@ require_once(dirname(__FILE__).'/../../const/sql.php');
 require_once(dirname(__FILE__).'/../../const/message.php');
 require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
 require_once(dirname(__FILE__).'/../../route/Redirector.php');
+require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
 
 class LoginController extends Controller {
 
@@ -14,6 +15,24 @@ class LoginController extends Controller {
     // 表示用バリデーションエラーメッセージ
     private $errorMsg;
 
+    // リダイレクター
+    protected $redirector;
+
+    // Administratorサービスコンテナ
+    private $administratorContainer;
+
+    /**
+     * リダイレクター、Administrator操作用のインスタンス
+     *
+     * @param Redirector $redirector
+     * @param ServiceModelContainer $administratorContainer
+     */
+    public function __construct(Redirector $redirector, ServiceModelContainer $administratorContainer)
+    {
+        $this->redirector = $redirector;
+        $this->administratorContainer = $administratorContainer;
+    }
+
     /**
      * ログインチェック
      *
@@ -22,7 +41,6 @@ class LoginController extends Controller {
     public function index()
     {
         $this->msg = [];         //画面切り替え時のメッセージ
-        $administrators = '';     //DBアクセス用インスタンス変数
 
         // ログイン認証済み
         if (isset($_SESSION['login_id'])) {
@@ -40,16 +58,12 @@ class LoginController extends Controller {
                     $this->errorMsg = $validator->getErrorMsgs();
 
                     if (empty($this->errorMsg)) {    //入力チェックがOKの場合
-                        //管理用テーブルへアクセス
-                        $administrators = new Administrator(
-                            DB_ACCESS_INFO,
-                            USER_NAME,
-                            PASSWORD
-                        );
-                        //トランザクション開始
+                        // 管理用テーブルへアクセス
+                        $administrators = $this->getInstance('administrator', 'Administrator', $this->administratorContainer);
+                        // トランザクション開始
                         $administrators->beginTransaction();
 
-                        //select文実行
+                        // select文実行
                         $data = $administrators->select($values);
 
                         // ユーザあり

@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__).'/../../const/common_const.php');
 require_once(dirname(__FILE__).'/../../controller/admin/DetailController.php');
-$detailController = new DetailController(new Redirector());
+$detailController = new DetailController(new Redirector(), new ServiceModelContainer(), new ServiceModelContainer());
 $result = $detailController->index();
 
 ?>

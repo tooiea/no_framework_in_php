@@ -6,8 +6,28 @@ require_once(dirname(__FILE__).'/../../const/sql.php');                    //sql
 require_once(dirname(__FILE__).'/../../const/message.php');                 //メッセージ用定義ファイルの読み込み
 require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベース登録用ファイルの読み込み
 require_once(dirname(__FILE__).'/../../util/AppModeController.php');
+require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
 
 class CompleteController extends Controller {
+
+    private $contactContainer;
+
+    /**
+     * リダイレクター、Administrator操作用のインスタンス
+     *
+     * @param Redirector $redirector
+     * @param ServiceModelContainer $administratorContainer
+     */
+    public function __construct(Redirector $redirector, ServiceModelContainer $contactContainer, string $mode = null)
+    {
+        parent::__construct(new Redirector);
+        $this->redirector = $redirector;
+        $this->contactContainer = $contactContainer;
+
+        // 開発モード指定
+        $appMode = new AppModeController($mode);
+        $this->appMode = $appMode->getAppMode();
+    }
 
     /**
      * Undocumented function
@@ -28,11 +48,7 @@ class CompleteController extends Controller {
         try {
             // DB登録
             $convertedValues = $this->convertValue($_SESSION, DB_CONTACT_INFO_ITEM);
-            $contact = new Contact(
-                DB_ACCESS_INFO,
-                USER_NAME,
-                PASSWORD
-            );
+            $contact = $this->getInstance('contact', 'Contact', $this->contactContainer);;
 
             // トランザクション開始
             $contact->beginTransaction();
@@ -60,7 +76,6 @@ class CompleteController extends Controller {
                 //メール送信
                 $sendMail = new SendMail();
                 $resultMail = $sendMail->sendingMail($values); //メール送信の結果を取得
-
                 //メール送信が失敗した場合、DB登録しないようにスローする
                 if (!$resultMail) {
                     throw new Exception();

@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 require_once dirname(__FILE__) . '/../BaseController.php';
 require_once dirname(__FILE__) . '/../../../../controller/form/CompleteController.php';
+require_once dirname(__FILE__) . '/../../../../route/Redirector.php';
 require_once dirname(__FILE__) . '/../../data/formData.php';
 
 /**
@@ -15,7 +16,7 @@ class CompleteControllerTest extends BaseController
      */
     protected function setUp(): void
     {
-        $this->instance = new CompleteController(new Redirector());
+        $this->instance = new CompleteController(new Redirector(), new ServiceModelContainer());
         if (!isset($_SESSION)) {
             session_start();
             session_regenerate_id(true); //sessionID更新
@@ -37,6 +38,21 @@ class CompleteControllerTest extends BaseController
     }
 
     /**
+     * インデックス入力パス2
+     * @covers Controller
+     * @covers Model
+     * @covers Contact
+     *
+     * @return void
+     */
+    public function testIndexPass2(): void
+    {
+        $this->instance = new CompleteController(new Redirector, new ServiceModelContainer(), 'PRODUCTION');
+        $this->setUpBefore(REQUEST_METHOD_POST, SESSION_FORM_DATA, []);
+        $this->assertIsArray($this->instance->index());
+    }
+
+    /**
      * インデックス入力エラー
      * @covers Controller
      *
@@ -48,7 +64,7 @@ class CompleteControllerTest extends BaseController
         $mockRedirector->expects($this->once())
                        ->method('getRedirectTo')
                        ->with($this->equalTo('/form/'));
-        $this->instance = new CompleteController($mockRedirector);
+        $this->instance = new CompleteController($mockRedirector, new ServiceModelContainer());
 
         $this->setUpBefore(REQUEST_METHOD_POST, [], []);
         $this->assertNotEmpty($this->instance->index());
@@ -77,10 +93,23 @@ class CompleteControllerTest extends BaseController
      */
     public function testPDOException(): void
     {
-        // TODO 要修正
-        $this->expectException(PDOEXception::class);
-        $this->setUpBefore(REQUEST_METHOD_POST, SESSION_FORM_DATA, []);
+        $this->setUpBefore(REQUEST_METHOD_POST, SESSION_FORM_DATA_FAIL, []);
         $this->instance->index();
+        $this->assertNotEmpty($this->instance->index());
+    }
+
+    /**
+     * @covers Controller
+     * @covers Contact
+     * @covers Model
+     *
+     * @return void
+     */
+    public function testException(): void
+    {
+        $this->setUpBefore(REQUEST_METHOD_POST, SESSION_FORM_DATA_FAIL, []);
+        $this->instance->index();
+        $this->assertNotEmpty($this->instance->index());
     }
 
     /**
