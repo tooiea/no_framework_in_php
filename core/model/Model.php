@@ -1,7 +1,6 @@
 <?php //データベースアクセス
-require_once dirname(__FILE__) . '/../interfaces/ExitHandlerInterface.php';
 
-class Model implements ExitHandlerInterface {
+class Model {
 
     protected $dbController; //PDOクラスのインスタンス
 
@@ -55,15 +54,5 @@ class Model implements ExitHandlerInterface {
     public function prepare($sql)
     {
         $this->dbController->prepare($sql);
-    }
-
-    /**
-     * 環境変数からexit要否の判定する(テスト実施のため)
-     *
-     * @return boolean
-     */
-    public function shouldExit()
-    {
-        return getenv('TEST_MODE');
     }
 }

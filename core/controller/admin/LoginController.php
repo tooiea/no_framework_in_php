@@ -3,6 +3,8 @@ require_once(dirname(__FILE__).'/../../model/Administrator.php');
 require_once(dirname(__FILE__).'/../../validation/AdminFormValidator.php');
 require_once(dirname(__FILE__).'/../../const/sql.php');
 require_once(dirname(__FILE__).'/../../const/message.php');
+require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
+require_once(dirname(__FILE__).'/../../route/Redirector.php');
 
 class LoginController extends Controller {
 
@@ -24,8 +26,7 @@ class LoginController extends Controller {
 
         // ログイン認証済み
         if (isset($_SESSION['login_id'])) {
-            header('Location: /admin/list');
-            exit;
+            $this->redirector->getRedirectTo('/admin/list');
         }
 
         if ("POST" === $_SERVER['REQUEST_METHOD']) {
@@ -79,8 +80,7 @@ class LoginController extends Controller {
 
                 //入力内容とDBでの検索結果、問題なければログイン
                 if (empty($this->errorMsg) && empty($this->msg)) {
-                    header('Location: /admin/list');
-                    exit;
+                    $this->redirector->getRedirectTo('/admin/list');
                 }
             }
         }

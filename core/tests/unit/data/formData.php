@@ -141,7 +141,6 @@ const SESSION_FORM_DATA = [
  * フォーム登録用入力値
  */
 const INSERT_DATA = [
-    
     'name1' => '渡邊',
     'name2' => '透也',
     'kana1' => 'わたなべ',
@@ -159,7 +158,6 @@ const INSERT_DATA = [
     'mail' => 't-watanabe@un-t.com',
     'category' => "",
     'info' => 'info',
-
 ];
 
 /**
@@ -216,4 +214,50 @@ const ADMIN_LOG_IN_INFO_FAIL2 = [
  */
 const ADMIN_SESSION_LOGIN_ID = [
     'login_id' => 't-watanabe@un-t.com'
+];
+
+/**
+ * 管理画面ログインID
+ */
+const ADMIN_SESSION_LOGIN_ID_FAIL = [
+    'login_id' => 't-watanabe'
+];
+
+/**
+ * 検索に不要なパラメータを混在
+ */
+const QUERY_PARAMETER_INCLUDE_OTHER = [
+    'contact_no' => 1,
+    'page_id' => 2,
+    'name' => '渡邊',
+    'kana' => 'わたなべ',
+    'mail' => '',
+    'login_id' => ''
+];
+
+/**
+ * URLデコード用パラメータ
+ */
+const QUERY_STRING = 'contact_no=6&page_id=2&kana=わたなべ';
+
+/**
+ * URLデコード用パラメータ:存在しないデータ
+ */
+const QUERY_STRING_NOT_EXISTS = 'contact_no=1&page_id=2&kana=アンティ';
+
+/**
+ * URLデコード用パラメータ:存在しないデータ2
+ */
+const QUERY_STRING_NOT_EXISTS2 = 'contact_no=a&page_id=2&kana=アンティ';
+
+/**
+ * GETパラメータ
+ */
+const GET_QUERY_PARMATER = [
+    'contact_no' => 1,
+    'page_id' => 2,
+    'name' => '渡邊',
+    'kana' => 'わたなべ',
+    'mail' => '',
+    'submit' => CHECK_SUBMIT_CONFIRM_BACK
 ];

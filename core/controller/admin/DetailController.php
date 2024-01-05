@@ -19,8 +19,7 @@ class DetailController extends Controller {
 
         // ログイン認証されていない
         if (!isset($_SESSION['login_id'])) {
-            header('Location: /admin/login');
-            exit;
+            $this->redirector->getRedirectTo('/admin/login');
         }
 
         try {
@@ -36,8 +35,7 @@ class DetailController extends Controller {
 
                 //存在しているユーザかチェック
                 if (!$isUser) {
-                    header('Location: /admin/login');
-                    exit;
+                    $this->redirector->getRedirectTo('/admin/login');
                 }
 
                 //不要なキー削除

@@ -19,8 +19,7 @@ class ListController extends Controller {
         // ログイン認証されていない
         if (!isset($_SESSION['login_id'])) {
             $_SESSION = [];
-            header('Location: /admin/login');
-            exit;
+            $this->redirector->getRedirectTo('/admin/login');
         }
 
         try {
@@ -30,8 +29,7 @@ class ListController extends Controller {
 
             // 存在しているユーザかチェック
             if (!$isUser) {
-                header('Location: /admin/login');
-                exit;
+                $this->redirector->getRedirectTo('/admin/login');
             }
 
             // クエリパラメータを取得しセット

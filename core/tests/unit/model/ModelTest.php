@@ -73,16 +73,4 @@ class ModelTest extends BaseModel
         $this->instance->beginTransaction();
         $this->assertNull($this->instance->commit());
     }
-
-    /**
-     * 環境変数取得
-     * @covers Model
-     * @group model
-     *
-     * @return void
-     */
-    public function testShouldExit(): void
-    {
-        $this->assertIsBool((bool)$this->instance->shouldExit());
-    }
 }
