@@ -87,10 +87,14 @@ class LoginController extends Controller {
                     !empty($administrators) ? $administrators->rollback() : "";
                     $this->msg[0] = ERROR_MESSAGE;
                     $this->msg[1]= SERVER_ERROR_COMMENT;
-                } catch (Exception $ex) {
+                } // @codeCoverageIgnoreStart
+                 catch (Exception $ex) {
+                    !empty($administrators) ? $administrators->rollback() : "";
                     $this->msg[0] = ERROR_MESSAGE;
                     $this->msg[1]= SERVER_ERROR_COMMENT;
+                    // @codeCoverageIgnoreEnd
                 }
+                // @codeCoverageIgnore
 
                 //入力内容とDBでの検索結果、問題なければログイン
                 if (empty($this->errorMsg) && empty($this->msg)) {

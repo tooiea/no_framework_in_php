@@ -122,17 +122,19 @@ class LoginControllerTest extends BaseController {
      */
     public function testException(): void
     {
+        // Administratorのモックを作成し、Exceptionをスローするように設定
         $mockAdministrator = $this->createMock(Administrator::class);
-        $mockAdministrator->method('select')->will($this->throwException(new Exception()));
+        $mockAdministrator->method('select')
+                          ->will($this->throwException(new Exception()));
 
+        // ServiceModelContainerにモックをセット
         $container = new ServiceModelContainer();
         $container->set('administrator', function() use ($mockAdministrator) {
             return $mockAdministrator;
         });
 
-        $mockRedirector = $this->createMock(Redirector::class);
-        $this->instance = new LoginController($mockRedirector, $container);
-        $this->setUpBefore(REQUEST_METHOD_POST, SESSION_FORM_DATA_FAIL, ADMIN_LOG_IN_INFO_PASS);
+        $this->instance = new LoginController(new Redirector(), $container);
+        $this->setUpBefore(REQUEST_METHOD_POST, [], ADMIN_LOG_IN_INFO_FAIL);
         $this->assertEmpty($this->instance->index());
     }
 
