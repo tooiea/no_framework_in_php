@@ -5,18 +5,18 @@ services:
     build: "./linux"
     # vscodeでデバッグするためにホスト追加
     container_name: "assignment_web"
-    platform: linux/x86_64
-    environment:
-      - SMTP_HOST=assignment_mailhog
-      - SMTP_PORT=1025
+    # platform: linux/amd64
+    # environment:
+    #   - SMTP_HOST=assignment_mailhog
+    #   - SMTP_PORT=1025
     ports:
       - 80:80
     # コンテナに配置するファイルの場所、webアプリケーションの構成に合わせて変更
     volumes:
       - ../:/var/www/
     privileged: true
-    tty: true
-    stdin_open: true
+    # tty: true
+    # stdin_open: true
     depends_on:
       - mysql
     networks:
@@ -25,7 +25,7 @@ services:
     #mysqlのバージョンに合わせて変更
     image: mysql:8.0.31
     container_name: "assignment_db"
-    platform: linux/x86_64
+    # platform: linux/amd64
     volumes:
       - db_data:/var/lib/mysql
     environment:
@@ -38,7 +38,7 @@ services:
       - br0
   phpmyadmin:
     container_name: "assignment_phpmyadmin"
-    platform: linux/x86_64
+    # platform: linux/amd64
     depends_on:
       - mysql
     image: phpmyadmin/phpmyadmin
@@ -51,9 +51,10 @@ services:
     networks:
       - br0
   mailhog:
-    image: mailhog/mailhog
+    image: mailhog/mailhog:latest
     container_name: assignment_mailhog
-    restart: always
+    # platform: linux/amd64
+    # restart: always
     ports:
       - '1025:1025'
       - '8025:8025'
