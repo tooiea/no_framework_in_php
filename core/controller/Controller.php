@@ -6,7 +6,10 @@ class Controller {
      */
     public function __construct()
     {
-        session_start();
-        session_regenerate_id();
+        // セッション開始されてなければ
+        if (!isset($_SESSION)) {
+            session_start();
+            session_regenerate_id();    
+        }
     }
 }
