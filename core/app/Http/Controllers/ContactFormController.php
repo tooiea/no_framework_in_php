@@ -10,6 +10,7 @@ use App\Mail\CustomerMailable;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class ContactFormController extends Controller
@@ -78,11 +79,13 @@ class ContactFormController extends Controller
             $msgHeader = __('message.form.success.header');
             $msgBody = __('message.form.success.body');
         } catch (MailerException $th) {
+            Log::error($th->getMessage());
             DB::rollBack();
             $msgHeader = __('message.form.error.mail.header');
             $msgBody = __('message.form.error.mail.body');
         } catch (\Throwable $th) {
             DB::rollBack();
+            Log::error($th->getMessage());
             $msgHeader = __('message.error.500.header');
             $msgBody = __('message.error.500.body');
         }

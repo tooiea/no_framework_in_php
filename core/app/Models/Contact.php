@@ -14,6 +14,12 @@ class Contact extends Model
     protected $fillable = FormConstant::CONTACT_INSERT_KEY_LIST;
 
     /**
+     * 新規作成、更新日時更新のカラム名をデフォルトから修正
+     */
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
+
+    /**
      * フォームから新規登録
      *
      * @param  array $values

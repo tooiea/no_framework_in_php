@@ -38,7 +38,7 @@ class UserSearchRequest extends FormRequest
                 'bail',
                 'nullable',
                 'max:255',
-                'email:rfc,filter'
+                // 'email:rfc,filter'
             ],
         ];
     }
