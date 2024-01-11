@@ -1,8 +1,10 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../route/Redirector.php';
 require_once dirname(__FILE__) . '/../../util/AppModeController.php';
 
-class Controller {
+class Controller
+{
 
     protected $redirector;
     protected $appMode;
@@ -10,8 +12,8 @@ class Controller {
     /**
      * リダイレクトクラス、開発モードの指定
      *
-     * @param Redirector $redirector
-     * @param string $mode
+     * @param Redirector  $redirector リダイレクター
+     * @param string|null $mode       指定モード
      */
     public function __construct(Redirector $redirector, string $mode = null)
     {
@@ -25,9 +27,11 @@ class Controller {
     /**
      * 使用するモデルインスタンスを取得する
      *
-     * @param  string $name
-     * @param  string $modelName
-     * @return object
+     * @param string $name            インスタンス名
+     * @param string $modelName       指定するモデル
+     * @param Object $serviceInstance コンテナインスタンス
+     * 
+     * @return Object
      */
     public function getInstance(string $name, string $modelName, $serviceInstance)
     {
@@ -37,8 +41,10 @@ class Controller {
 
     /**
      * 名前、フリガナの文字連結処理
-     * @param  string $num1 名前：性
-     * @param  string $num2 名前：名
+     *
+     * @param string $num1 名前：性
+     * @param string $num2 名前：名
+     * 
      * @return string 文字連結処理後
      */
     public function concatenationName(string $num1, string $num2)
@@ -49,8 +55,10 @@ class Controller {
 
     /**
      * 郵便番号の文字連結処理
-     * @param  string $num1 郵便番号上
-     * @param  string $num2 郵便番号下
+     *
+     * @param string $num1 郵便番号上
+     * @param string $num2 郵便番号下
+     * 
      * @return string 文字連結処理後
      */
     public function concatenationZip(string $num1, string $num2)
@@ -61,9 +69,11 @@ class Controller {
 
     /**
      * 電話番号連結処理
-     * @param  string $num1 電話番号1
-     * @param  string $num2 電話番号2
-     * @param  string $num3 電話番号3
+     *
+     * @param string $num1 電話番号1
+     * @param string $num2 電話番号2
+     * @param string $num3 電話番号3
+     * 
      * @return string 文字連結処理後
      */
     public function concatenationTelnum(string $num1, string $num2, string $num3)
@@ -74,8 +84,10 @@ class Controller {
 
     /**
      * 都道府県と住所の連結
+     * 
      * @param string $str1 都道府県
      * @param string $str2 住所
+     * 
      * @return string 文字連結処理後
      */
     public function concatenationAddress(string $str1, string $str2)
@@ -86,7 +98,9 @@ class Controller {
 
     /**
      * リスト以外のキーが存在していないかをチェック
-     * @param  array $data セッション
+     * 
+     * @param array $data セッション
+     * 
      * @return bool チェックした結果
      */
     public function isInListValue(array $data)
@@ -104,7 +118,9 @@ class Controller {
 
     /**
      * クエリパラメータ内に不要なパラメータが存在した場合削除する
-     * @param  array $values クエリパラメータ
+     * 
+     * @param array $values クエリパラメータ
+     * 
      * @return array 必要なキーの配列
      */
     public function removeKey(array $values)
@@ -127,7 +143,9 @@ class Controller {
 
     /**
      * フリガナ、数値変換
-     * @param  array formで入力された配列
+     * 
+     * @param array $values formで入力された配列
+     * 
      * @return array 変換後の配列
      */
     public function convertStr(array $values)

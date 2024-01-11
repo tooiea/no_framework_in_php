@@ -1,16 +1,28 @@
-<?php //登録用
-require_once(dirname(__FILE__).'/../../const/sql.php');
-require_once(dirname(__FILE__).'/../../const/message.php');
-require_once(dirname(__FILE__).'/../../model/Contact.php');
-require_once(dirname(__FILE__).'/../../model/Administrator.php');
-require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
-require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
+<?php
 
-class ListController extends Controller {
+require_once dirname(__FILE__) . '/../../const/sql.php';
+require_once dirname(__FILE__) . '/../../const/message.php';
+require_once dirname(__FILE__) . '/../../model/Contact.php';
+require_once dirname(__FILE__) . '/../../model/Administrator.php';
+require_once dirname(__FILE__) . '/../../controller/form/Controller.php';
+require_once dirname(__FILE__) . '/../../service/ServiceModelContainer.php';
+
+/**
+ * お問い合わせ一覧
+ */
+class ListController extends Controller
+{
 
     private $administratorContainer;
     private $contactContainer;
 
+    /**
+     * インスタンス注入
+     *
+     * @param Redirector            $redirector             リダイレクター
+     * @param ServiceModelContainer $administratorContainer サービスコンテナ
+     * @param ServiceModelContainer $contactContainer       サービスコンテナ
+     */
     public function __construct(Redirector $redirector, ServiceModelContainer $administratorContainer, ServiceModelContainer $contactContainer)
     {
         $this->redirector = $redirector;
@@ -67,7 +79,6 @@ class ListController extends Controller {
             } else {
                 $result['displayData'] = $contactInfo->select($result['page'], $result['queryValues']);
             }
-
         } catch (PDOEXception $pdo) {
             $result['msg'] = SERVER_ERROR_COMMENT;
         } catch (Exception $ex) { // PDO以外の例外処理
@@ -78,6 +89,7 @@ class ListController extends Controller {
 
     /**
      * 入力されたカナを変換（カナを入力された時のみ）
+     *
      * @param  array $values 入力値
      * @return array
      */
@@ -91,7 +103,9 @@ class ListController extends Controller {
 
     /**
      * テンプレートで表示するページの取得
-     * @param  array $values クエリパラメータ
+     *
+     * @param array $values クエリパラメータ
+     * 
      * @return int ページ数
      */
     private function checkPage(array $values)

@@ -1,10 +1,13 @@
 <?php
 
-class Redirector {
+class Redirector
+{
+
     /**
      * リダイレクト:POST
      *
-     * @param  string $url
+     * @param string $url 指定リダイレクトURL
+     * 
      * @return void
      */
     public function postRedirectTo($url)
@@ -16,7 +19,8 @@ class Redirector {
     /**
      * リダイレクト:GET
      *
-     * @param  string $url
+     * @param string $url 指定リダイレクトURL
+     * 
      * @return void
      */
     public function getRedirectTo($url)

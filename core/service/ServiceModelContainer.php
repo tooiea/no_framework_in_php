@@ -1,9 +1,14 @@
 <?php
+
 require_once dirname(__FILE__) . '/../model/Model.php';
 require_once dirname(__FILE__) . '/../model/Contact.php';
 require_once dirname(__FILE__) . '/../model/Administrator.php';
 
-class ServiceModelContainer {
+/**
+ * モデルのインスタンス生成クラス
+ */
+class ServiceModelContainer
+{
     private $services = [];
     private $instances = [];
     private $mode = [];
@@ -11,9 +16,9 @@ class ServiceModelContainer {
     /**
      * モデルのインスタンス生成
      *
-     * @param  string $name
-     * @param  string $className
-     * @param  string $mode
+     * @param string $name      インスタンス名
+     * @param string $className モデルクラス名
+     * 
      * @return void
      */
     public function set($name, $className)
@@ -21,6 +26,17 @@ class ServiceModelContainer {
         $this->services[$name] = $className;
     }
 
+    /**
+     * 環境を切り替える
+     * local        開発環境
+     * test         テスト
+     * production   本番環境
+     *
+     * @param string $name インスタンス名
+     * @param string $mode モードの指定
+     * 
+     * @return void
+     */
     public function setMode($name, $mode)
     {
         $this->mode[$name] = $mode;
@@ -29,7 +45,8 @@ class ServiceModelContainer {
     /**
      * モデルのインスタンスを取得
      *
-     * @param  string $name
+     * @param string $name インスタンス名
+     * 
      * @return ObjectInstance
      */
     public function get($name)

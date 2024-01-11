@@ -1,7 +1,9 @@
 <?php
+
 require_once dirname(__FILE__) . '/../const/common_const.php';
 
-class AppModeController {
+class AppModeController
+{
 
     /**
      * 開発時のモード

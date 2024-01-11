@@ -1,13 +1,19 @@
 <?php
-require_once(dirname(__FILE__).'/../model/Model.php');    //データベースアクセスクラス
-require_once(dirname(__FILE__).'/../const/sql.php');           //定義用php
 
-class Contact extends Model {
+require_once dirname(__FILE__) . '/../model/Model.php';
+require_once dirname(__FILE__) . '/../const/sql.php';
+
+/**
+ * お問い合わせテーブル操作
+ */
+class Contact extends Model
+{
 
     /**
      * テーブルにデータを登録する
      *
-     * @param  array $values 登録する値
+     * @param array $values 登録する値
+     * 
      * @return object|bool アクセス、登録までできた場合object,失敗時はbool
      */
     public function insert(array $values)
@@ -24,7 +30,8 @@ class Contact extends Model {
         foreach ($values as $key => $value) {
             $checkResult[] = array_key_exists($key, COLUMN_INFO_VALUES);
             if (array_key_exists($key, COLUMN_INFO_VALUES)) {
-                if ('sex' === $key || 'age' === $key || 'blood_type' === $key || 'job' === $key || 'address1' === $key) {
+                $matchKeys = ['sex', 'age', 'blood_type', 'job', 'address1'];
+                if (in_array($key, $matchKeys)) {
                     // 整数型
                     $stmt->bindValue(COLUMN_INFO_VALUES[$key], (int)$value, PDO::PARAM_INT);
                 } else {
@@ -55,7 +62,8 @@ class Contact extends Model {
     /**
      * 検索する対象のデータ件数を取得
      *
-     * @param  array $values 入力値
+     * @param array $values 入力値
+     * 
      * @return integer データ件数
      */
     public function checkNumberOfData(array $values)
@@ -94,9 +102,10 @@ class Contact extends Model {
     /**
      * SELECTで検索
      *
-     * @param  integer $page
-     * @param  array $values 入力値
-     * @return mixed 検索データ、検索数
+     * @param integer $page   指定ページ
+     * @param array   $values 入力値
+     * 
+     * @return array 検索データ
      */
     public function select(int $page, array $values = [])
     {
@@ -106,7 +115,7 @@ class Contact extends Model {
         //検索値の入力がある場合
         if (!empty($values['name']) || !empty($values['kana']) || !empty($values['mail'])) {
             $sqlWhereCondition = $this->checkSelectContents($values);
-            $sql = 'SELECT contact_no,name1,name2,kana1,kana2,mail,created FROM contacts WHERE' . $sqlWhereCondition. $offset['sql'];
+            $sql = 'SELECT contact_no,name1,name2,kana1,kana2,mail,created FROM contacts WHERE' . $sqlWhereCondition . $offset['sql'];
         } else {
             $sql = 'SELECT contact_no,name1,name2,kana1,kana2,mail,created FROM contacts' . $offset['sql'];
         }
@@ -137,10 +146,11 @@ class Contact extends Model {
     }
 
     /**
-     * 詳細ページでの検索
+     * 詳細ページ用のお問い合わせ情報を1件取得する
      *
-     * @param  integer $contact_no
-     * @return mixed
+     * @param integer $contact_no お問い合わせID
+     * 
+     * @return arary|bool 取得できた場合はarray、失敗時はfalse
      */
     public function selectDetailContents(int $contact_no)
     {
@@ -161,7 +171,8 @@ class Contact extends Model {
     /**
      * 検索用ワードに分割
      *
-     * @param  array $values 入力値
+     * @param array $values 入力値
+     * 
      * @return array bind用値に変換
      */
     private function convertData(array $values)
@@ -195,7 +206,8 @@ class Contact extends Model {
     /**
      * 検索時のSQL文のWHERE条件を選択
      *
-     * @param  array $values 入力値
+     * @param array $values 入力値
+     * 
      * @return string 入力値から選択されたSQL文
      */
     public function checkSelectContents(array $values)
@@ -224,13 +236,14 @@ class Contact extends Model {
     /**
      * 表示したいページ数に対して、SQL文のLIMIT,OFFSET条件を選択
      *
-     * @param  integer $page
+     * @param integer $page 指定ページ
+     * 
      * @return string LIMIT、OFFSETのSQL文を返す
      */
     private function checkOffsetSql(int $page)
     {
         $offset = array();
-        $offset['offsetValue'] = ($page -1 ) * DISPLAY_IN_PAGE;
+        $offset['offsetValue'] = ($page - 1) * DISPLAY_IN_PAGE;
 
         if ($offset['offsetValue'] !== 0) {
             $offset['sql'] = IS_OFFSET;

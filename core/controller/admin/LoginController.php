@@ -1,13 +1,18 @@
-<?php //検索コントローラ
-require_once(dirname(__FILE__).'/../../model/Administrator.php');
-require_once(dirname(__FILE__).'/../../validation/AdminFormValidator.php');
-require_once(dirname(__FILE__).'/../../const/sql.php');
-require_once(dirname(__FILE__).'/../../const/message.php');
-require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
-require_once(dirname(__FILE__).'/../../route/Redirector.php');
-require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
+<?php
 
-class LoginController extends Controller {
+require_once dirname(__FILE__) . '/../../model/Administrator.php';
+require_once dirname(__FILE__) . '/../../validation/AdminFormValidator.php';
+require_once dirname(__FILE__) . '/../../const/sql.php';
+require_once dirname(__FILE__) . '/../../const/message.php';
+require_once dirname(__FILE__) . '/../../controller/form/Controller.php';
+require_once dirname(__FILE__) . '/../../route/Redirector.php';
+require_once dirname(__FILE__) . '/../../service/ServiceModelContainer.php';
+
+/**
+ * 管理画面ログインフォーム
+ */
+class LoginController extends Controller
+{
 
     // 表示用エラー時メッセージ
     private $msg;
@@ -40,7 +45,8 @@ class LoginController extends Controller {
      */
     public function index()
     {
-        $this->msg = [];         //画面切り替え時のメッセージ
+        //画面切り替え時のメッセージ
+        $this->msg = [];
 
         // ログイン認証済み
         if (isset($_SESSION['login_id'])) {
@@ -86,12 +92,12 @@ class LoginController extends Controller {
                     // ロールバック実行
                     !empty($administrators) ? $administrators->rollback() : "";
                     $this->msg[0] = ERROR_MESSAGE;
-                    $this->msg[1]= SERVER_ERROR_COMMENT;
+                    $this->msg[1] = SERVER_ERROR_COMMENT;
                 } // @codeCoverageIgnoreStart
-                 catch (Exception $ex) {
+                catch (Exception $ex) {
                     !empty($administrators) ? $administrators->rollback() : "";
                     $this->msg[0] = ERROR_MESSAGE;
-                    $this->msg[1]= SERVER_ERROR_COMMENT;
+                    $this->msg[1] = SERVER_ERROR_COMMENT;
                     // @codeCoverageIgnoreEnd
                 }
                 // @codeCoverageIgnore

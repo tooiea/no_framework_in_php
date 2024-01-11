@@ -1,22 +1,35 @@
 <?php
-require_once(dirname(__FILE__).'/../../mail/SendMail.php');                 //SendMail.phpの読み込み
-require_once(dirname(__FILE__).'/../../controller/form/Controller.php');    //Controllerの読み込み
-require_once(dirname(__FILE__).'/../../const/common_const.php');                    //データ処理用定義ファイルの読み込み
-require_once(dirname(__FILE__).'/../../const/sql.php');                    //sql用定義ファイルの読み込み
-require_once(dirname(__FILE__).'/../../const/message.php');                 //メッセージ用定義ファイルの読み込み
-require_once(dirname(__FILE__).'/../../model/Contact.php');  //データベース登録用ファイルの読み込み
-require_once(dirname(__FILE__).'/../../util/AppModeController.php');
-require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
 
-class CompleteController extends Controller {
+require_once dirname(__FILE__) . '/../../mail/SendMail.php';
+require_once dirname(__FILE__) . '/../../controller/form/Controller.php';
+require_once dirname(__FILE__) . '/../../const/common_const.php';
+require_once dirname(__FILE__) . '/../../const/sql.php';
+require_once dirname(__FILE__) . '/../../const/message.php';
+require_once dirname(__FILE__) . '/../../model/Contact.php';
+require_once dirname(__FILE__) . '/../../util/AppModeController.php';
+require_once dirname(__FILE__) . '/../../service/ServiceModelContainer.php';
+
+/**
+ * 確認画面から遷移後の処理(完了画面表示まで)
+ */
+class CompleteController extends Controller
+{
 
     private $contactContainer;
 
     /**
      * リダイレクター、Administrator操作用のインスタンス
      *
-     * @param Redirector $redirector
-     * @param ServiceModelContainer $administratorContainer
+     * @param Redirector            $redirector             リダイレクター
+     * @param ServiceModelContainer $administratorContainer Administrator操作コンテナ
+     */
+
+    /**
+     * リダイレクター、Administrator操作用のインスタンス
+     *
+     * @param Redirector            $redirector       リダイレクター
+     * @param ServiceModelContainer $contactContainer Contact操作コンテナ
+     * @param string|null           $mode             処理モード切り替え
      */
     public function __construct(Redirector $redirector, ServiceModelContainer $contactContainer, string $mode = null)
     {
@@ -68,7 +81,7 @@ class CompleteController extends Controller {
                 $sendMail = new SendMail();
                 $file = dirname(__FILE__) . '/../../logs/log.txt';
                 $current = file_get_contents($file);
-                $current .= "\n\n". date("Y/m/d H:i:s") ."\n";
+                $current .= "\n\n" . date("Y/m/d H:i:s") . "\n";
                 $current .=  '顧客向け' . "\n" . $sendMail->getBodymsgForCustomer($values) . "\n\n";
                 $current .=  '管理者向け' . "\n" . $sendMail->getBodymsgForCustomer($values) . "\n";
                 file_put_contents($file, $current);
@@ -94,6 +107,7 @@ class CompleteController extends Controller {
             $msg['header'] = ERROR_MESSAGE;
             $msg['body'] = SERVER_ERROR_COMMENT;
         } catch (EXception $ex) { //メール送信・他例外
+            $contact->rollBack();
             $msg['header'] = ERROR_MESSAGE;
             $msg['body'] = SERVER_ERROR_COMMENT;
         }
@@ -103,8 +117,9 @@ class CompleteController extends Controller {
     /**
      * DBアクセス用にセッション値を変換する
      *
-     * @param  array $values セッションの値
-     * @param  array $list DB登録用のリスト
+     * @param array $values セッションの値
+     * @param array $list   DB登録用のリスト
+     * 
      * @return array DB登録に必要な配列を返す
      */
     public function convertValue(array $values, array $list)

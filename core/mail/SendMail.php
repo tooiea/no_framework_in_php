@@ -1,13 +1,18 @@
 <?php
-require_once(dirname(__FILE__).'/../const/common_const.php');
 
-//メール送信用のクラス
-class SendMail {
+require_once dirname(__FILE__) . '/../const/common_const.php';
+
+/**
+ * メール送信用のクラス
+ */
+class SendMail
+{
 
     /**
      * メール送信
      * 
-     * @param  array $data formで入力された配列
+     * @param array $data formで入力された配列
+     * 
      * @return bool メール送信後の結果
      */
     public function sendingMail(array $data)
@@ -40,7 +45,9 @@ class SendMail {
 
     /**
      * メール本文を取得する
-     * @param  array $data フォーム入力値
+     * 
+     * @param array $data フォーム入力値
+     * 
      * @return string
      */
     public function getBodymsgForCustomer(array $data)
@@ -53,7 +60,7 @@ class SendMail {
         }
 
         //メールテンプレート読み込み(送信者用)
-        $mailTemplate = file_get_contents(dirname(__FILE__).'/../template/mail/mailbody.tpl');
+        $mailTemplate = file_get_contents(dirname(__FILE__) . '/../template/mail/mailbody.tpl');
 
         //メール本文置換(送信者用)
         $searchItems = [
@@ -76,7 +83,7 @@ class SendMail {
             $data['kana'],
             SEX_LIST[$data['sex']],
             AGE_LIST[$data['age']],
-            BLOOD_LIST[$data['blood_type']].'型',
+            BLOOD_LIST[$data['blood_type']] . '型',
             JOB_LIST[$data['job']], $data['zip'],
             $data['address12'],
             $data['address3'],
@@ -93,7 +100,8 @@ class SendMail {
     /**
      * メール本文を取得する
      * 
-     * @param  array $data フォーム入力値
+     * @param array $data フォーム入力値
+     * 
      * @return string
      */
     public function getBodymsgForAdmin(array $data)
@@ -106,7 +114,7 @@ class SendMail {
         }
 
         //メールテンプレート読み込み（管理者用）
-        $mailTemplate = file_get_contents(dirname(__FILE__).'/../template/mail/mailbody_me.tpl');
+        $mailTemplate = file_get_contents(dirname(__FILE__) . '/../template/mail/mailbody_me.tpl');
 
         //メール本文置換（管理者用）
         $searchItems = [
@@ -131,7 +139,7 @@ class SendMail {
             $data['kana'],
             SEX_LIST[$data['sex']],
             AGE_LIST[$data['age']],
-            BLOOD_LIST[$data['blood_type']].'型',
+            BLOOD_LIST[$data['blood_type']] . '型',
             JOB_LIST[$data['job']],
             $data['zip'],
             $data['address12'],
@@ -149,8 +157,9 @@ class SendMail {
     /**
      * 興味のあるカテゴリー(配列)の値取り出し
      * 
-     * @param  array $value 入力されたキーの配列
-     * @param  array $list 取り出し対象とする配列
+     * @param array $values 入力されたキーの配列
+     * @param array $list   取り出し対象とする配列
+     * 
      * @return array リストから取り出した値の配列
      */
     public function getArrayInList(array $values, array $list)

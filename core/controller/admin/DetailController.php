@@ -1,16 +1,28 @@
-<?php //登録用
-require_once(dirname(__FILE__).'/../../const/sql.php');
-require_once(dirname(__FILE__).'/../../const/message.php');
-require_once(dirname(__FILE__).'/../../model/Contact.php');
-require_once(dirname(__FILE__).'/../../model/Administrator.php');
-require_once(dirname(__FILE__).'/../../controller/form/Controller.php');
-require_once(dirname(__FILE__).'/../../service/ServiceModelContainer.php');
+<?php
 
-class DetailController extends Controller {
+require_once dirname(__FILE__) . '/../../const/sql.php';
+require_once dirname(__FILE__) . '/../../const/message.php';
+require_once dirname(__FILE__) . '/../../model/Contact.php';
+require_once dirname(__FILE__) . '/../../model/Administrator.php';
+require_once dirname(__FILE__) . '/../../controller/form/Controller.php';
+require_once dirname(__FILE__) . '/../../service/ServiceModelContainer.php';
 
+/**
+ * 詳細画面お問い合わせ内容表示
+ * 一覧画面より特定のリンクより遷移される
+ */
+class DetailController extends Controller
+{
     private $administratorContainer;
     private $contactContainer;
 
+    /**
+     * インスタンス注入
+     *
+     * @param Redirector            $redirector             リダイレクター
+     * @param ServiceModelContainer $administratorContainer サービスコンテナ
+     * @param ServiceModelContainer $contactContainer       サービスコンテナ
+     */
     public function __construct(Redirector $redirector, ServiceModelContainer $administratorContainer, ServiceModelContainer $contactContainer)
     {
         $this->redirector = $redirector;
@@ -76,8 +88,9 @@ class DetailController extends Controller {
     /**
      * DBに登録されているカテゴリーの文字列を配列に変換
      *
-     * @param  array $values クエリパラメータの配列
-     * @return array カテゴリーの値を変換した後の配列
+     * @param array $values 入力値
+     * 
+     * @return array
      */
     public function convertCategory(array $values)
     {
@@ -89,13 +102,14 @@ class DetailController extends Controller {
     /**
      * 興味のあるカテゴリー(配列)の値取り出し
      *
-     * @param  array $value 入力されたキーの配列
-     * @param  array $list 取り出し対象とする配列
-     * @return array リストから取り出した値の配列
+     * @param array $values 入力されたキーの配列
+     * @param array $list   取り出し対象とする配列
+     * 
+     * @return array
      */
     public function getArrayInList(array $values, array $list)
     {
-        $data = array();
+        $data = [];
         foreach ($values as $key) {
             if (array_key_exists($key, $list)) {
                 $data[] = CATEGORY_LIST[$key];

@@ -1,12 +1,15 @@
 <?php
-require_once(dirname(__FILE__).'/Model.php');
 
-class Administrator extends Model {
+require_once dirname(__FILE__) . '/Model.php';
+
+class Administrator extends Model
+{
 
     /**
      * 管理者登録用のテーブルにあるユーザ、パスワード検索
      * 
-     * @param  array $values 入力値（ログインID、パスワード）
+     * @param array $values 入力値（ログインID、パスワード）
+     * 
      * @return array 検索リスト（パスワードのみ）
      */
     public function select($values)
@@ -28,7 +31,8 @@ class Administrator extends Model {
     /**
      * 検索後、ログインした日時を更新する
      * 
-     * @param  array $value 入力値
+     * @param array $values 入力値
+     * 
      * @return void
      */
     public function update($values)
@@ -45,7 +49,8 @@ class Administrator extends Model {
     /**
      * ログイン後、存在しているユーザかをチェック
      * 
-     * @param  string $loginId セッションで渡されたログインID
+     * @param string $loginId セッションで渡されたログインID
+     * 
      * @return array|bool 検索結果
      */
     public function checkUser(string $loginId)

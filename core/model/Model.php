@@ -1,15 +1,29 @@
-<?php //データベースアクセス
+<?php
+
 require_once dirname(__FILE__) . '/../config/database.php';
 require_once dirname(__FILE__) . '/../util/AppEnvController.php';
 
-class Model {
-
-    protected $dbController; //PDOクラスのインスタンス
+/**
+ * Undocumented class
+ */
+class Model
+{
 
     /**
-    * 指定DBにアクセスする
-    * @return object　PDOクラス
-    */
+     * PDOクラスのインスタンス
+     *
+     * @var instance
+     */
+    protected $dbController;
+
+    /**
+     * 指定DBにアクセスする
+     * $modeで接続する環境を切り替える
+     *
+     * @param string $mode 指定する環境
+     * 
+     * @return object PDOクラス
+     */
     public function __construct($mode = null)
     {
         $pdoAccessInfo = $this->getAccessInformation(new AppEnvController($mode));
@@ -22,7 +36,9 @@ class Model {
     /**
      * アクセス情報をAppEnvから取得する
      *
-     * @return void
+     * @param object $appEnv アプリケーション環境変数
+     * 
+     * @return array
      */
     private function getAccessInformation($appEnv)
     {
@@ -39,6 +55,7 @@ class Model {
 
     /**
      * PDO::トランザクション開始
+     * 
      * @return void
      */
     public function beginTransaction()
@@ -48,6 +65,7 @@ class Model {
 
     /**
      * PDO::コミット
+     * 
      * @return void
      */
     public function commit()
@@ -57,6 +75,7 @@ class Model {
 
     /**
      * PDO::ロールバック
+     * 
      * @return void
      */
     public function rollback()
@@ -66,7 +85,9 @@ class Model {
 
     /**
      * PDO::prepare
+     * 
      * @param string $sql SQL文
+     * 
      * @return void
      */
     public function prepare($sql)

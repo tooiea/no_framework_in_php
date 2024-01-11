@@ -1,8 +1,13 @@
 <?php
-require_once(dirname(__FILE__) . '/../const/common_const.php');
-require_once(dirname(__FILE__) . '/../validation/BaseValidator.php');
 
-class AdminFormValidator extends BaseValidator {
+require_once dirname(__FILE__) . '/../const/common_const.php';
+require_once dirname(__FILE__) . '/../validation/BaseValidator.php';
+
+/**
+ * 管理画面処理のバリデーション
+ */
+class AdminFormValidator extends BaseValidator
+{
 
     // バリデーション結果
     private $result;
@@ -13,8 +18,9 @@ class AdminFormValidator extends BaseValidator {
     /**
      * チェック後の値で、DBで検索する
      *
-     * @param  array $values
-     * @return array エラーメッセージ
+     * @param array $values ログイン時の入力値
+     * 
+     * @return void
      */
     public function checkUserPassword(array $values)
     {
@@ -27,8 +33,9 @@ class AdminFormValidator extends BaseValidator {
     /**
      * 桁数チェック
      *
-     * @param  array $values 入力値
-     * @return array エラーメッセージ
+     * @param array $values 入力値
+     * 
+     * @return void
      */
     public function checkDigit(array $values)
     {
@@ -43,8 +50,9 @@ class AdminFormValidator extends BaseValidator {
     /**
      * ログインIDとパスワードが未入力でないかをチェック
      *
-     * @param  array $values 入力データ
-     * @return array エラーメッセージ
+     * @param array $values 入力データ
+     * 
+     * @return void
      */
     public function nullCheck(array $values)
     {

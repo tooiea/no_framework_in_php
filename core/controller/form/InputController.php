@@ -1,9 +1,14 @@
 <?php
-require_once(dirname(__FILE__) . '/../../validation/FormValidator.php');
-require_once(dirname(__FILE__) . '/../../const/common_const.php');
-require_once(dirname(__FILE__) . '/../../controller/form/Controller.php');
 
-class InputController extends Controller {
+require_once dirname(__FILE__) . '/../../validation/FormValidator.php';
+require_once dirname(__FILE__) . '/../../const/common_const.php';
+require_once dirname(__FILE__) . '/../../controller/form/Controller.php';
+
+/**
+ * フォーム入力画面
+ */
+class InputController extends Controller
+{
     // 再表示用
     private $values;
 
@@ -37,7 +42,7 @@ class InputController extends Controller {
                     unset($this->values["submit"]);
 
                     // セッションに再セット
-                    foreach ($this->values as $key =>$value) {
+                    foreach ($this->values as $key => $value) {
                         $_SESSION[$key] = $value;
                     }
                     $this->redirector->postRedirectTo('/form/confirm/');
@@ -45,7 +50,6 @@ class InputController extends Controller {
 
                 // 表示用エラーメッセージ取得
                 $this->errorMsg = $validator->getErrorMsgs();
-
             } elseif (isset($_POST['submit']) && CHECK_SUBMIT_CONFIRM_BACK == $_POST['submit']) {
                 // 確認画面からの戻り
                 $this->values = $_SESSION; //値を変換し表示用として代入

@@ -1,8 +1,13 @@
 <?php
-require_once(dirname(__FILE__) . '/../const/common_const.php');
-require_once(dirname(__FILE__) . '/../validation/BaseValidator.php');
 
-class FormValidator extends BaseValidator {
+require_once dirname(__FILE__) . '/../const/common_const.php';
+require_once dirname(__FILE__) . '/../validation/BaseValidator.php';
+
+/**
+ * お問い合わせフォームバリデーション
+ */
+class FormValidator extends BaseValidator
+{
 
     // バリデーション結果
     private $result;
@@ -12,7 +17,9 @@ class FormValidator extends BaseValidator {
 
     /**
      * フォーム画面の全項目入力チェック
-     * @param  array $value formで入力された配列
+     * 
+     * @param array $values formで入力された配列
+     * 
      * @return array チェック後のエラーメッセージの配列
      */
     public function checkAll(array $values)
@@ -84,7 +91,8 @@ class FormValidator extends BaseValidator {
     /**
      * 入力チェック
      *
-     * @param  array $values
+     * @param array $values 入力値
+     * 
      * @return void
      */
     public function checkInputData(array $values)

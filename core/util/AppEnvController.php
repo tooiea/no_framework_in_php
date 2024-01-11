@@ -1,7 +1,9 @@
 <?php
+
 require_once dirname(__FILE__) . '/../const/common_const.php';
 
-class AppEnvController {
+class AppEnvController
+{
 
     /**
      * 環境でモードを変更する
@@ -15,7 +17,7 @@ class AppEnvController {
     /**
      * モードを切り替える場合に設定値を渡す
      *
-     * @param string $mode
+     * @param string|null $mode
      */
     public function __construct(string $appEnv = null)
     {
